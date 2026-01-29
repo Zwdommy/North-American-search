@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Paper — Thread</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="page">
+  <header class="site-header">
+    <div class="wrap">
+      <a href="index.html" class="logo">Thread<span>.</span></a>
+      <nav class="nav">
+        <a href="index.html">Home</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main">
+    <section class="paper-hero">
+      <div class="wrap">
+        <a href="results.html" class="back" id="back-link">← Back to results</a>
+        <h1 id="paper-title">Loading...</h1>
+        <p class="authors" id="paper-authors">—</p>
+        <p class="venue" id="paper-venue">—</p>
+        <div class="links">
+          <a href="#" id="link-pdf" target="_blank">PDF</a>
+          <a href="#" id="link-doi" target="_blank">DOI</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="detail-section">
+      <div class="wrap">
+        <h2>Abstract</h2>
+        <p id="paper-abstract">Loading...</p>
+      </div>
+    </section>
+
+    <section class="detail-section" style="padding-top: 0;">
+      <div class="wrap">
+        <h2>Key claims</h2>
+        <ul id="paper-claims"></ul>
+      </div>
+    </section>
+
+    <section class="detail-section" style="padding-top: 0;">
+      <div class="wrap">
+        <h2>Cite</h2>
+        <pre class="cite-box" id="cite-box">Loading...</pre>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>Thread — AI-powered academic search for AI/ML research.</p>
+  </footer>
+
+  <script>
+    (function() {
+      var params = new URLSearchParams(location.search);
+      var id = params.get('id');
+      var q = params.get('q') || '';
+      var mode = params.get('mode') || 'student';
+      var back = document.getElementById('back-link');
+      
+      if (q) {
+        back.href = 'results.html?q=' + encodeURIComponent(q) + '&mode=' + mode;
+      }
+
+      if (!id) {
+        document.getElementById('paper-title').textContent = 'Paper ID missing';
+        document.getElementById('paper-abstract').textContent = 'Please provide a paper ID in the URL.';
+        return;
+      }
+
+      // Load papers metadata
+      fetch('papers/metadata.json')
+        .then(res => {
+          if (!res.ok) {
+            throw new Error('Failed to load metadata.json: ' + res.status);
+          }
+          return res.json();
+        })
+        .then(data => {
+          if (!data.papers || !Array.isArray(data.papers)) {
+            throw new Error('Invalid metadata.json format');
+          }
+          
+          var paper = data.papers.find(p => p.id === id);
+          if (!paper) {
+            document.getElementById('paper-title').textContent = 'Paper not found';
+            document.getElementById('paper-abstract').textContent = 'The requested paper (ID: ' + id + ') could not be found in the database.';
+            return;
+          }
+
+          // Display paper
+          document.getElementById('paper-title').textContent = paper.title || 'Untitled';
+          document.getElementById('paper-authors').textContent = Array.isArray(paper.authors) ? paper.authors.join(', ') : 'Unknown authors';
+          document.getElementById('paper-venue').textContent = (paper.venue || 'Unknown venue') + ' (' + (paper.year || 'Unknown year') + ')';
+          document.getElementById('paper-abstract').textContent = paper.abstract || 'No abstract available.';
+          
+          // Claims
+          var ul = document.getElementById('paper-claims');
+          ul.innerHTML = '';
+          if (paper.claims && Array.isArray(paper.claims) && paper.claims.length > 0) {
+            paper.claims.forEach(function(c) {
+              if (c && typeof c === 'string') {
+                var li = document.createElement('li');
+                li.textContent = c;
+                ul.appendChild(li);
+              }
+            });
+          } else {
+            ul.innerHTML = '<li>No claims extracted yet.</li>';
+          }
+
+          // BibTeX - escape special characters
+          function escapeBibtex(str) {
+            if (!str) return '';
+            return str.replace(/[{}&%$#_^\\]/g, function(match) {
+              return '\\' + match;
+            });
+          }
+          
+          var bib = '@article{' + escapeBibtex(paper.id) + ',\n' +
+            '  title = {' + escapeBibtex(paper.title) + '},\n' +
+            '  author = {' + escapeBibtex(Array.isArray(paper.authors) ? paper.authors.join(' and ') : 'Unknown') + '},\n' +
+            '  journal = {' + escapeBibtex(paper.venue) + '},\n' +
+            '  year = {' + (paper.year || 'Unknown') + '}\n' +
+            '}';
+          document.getElementById('cite-box').textContent = bib;
+
+          // Links to PDF
+          if (paper.file_path) {
+            document.getElementById('link-pdf').href = paper.file_path;
+          } else {
+            document.getElementById('link-pdf').style.display = 'none';
+          }
+          // DOI link (placeholder)
+          document.getElementById('link-doi').href = '#';
+
+          // Update title
+          var title = paper.title || 'Untitled';
+          document.title = (title.length > 50 ? title.slice(0, 47) + '…' : title) + ' — Thread';
+        })
+        .catch(err => {
+          console.error('Failed to load paper:', err);
+          document.getElementById('paper-title').textContent = 'Error loading paper';
+          document.getElementById('paper-abstract').textContent = 'Failed to load paper data: ' + err.message + '. Please check that papers/metadata.json exists.';
+        });
+    })();
+  </script>
+</body>
+</html>
