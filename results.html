@@ -1,0 +1,1549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Results — Thread</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="page">
+  <header class="site-header">
+    <div class="wrap">
+      <a href="index.html" class="logo">Thread<span>.</span></a>
+      <nav class="nav">
+        <a href="index.html">Home</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main">
+    <section class="results-header">
+      <div class="wrap">
+        <form class="results-search-form" id="results-search" action="results.html" method="get">
+          <span class="icon" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          </span>
+          <input type="search" name="q" class="search-input" placeholder="Ask an AI research question…" id="query-input" required>
+          <input type="hidden" name="mode" id="search-mode" value="student">
+          <button type="submit" class="search-btn">Search</button>
+        </form>
+        <div class="mode-selector" style="margin-top: 0.75rem; justify-content: flex-start;">
+          <button class="mode-btn" data-mode="student" id="mode-student">Student</button>
+          <button class="mode-btn" data-mode="researcher" id="mode-researcher">Researcher</button>
+        </div>
+        <div class="query-display-wrap">
+          <p class="query-display" id="query-display">Showing results for <strong id="query-bold"></strong></p>
+          <div class="mode-badge" id="mode-badge">Student Mode</div>
+          <button class="mode-badge" id="search-mode-toggle" type="button" title="Click to switch between AI ranking and test scoring">AI ranking</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Skills Panel (Sidebar) -->
+    <aside class="skills-panel" id="skills-panel">
+      <div class="skills-header">
+        <h3>Skills</h3>
+        <button class="skills-close" id="skills-close">×</button>
+      </div>
+      <div class="skills-content" id="skills-content">
+        <div class="skill-loading">Select a skill to use AI assistance...</div>
+      </div>
+    </aside>
+
+    <section class="section">
+      <div class="wrap">
+        <div class="section-header-with-skills">
+          <h2 class="section-title"><span class="badge">Overview</span> Field snapshot</h2>
+          <button class="skills-toggle" id="skills-toggle">Skills</button>
+        </div>
+        <div class="overview-card" id="overview-card">
+          <div class="loading-spinner" id="overview-loading">Generating AI overview...</div>
+          <p id="overview-text" style="display: none;">—</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" style="padding-top: 0;">
+      <div class="wrap">
+        <h2 class="section-title"><span class="badge">Key claims</span> Evidence-backed statements</h2>
+        <div class="claims-list" id="claims-list">
+          <div class="loading-spinner">Loading claims...</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" style="padding-top: 0;">
+      <div class="wrap">
+        <h2 class="section-title"><span class="badge">Retrieval</span> AI galaxy of papers</h2>
+        <div class="retrieval-shell">
+          <div class="retrieval-card">
+            <div id="retrieval-status" class="retrieval-status-text">
+              AI galaxy will appear when AI ranking is used.
+            </div>
+            <div class="retrieval-filter">
+              <label for="retrieval-filter-year">Filter by year</label>
+              <select id="retrieval-filter-year">
+                <option value="all">All years</option>
+                <option value="2015">Since 2015</option>
+                <option value="2018">Since 2018</option>
+                <option value="2020">Since 2020</option>
+              </select>
+            </div>
+            <canvas id="retrieval-canvas" class="retrieval-canvas"></canvas>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" style="padding-top: 0;">
+      <div class="wrap">
+        <h2 class="section-title"><span class="badge">Papers</span> Source literature</h2>
+        <div class="papers-list" id="papers-list">
+          <div class="loading-spinner">Searching papers...</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>Thread — AI-powered academic search for AI/ML research.</p>
+  </footer>
+
+  <script src="assets/js/ai.js"></script>
+  <script>
+    // Test-mode AI evolution galaxy dataset (50+ papers, external URLs)
+    var TEST_GALAXY_PAPERS = [
+      { id: 'mccarthy-1956-dartmouth', title: 'Dartmouth Summer Research Project on Artificial Intelligence', year: 1956, url: 'https://www-formal.stanford.edu/jmc/history/dartmouth/dartmouth.html', relevance: 0.55 },
+      { id: 'rosenblatt-1958-perceptron', title: 'The Perceptron: A Probabilistic Model for Information Storage and Organization in the Brain', year: 1958, url: 'https://doi.org/10.1037/h0042519', relevance: 0.6 },
+      { id: 'minsky-papert-1969', title: 'Perceptrons', year: 1969, url: 'https://mitpress.mit.edu/9780262630221/perceptrons/', relevance: 0.5 },
+      { id: 'werbos-1974-backprop', title: 'Beyond Regression: New Tools for Prediction and Analysis', year: 1974, url: 'https://www.proquest.com/openview/86c90a440eca4d2f71e76d5a054b3dba', relevance: 0.65 },
+      { id: 'hopfield-1982', title: 'Neural networks and physical systems with emergent collective computational abilities', year: 1982, url: 'https://www.pnas.org/doi/10.1073/pnas.79.8.2554', relevance: 0.65 },
+      { id: 'rumelhart-1986-backprop', title: 'Learning Representations by Back-Propagating Errors', year: 1986, url: 'https://www.nature.com/articles/323533a0', relevance: 0.8 },
+      { id: 'jordan-1986-elm', title: 'Serial Order: A Parallel Distributed Processing Approach', year: 1986, url: 'https://psycnet.apa.org/record/1986-98375-007', relevance: 0.45 },
+      { id: 'lippmann-1987', title: 'An introduction to computing with neural nets', year: 1987, url: 'https://ieeexplore.ieee.org/document/14534', relevance: 0.5 },
+      { id: 'rumelhart-1987-pdp', title: 'Parallel Distributed Processing', year: 1987, url: 'https://mitpress.mit.edu/9780262680530/parallel-distributed-processing-volume-1/', relevance: 0.55 },
+      { id: 'lecun-1989-lenet', title: 'Backpropagation Applied to Handwritten Zip Code Recognition', year: 1989, url: 'http://yann.lecun.com/exdb/publis/pdf/lecun-89e.pdf', relevance: 0.8 },
+      { id: 'jordan-1990-rnn', title: 'Attractor Dynamics and Parallelism in a Connectionist Sequential Machine', year: 1990, url: 'https://psycnet.apa.org/record/1990-97127-003', relevance: 0.55 },
+      { id: 'hochreiter-1997-lstm', title: 'Long Short-Term Memory', year: 1997, url: 'https://www.bioinf.jku.at/publications/older/2604.pdf', relevance: 0.9 },
+      { id: 'schmidhuber-1997-nn-review', title: 'Neural Networks in Reinforcement Learning', year: 1997, url: 'https://www.researchgate.net/publication/220494473', relevance: 0.5 },
+      { id: 'freund-1997-adaboost', title: 'A Decision-Theoretic Generalization of On-Line Learning and an Application to Boosting', year: 1997, url: 'https://www.sciencedirect.com/science/article/pii/S002200009791504X', relevance: 0.45 },
+      { id: 'cortes-1995-svm', title: 'Support-vector networks', year: 1995, url: 'https://link.springer.com/article/10.1007/BF00994018', relevance: 0.55 },
+      { id: 'hinton-2006-deep-belief', title: 'Reducing the Dimensionality of Data with Neural Networks', year: 2006, url: 'https://www.science.org/doi/10.1126/science.1127647', relevance: 0.75 },
+      { id: 'bengio-2006-greedy', title: 'Greedy Layer-Wise Training of Deep Networks', year: 2006, url: 'https://dl.acm.org/doi/10.1145/1161603.1161607', relevance: 0.7 },
+      { id: 'hinton-2006-fast-mlp', title: 'A Fast Learning Algorithm for Deep Belief Nets', year: 2006, url: 'https://www.cs.toronto.edu/~hinton/absps/fastnc.pdf', relevance: 0.7 },
+      { id: 'krizhevsky-2012-alexnet', title: 'ImageNet Classification with Deep Convolutional Neural Networks', year: 2012, url: 'https://dl.acm.org/doi/10.1145/3065386', relevance: 0.95 },
+      { id: 'sutskever-2014-seq2seq', title: 'Sequence to Sequence Learning with Neural Networks', year: 2014, url: 'https://arxiv.org/abs/1409.3215', relevance: 0.88 },
+      { id: 'bahdanau-2014-attention', title: 'Neural Machine Translation by Jointly Learning to Align and Translate', year: 2014, url: 'https://arxiv.org/abs/1409.0473', relevance: 0.86 },
+      { id: 'goodfellow-2014-gan', title: 'Generative Adversarial Nets', year: 2014, url: 'https://papers.nips.cc/paper/5423-generative-adversarial-nets', relevance: 0.9 },
+      { id: 'he-2015-resnet', title: 'Deep Residual Learning for Image Recognition', year: 2015, url: 'https://arxiv.org/abs/1512.03385', relevance: 0.9 },
+      { id: 'mnih-2015-dqn', title: 'Human-level control through deep reinforcement learning', year: 2015, url: 'https://www.nature.com/articles/nature14236', relevance: 0.88 },
+      { id: 'vaswani-2017-transformer', title: 'Attention Is All You Need', year: 2017, url: 'https://arxiv.org/abs/1706.03762', relevance: 1.0 },
+      { id: 'devlin-2018-bert', title: 'BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding', year: 2018, url: 'https://arxiv.org/abs/1810.04805', relevance: 0.97 },
+      { id: 'brown-2020-gpt3', title: 'Language Models are Few-Shot Learners', year: 2020, url: 'https://arxiv.org/abs/2005.14165', relevance: 0.98 },
+      { id: 'radford-2018-gpt', title: 'Improving Language Understanding by Generative Pre-Training', year: 2018, url: 'https://openai.com/research/language-unsupervised', relevance: 0.9 },
+      { id: 'radford-2019-gpt2', title: 'Language Models are Unsupervised Multitask Learners', year: 2019, url: 'https://openai.com/research/better-language-models', relevance: 0.95 },
+      { id: 'silver-2016-alphago', title: 'Mastering the game of Go with deep neural networks and tree search', year: 2016, url: 'https://www.nature.com/articles/nature16961', relevance: 0.92 },
+      { id: 'silver-2017-alphago-zero', title: 'Mastering the game of Go without human knowledge', year: 2017, url: 'https://www.nature.com/articles/nature24270', relevance: 0.9 },
+      { id: 'oord-2016-wavenet', title: 'WaveNet: A Generative Model for Raw Audio', year: 2016, url: 'https://arxiv.org/abs/1609.03499', relevance: 0.75 },
+      { id: 'cho-2014-gru', title: 'Learning Phrase Representations using RNN Encoder–Decoder', year: 2014, url: 'https://arxiv.org/abs/1406.1078', relevance: 0.8 },
+      { id: 'kingma-2013-vae', title: 'Auto-Encoding Variational Bayes', year: 2013, url: 'https://arxiv.org/abs/1312.6114', relevance: 0.8 },
+      { id: 'oord-2018-cpc', title: 'Representation Learning with Contrastive Predictive Coding', year: 2018, url: 'https://arxiv.org/abs/1807.03748', relevance: 0.7 },
+      { id: 'dosovitskiy-2020-vit', title: 'An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale', year: 2020, url: 'https://arxiv.org/abs/2010.11929', relevance: 0.9 },
+      { id: 'ramesh-2021-dalle', title: 'Zero-Shot Text-to-Image Generation', year: 2021, url: 'https://arxiv.org/abs/2102.12092', relevance: 0.9 },
+      { id: 'rombach-2022-stablediffusion', title: 'High-Resolution Image Synthesis with Latent Diffusion Models', year: 2022, url: 'https://arxiv.org/abs/2112.10752', relevance: 0.9 },
+      { id: 'nichol-2021-ddpm', title: 'Improved Denoising Diffusion Probabilistic Models', year: 2021, url: 'https://arxiv.org/abs/2102.09672', relevance: 0.85 },
+      { id: 'sutton-1998-rl-book', title: 'Reinforcement Learning: An Introduction', year: 1998, url: 'http://incompleteideas.net/book/the-book-2nd.html', relevance: 0.7 },
+      { id: 'bottou-2010-sgd', title: 'Large-Scale Machine Learning with Stochastic Gradient Descent', year: 2010, url: 'https://link.springer.com/chapter/10.1007/978-3-642-35289-8_4', relevance: 0.6 },
+      { id: 'kingma-2014-adam', title: 'Adam: A Method for Stochastic Optimization', year: 2014, url: 'https://arxiv.org/abs/1412.6980', relevance: 0.8 },
+      { id: 'srivastava-2014-dropout', title: 'Dropout: A Simple Way to Prevent Neural Networks from Overfitting', year: 2014, url: 'https://jmlr.org/papers/v15/srivastava14a.html', relevance: 0.7 },
+      { id: 'ioffe-2015-bn', title: 'Batch Normalization: Accelerating Deep Network Training', year: 2015, url: 'https://arxiv.org/abs/1502.03167', relevance: 0.7 },
+      { id: 'vaswani-2023-scaled', title: 'Scaling Laws for Neural Language Models', year: 2020, url: 'https://arxiv.org/abs/2001.08361', relevance: 0.85 },
+      { id: 'chowdhery-2022-palm', title: 'PaLM: Scaling Language Modeling with Pathways', year: 2022, url: 'https://arxiv.org/abs/2204.02311', relevance: 0.9 },
+      { id: 'openai-2023-gpt4', title: 'GPT-4 Technical Report', year: 2023, url: 'https://arxiv.org/abs/2303.08774', relevance: 0.95 },
+      { id: 'anthropic-2023-claude', title: 'Constitutional AI: Harmlessness from AI Feedback', year: 2022, url: 'https://arxiv.org/abs/2212.08073', relevance: 0.8 },
+      { id: 'deepmind-2023-gemini', title: 'Gemini: A Family of Highly Capable Multimodal Models', year: 2023, url: 'https://arxiv.org/abs/2312.11805', relevance: 0.9 },
+      { id: 'touvron-2023-llama', title: 'LLaMA: Open and Efficient Foundation Language Models', year: 2023, url: 'https://arxiv.org/abs/2302.13971', relevance: 0.9 }
+    ];
+
+    var TEST_GALAXY_LINKS = [
+      { a: 'rosenblatt-1958-perceptron', b: 'minsky-papert-1969', similarity: 0.7 },
+      { a: 'werbos-1974-backprop', b: 'rumelhart-1986-backprop', similarity: 0.9 },
+      { a: 'lecun-1989-lenet', b: 'krizhevsky-2012-alexnet', similarity: 0.7 },
+      { a: 'krizhevsky-2012-alexnet', b: 'he-2015-resnet', similarity: 0.8 },
+      { a: 'hochreiter-1997-lstm', b: 'cho-2014-gru', similarity: 0.8 },
+      { a: 'bahdanau-2014-attention', b: 'vaswani-2017-transformer', similarity: 0.85 },
+      { a: 'sutskever-2014-seq2seq', b: 'bahdanau-2014-attention', similarity: 0.75 },
+      { a: 'sutskever-2014-seq2seq', b: 'vaswani-2017-transformer', similarity: 0.7 },
+      { a: 'vaswani-2017-transformer', b: 'devlin-2018-bert', similarity: 0.9 },
+      { a: 'radford-2018-gpt', b: 'radford-2019-gpt2', similarity: 0.9 },
+      { a: 'radford-2019-gpt2', b: 'brown-2020-gpt3', similarity: 0.9 },
+      { a: 'brown-2020-gpt3', b: 'openai-2023-gpt4', similarity: 0.9 },
+      { a: 'chowdhery-2022-palm', b: 'openai-2023-gpt4', similarity: 0.8 },
+      { a: 'touvron-2023-llama', b: 'openai-2023-gpt4', similarity: 0.75 },
+      { a: 'touvron-2023-llama', b: 'chowdhery-2022-palm', similarity: 0.8 },
+      { a: 'deepmind-2023-gemini', b: 'openai-2023-gpt4', similarity: 0.8 },
+      { a: 'deepmind-2023-gemini', b: 'ramesh-2021-dalle', similarity: 0.8 },
+      { a: 'ramesh-2021-dalle', b: 'rombach-2022-stablediffusion', similarity: 0.85 },
+      { a: 'nichol-2021-ddpm', b: 'rombach-2022-stablediffusion', similarity: 0.8 },
+      { a: 'mnih-2015-dqn', b: 'silver-2016-alphago', similarity: 0.75 },
+      { a: 'silver-2016-alphago', b: 'silver-2017-alphago-zero', similarity: 0.9 },
+      { a: 'goodfellow-2014-gan', b: 'kingma-2013-vae', similarity: 0.6 },
+      { a: 'hinton-2006-deep-belief', b: 'bengio-2006-greedy', similarity: 0.8 },
+      { a: 'ioffe-2015-bn', b: 'he-2015-resnet', similarity: 0.7 },
+      { a: 'srivastava-2014-dropout', b: 'krizhevsky-2012-alexnet', similarity: 0.6 }
+    ];
+
+    (function() {
+      'use strict';
+      // Ensure AIService is available
+      if (typeof AIService === 'undefined' && typeof window !== 'undefined' && window.AIService) {
+        AIService = window.AIService;
+      }
+      if (typeof AIService === 'undefined') {
+        console.error('AIService is not loaded. Please check assets/js/ai.js');
+        alert('Error: AI Service failed to load. Please refresh the page.');
+        return;
+      }
+      var params = new URLSearchParams(location.search);
+      var q = params.get('q') || 'How do transformers work?';
+      var mode = params.get('mode') || 'student';
+      var allPapers = [];
+      var matchedPapers = [];
+
+      // UI Elements
+      var input = document.getElementById('query-input');
+      var queryBold = document.getElementById('query-bold');
+      var overviewText = document.getElementById('overview-text');
+      var overviewLoading = document.getElementById('overview-loading');
+      var overviewCard = document.getElementById('overview-card');
+      var claimsEl = document.getElementById('claims-list');
+      var papersEl = document.getElementById('papers-list');
+      var modeBadge = document.getElementById('mode-badge');
+      var searchMode = document.getElementById('search-mode');
+      var skillsPanel = document.getElementById('skills-panel');
+      var skillsToggle = document.getElementById('skills-toggle');
+      var skillsClose = document.getElementById('skills-close');
+      var skillsContent = document.getElementById('skills-content');
+      var modeBtnStudent = document.getElementById('mode-student');
+      var modeBtnResearcher = document.getElementById('mode-researcher');
+      var retrievalSimilarities = [];
+
+      // Set UI
+      input.value = q;
+      queryBold.textContent = q;
+      document.title = (q.length > 50 ? q.slice(0, 47) + '…' : q) + ' — Thread';
+      modeBadge.textContent = mode === 'student' ? 'Student Mode' : 'Researcher Mode';
+      searchMode.value = mode;
+      // Sync toggle buttons
+      if (modeBtnStudent && modeBtnResearcher) {
+        if (mode === 'student') {
+          modeBtnStudent.classList.add('active');
+          modeBtnResearcher.classList.remove('active');
+        } else {
+          modeBtnResearcher.classList.add('active');
+          modeBtnStudent.classList.remove('active');
+        }
+      }
+
+      function setMode(nextMode) {
+        if (nextMode !== 'student' && nextMode !== 'researcher') return;
+        mode = nextMode;
+        searchMode.value = nextMode;
+        modeBadge.textContent = nextMode === 'student' ? 'Student Mode' : 'Researcher Mode';
+
+        if (modeBtnStudent && modeBtnResearcher) {
+          if (nextMode === 'student') {
+            modeBtnStudent.classList.add('active');
+            modeBtnResearcher.classList.remove('active');
+          } else {
+            modeBtnResearcher.classList.add('active');
+            modeBtnStudent.classList.remove('active');
+          }
+        }
+
+        // Update URL without reloading
+        try {
+          var url = new URL(location.href);
+          url.searchParams.set('mode', nextMode);
+          history.replaceState({}, '', url.toString());
+        } catch (e) {}
+
+        // Re-render links that embed mode, and refresh skills list
+        displayPapers();
+        displayClaims();
+        if (skillsPanel.classList.contains('active')) loadSkills();
+      }
+
+      if (modeBtnStudent) modeBtnStudent.addEventListener('click', function() { setMode('student'); });
+      if (modeBtnResearcher) modeBtnResearcher.addEventListener('click', function() { setMode('researcher'); });
+
+      // Feature flag: use test search or real AI search
+      // ?search_mode=test 使用规则打分（测试），默认使用 AI 思考选论文
+      var searchModeType = 'ai';
+      (function initSearchModeToggle() {
+        var toggleBtn = document.getElementById('search-mode-toggle');
+        try {
+          var urlForSearchFlag = new URL(location.href);
+          var flag = urlForSearchFlag.searchParams.get('search_mode');
+          if (flag === 'test') {
+            searchModeType = 'test';
+          }
+        } catch (e) {}
+
+        if (toggleBtn) {
+          toggleBtn.textContent = (searchModeType === 'test') ? 'Test scoring' : 'AI ranking';
+          toggleBtn.addEventListener('click', function() {
+            try {
+              var url = new URL(location.href);
+              var current = url.searchParams.get('search_mode');
+              if (current === 'test') {
+                url.searchParams.delete('search_mode');
+              } else {
+                url.searchParams.set('search_mode', 'test');
+              }
+              location.href = url.toString();
+            } catch (e) {
+              alert('Unable to toggle search mode: ' + (e.message || e));
+            }
+          });
+        }
+      })();
+
+      // Load papers metadata
+      fetch('papers/metadata.json')
+        .then(res => {
+          if (!res.ok) {
+            throw new Error('Failed to load metadata.json: ' + res.status);
+          }
+          return res.json();
+        })
+        .then(data => {
+          if (!data.papers || !Array.isArray(data.papers)) {
+            throw new Error('Invalid metadata.json format');
+          }
+          allPapers = data.papers;
+          performSearch();
+        })
+        .catch(err => {
+          console.error('Failed to load papers:', err);
+          overviewLoading.textContent = 'Error loading papers: ' + err.message + '. Please check metadata.json exists.';
+          papersEl.innerHTML = '<p style="color: var(--text-muted);">Error: ' + err.message + '</p>';
+          claimsEl.innerHTML = '<p style="color: var(--text-muted);">Error loading claims.</p>';
+        });
+
+      // Helper function to escape HTML
+      function escapeHtml(text) {
+        if (!text) return '';
+        var div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+      }
+
+      async function performSearch() {
+        if (!allPapers || allPapers.length === 0) {
+          console.error('No papers loaded');
+          papersEl.innerHTML = '<p style="color: var(--text-muted);">No papers available.</p>';
+          return;
+        }
+        
+        // Semantic search
+        try {
+          if (searchModeType === 'test' || !AIService.semanticSearchAI) {
+            // 测试模式：使用本地规则打分
+            matchedPapers = AIService.semanticSearchTest(q, allPapers);
+          } else {
+            // 实际模式：交给 LLM 思考并排序论文
+            overviewLoading.textContent = 'AI is thinking about which papers are most relevant...';
+            matchedPapers = await AIService.semanticSearchAI(q, allPapers);
+          }
+          
+          if (!matchedPapers || matchedPapers.length === 0) {
+            papersEl.innerHTML = '<p style="color: var(--text-muted);">No papers found. Try a different query.</p>';
+            claimsEl.innerHTML = '<p style="color: var(--text-muted);">No claims available.</p>';
+            overviewLoading.textContent = 'No papers found for this query.';
+            return;
+          }
+          
+          // Display papers
+          displayPapers();
+          
+          // Generate AI overview
+          generateOverview();
+          
+          // Extract and display claims
+          displayClaims();
+          
+          // Precompute pairwise similarities for galaxy view (only in AI mode)
+          if (searchModeType !== 'test') {
+            try {
+              if (AIService.computePaperSimilarities) {
+                retrievalSimilarities = await AIService.computePaperSimilarities(q, matchedPapers.slice(0, 12));
+              }
+            } catch (e) {
+              retrievalSimilarities = [];
+            }
+          } else {
+            retrievalSimilarities = TEST_GALAXY_LINKS || [];
+          }
+          
+          // Render retrieval visualization (only meaningful in AI mode)
+          if (typeof initRetrievalGalaxy === 'function') {
+            initRetrievalGalaxy();
+          }
+        } catch (error) {
+          console.error('Search error:', error);
+          papersEl.innerHTML = '<p style="color: var(--text-muted);">Error performing search: ' + error.message + '</p>';
+        }
+      }
+
+      function displayPapers() {
+        papersEl.innerHTML = '';
+        if (!matchedPapers || matchedPapers.length === 0) {
+          papersEl.innerHTML = '<p style="color: var(--text-muted);">No papers found. Try a different query.</p>';
+          return;
+        }
+
+        var qEnc = encodeURIComponent(q);
+        matchedPapers.slice(0, 10).forEach(function(paper) {
+          if (!paper || !paper.id || !paper.title) {
+            return; // Skip invalid papers
+          }
+          var a = document.createElement('a');
+          a.className = 'paper-card';
+          a.href = 'paper.html?id=' + encodeURIComponent(paper.id) + '&q=' + qEnc + '&mode=' + mode;
+          var authors = Array.isArray(paper.authors) ? paper.authors.join(', ') : 'Unknown authors';
+          var venue = paper.venue || 'Unknown venue';
+          var year = paper.year || 'Unknown year';
+          var category = paper.category || 'uncategorized';
+          a.innerHTML = '<h3 class="paper-title">' + escapeHtml(paper.title) + '</h3>' +
+            '<p class="paper-authors">' + escapeHtml(authors) + '</p>' +
+            '<p class="paper-venue">' + escapeHtml(venue) + ' (' + year + ')</p>' +
+            '<div class="paper-meta"><span>' + escapeHtml(category) + '</span></div>';
+          papersEl.appendChild(a);
+        });
+      }
+
+      async function generateOverview() {
+        if (!matchedPapers || matchedPapers.length === 0) {
+          overviewText.textContent = 'No papers found for this query.';
+          overviewText.style.display = 'block';
+          overviewLoading.style.display = 'none';
+          return;
+        }
+        
+        try {
+          overviewLoading.textContent = 'Generating AI overview...';
+          var snapshot = await AIService.generateFieldSnapshot(q, matchedPapers);
+          if (snapshot && snapshot.trim()) {
+            overviewText.textContent = snapshot;
+          } else {
+            throw new Error('Empty response from AI');
+          }
+          overviewText.style.display = 'block';
+          overviewLoading.style.display = 'none';
+        } catch (error) {
+          console.error('Overview generation failed:', error);
+          // Fallback overview
+          var paperCount = matchedPapers.length;
+          overviewText.textContent = 'Found ' + paperCount + ' relevant paper' + (paperCount > 1 ? 's' : '') + ' related to "' + q + '". Research in this area shows significant developments, with notable contributions to understanding and advancing the field.';
+          overviewText.style.display = 'block';
+          overviewLoading.style.display = 'none';
+        }
+      }
+
+      function displayClaims() {
+        claimsEl.innerHTML = '';
+        
+        if (!matchedPapers || matchedPapers.length === 0) {
+          claimsEl.innerHTML = '<p style="color: var(--text-muted);">No papers available to extract claims from.</p>';
+          return;
+        }
+        
+        var claimsToShow = [];
+        
+        // Collect claims from matched papers
+        matchedPapers.slice(0, 5).forEach(function(paper) {
+          if (paper && paper.claims && Array.isArray(paper.claims) && paper.claims.length > 0) {
+            paper.claims.forEach(function(claim) {
+              if (claim && typeof claim === 'string' && claim.trim()) {
+                claimsToShow.push({
+                  text: claim.trim(),
+                  paper: paper,
+                  evidence: 'strong' // Default, could be enhanced
+                });
+              }
+            });
+          }
+        });
+
+        if (claimsToShow.length === 0) {
+          claimsEl.innerHTML = '<p style="color: var(--text-muted);">No claims extracted yet. Click on papers to see details.</p>';
+          return;
+        }
+
+        var qEnc = encodeURIComponent(q);
+        claimsToShow.slice(0, 6).forEach(function(c) {
+          if (!c.paper || !c.paper.id || !c.paper.authors || !c.paper.authors[0]) {
+            return; // Skip invalid entries
+          }
+          var card = document.createElement('div');
+          card.className = 'claim-card';
+          var badgeClass = 'evidence-strong';
+          var authorName = c.paper.authors[0].split(',')[0]; // Get first author name
+          var year = c.paper.year || '';
+          var shortKey = authorName.replace(/[^A-Za-z0-9]/g, '') + (year || '');
+          var refText = authorName + (c.paper.authors.length > 1 ? ' et al.' : '') +
+            (year ? ' (' + year + ')' : '') + '. ' + c.paper.title + '.';
+          card.innerHTML = '<p class="claim-text">' + escapeHtml(c.text) + '</p>' +
+            '<div class="claim-meta">' +
+              '<span class="evidence-badge ' + badgeClass + '">Strong evidence</span>' +
+              '<span>From </span><a class="claim-source" href="paper.html?id=' + encodeURIComponent(c.paper.id) + '&q=' + qEnc + '&mode=' + mode + '">' + escapeHtml(authorName) + ' et al., ' + c.paper.year + '</a>' +
+              '<button class="claim-add-btn" type="button" data-claim="' + encodeURIComponent(c.text) + '" data-ref-key="' + encodeURIComponent(shortKey) + '" data-ref-text="' + encodeURIComponent(refText) + '">Add to Draft</button>' +
+            '</div>';
+          claimsEl.appendChild(card);
+        });
+
+        // Wire claim -> draft (stage into Add a snippet box, actual add happens on Add click)
+        document.querySelectorAll('.claim-add-btn').forEach(function(btn) {
+          btn.addEventListener('click', async function() {
+            var decoded = '';
+            try { decoded = decodeURIComponent(this.dataset.claim || ''); } catch (e) { decoded = this.dataset.claim || ''; }
+            var text = (decoded || '').trim();
+            if (!text) return;
+            var refKey = '';
+            var refText = '';
+            try { refKey = decodeURIComponent(this.dataset.refKey || ''); } catch (e) { refKey = this.dataset.refKey || ''; }
+            try { refText = decodeURIComponent(this.dataset.refText || ''); } catch (e) { refText = this.dataset.refText || ''; }
+
+            // ensure draft exists
+            var draft = loadDraft();
+            if (!draft) {
+              skillsPanel.classList.add('active');
+              skillsContent.innerHTML = '<div class="skill-loading">Creating a draft outline...</div>';
+              var outlineJson = await AIService.generateDraftOutline(q, matchedPapers);
+              draft = defaultDraftFromOutline(outlineJson);
+              saveDraft(draft);
+            }
+
+            // open draft view and pre-fill snippet box
+            skillsPanel.classList.add('active');
+            renderDraft(loadDraft());
+            draftPendingSource = 'claim';
+            var ta = document.getElementById('draft-snippet');
+            if (ta) {
+              ta.value = text;
+              ta.focus();
+            }
+
+            // Temporarily stash ref info into dataset of textarea for when user clicks Add
+            if (ta) {
+              ta.dataset.refKey = refKey || '';
+              ta.dataset.refText = refText || '';
+            }
+          });
+        });
+      }
+
+      // ===== Retrieval visualization: galaxy-like 3D scene (canvas) =====
+      var retrievalGalaxyInitialized = false;
+      function initRetrievalGalaxy() {
+        var statusEl = document.getElementById('retrieval-status');
+        var canvas = document.getElementById('retrieval-canvas');
+        var filterYearSelect = document.getElementById('retrieval-filter-year');
+        if (!statusEl || !canvas) return;
+
+        if (retrievalGalaxyInitialized) return;
+        retrievalGalaxyInitialized = true;
+
+        var useTestGalaxy = (typeof searchModeType !== 'undefined' && searchModeType === 'test');
+
+        if (!useTestGalaxy) {
+          if (typeof searchModeType === 'undefined' || searchModeType !== 'ai') {
+            statusEl.textContent = 'Switch to AI ranking to see the AI galaxy.';
+            return;
+          }
+          if (!matchedPapers || matchedPapers.length === 0) {
+            statusEl.textContent = 'No papers to visualize.';
+            return;
+          }
+        }
+
+        statusEl.textContent = useTestGalaxy
+          ? 'Test galaxy: left click opens external paper page. Right drag: orbit view. Scroll: zoom.'
+          : 'Left click: open planet (paper). Right drag: orbit view. Scroll: zoom.';
+
+        var ctx = canvas.getContext('2d');
+        function resizeCanvas() {
+          var rect = canvas.getBoundingClientRect();
+          canvas.width = rect.width * window.devicePixelRatio;
+          canvas.height = rect.height * window.devicePixelRatio;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        // build 3D positions for planets: distance purely = f(relevance), directions distributed on a sphere
+        var planets = [];
+        var maxRadius = 220;
+        var center = { x: 0, y: 0, z: 0 };
+
+        var scoreById = {};
+        if (!useTestGalaxy && AIService._lastRanking && Array.isArray(AIService._lastRanking)) {
+          AIService._lastRanking.forEach(function(entry) {
+            if (entry && entry.id && typeof entry.score === 'number') {
+              scoreById[entry.id] = entry.score;
+            }
+          });
+        }
+
+        var nodes = useTestGalaxy ? TEST_GALAXY_PAPERS.slice() : matchedPapers.slice(0, 12);
+        var maxScore = 0;
+        nodes.forEach(function(p) {
+          var base = typeof p._aiScore === 'number' ? p._aiScore : (scoreById[p.id] || (p.relevance || 0.5));
+          var s = base;
+          if (s > maxScore) maxScore = s;
+        });
+        if (maxScore <= 0) maxScore = 1;
+
+        var nNodes = nodes.length;
+        var goldenAngle = Math.PI * (3 - Math.sqrt(5));
+
+        nodes.forEach(function(p, idx) {
+          var baseScore = typeof p._aiScore === 'number' ? p._aiScore : (scoreById[p.id] || 0.3);
+          var score = baseScore / maxScore; // relevance 0–1
+
+          // distance from center: 高相关靠近中心，低相关更远
+          var minR = maxRadius * 0.35;
+          var r = minR + (1 - score) * (maxRadius - minR);
+
+          // Fibonacci sphere for direction: 均匀分布在球面
+          var t = (idx + 0.5) / nNodes;
+          var yDir = 1 - 2 * t;
+          var radiusXY = Math.sqrt(Math.max(0, 1 - yDir * yDir));
+          var theta = goldenAngle * idx;
+          var xDir = Math.cos(theta) * radiusXY;
+          var zDir = Math.sin(theta) * radiusXY;
+
+          var x = xDir * r;
+          var y = yDir * r;
+          var z = zDir * r;
+
+          planets.push({
+            paper: p,
+            position: { x: x, y: y, z: z },
+            radius: 10 + score * 12
+          });
+        });
+
+        var cameraRadius = 420;
+        var cameraTheta = 0.8;
+        var cameraPhi = 0.6;
+
+        function getCameraPosition() {
+          return {
+            x: cameraRadius * Math.sin(cameraPhi) * Math.cos(cameraTheta),
+            y: cameraRadius * Math.cos(cameraPhi),
+            z: cameraRadius * Math.sin(cameraPhi) * Math.sin(cameraTheta)
+          };
+        }
+
+        function project(point3) {
+          var cam = getCameraPosition();
+          var dx = point3.x - cam.x;
+          var dy = point3.y - cam.y;
+          var dz = point3.z - cam.z;
+
+          var cz = Math.sqrt(cam.x * cam.x + cam.y * cam.y + cam.z * cam.z);
+          if (cz === 0) cz = 1;
+          var cx = cam.x / cz, cy = cam.y / cz, czN = cam.z / cz;
+
+          var dot = dx * cx + dy * cy + dz * czN;
+          var px = dx - dot * cx;
+          var py = dy - dot * cy;
+          var pz = dz - dot * czN;
+
+          var d = 600;
+          var scale = d / (d + dot);
+          var screenX = px * scale;
+          var screenY = py * scale;
+
+          var cx2 = canvas.width / 2;
+          var cy2 = canvas.height / 2;
+          return {
+            x: cx2 + screenX,
+            y: cy2 + screenY,
+            depth: dot,
+            scale: scale
+          };
+        }
+
+        var filterYearValue = 'all';
+        if (filterYearSelect) {
+          filterYearSelect.addEventListener('change', function() {
+            filterYearValue = this.value || 'all';
+            drawScene();
+          });
+        }
+
+        function drawScene() {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+          // background: 与整体风格统一的浅色渐变
+          ctx.fillStyle = '#f5f3ef';
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+          // draw query star 永远固定在画布中心（不随相机旋转偏移）
+          var cam = getCameraPosition();
+          var queryScreen = {
+            x: canvas.width / 2,
+            y: canvas.height / 2,
+            scale: 1
+          };
+          var qR = 22;
+
+          // outer halo
+          var halo = ctx.createRadialGradient(
+            queryScreen.x, queryScreen.y, qR * 0.6,
+            queryScreen.x, queryScreen.y, qR * 1.8
+          );
+          halo.addColorStop(0, 'rgba(148, 163, 184, 0.28)');
+          halo.addColorStop(1, 'rgba(15, 23, 42, 0)');
+          ctx.beginPath();
+          ctx.arc(queryScreen.x, queryScreen.y, qR * 1.8, 0, Math.PI * 2);
+          ctx.fillStyle = halo;
+          ctx.fill();
+
+          // query sphere body
+          var qGrad = ctx.createRadialGradient(
+            queryScreen.x - qR * 0.3, queryScreen.y - qR * 0.45, qR * 0.18,
+            queryScreen.x, queryScreen.y, qR
+          );
+          // 中心高光偏白，边缘为略深的米色
+          qGrad.addColorStop(0, '#ffffff');
+          qGrad.addColorStop(0.4, '#f5e9db');
+          qGrad.addColorStop(1, '#e0ccb0');
+          ctx.beginPath();
+          ctx.arc(queryScreen.x, queryScreen.y, qR, 0, Math.PI * 2);
+          ctx.fillStyle = qGrad;
+          ctx.fill();
+
+          // query text slightly偏上，模拟在球面上的投影
+          ctx.fillStyle = 'rgba(15,23,42,0.9)';
+          ctx.font = '600 ' + (12 * queryScreen.scale) + 'px Inter, system-ui';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText('Query', queryScreen.x, queryScreen.y - qR * 0.1);
+
+          var projectedPlanets = planets.map(function(pl) {
+            var proj = project(pl.position);
+            var r = pl.radius * proj.scale;
+            pl._screen = { x: proj.x, y: proj.y, r: r };
+            return { planet: pl, proj: proj };
+          });
+          projectedPlanets.sort(function(a, b) { return a.proj.depth - b.proj.depth; });
+
+          // similarity-based links between planets (draw before spheres, same style as query links)
+          if (Array.isArray(retrievalSimilarities)) {
+            retrievalSimilarities.forEach(function(link) {
+              if (!link || typeof link.similarity !== 'number') return;
+              if (link.similarity < 0.2) return;
+              var aId = link.a;
+              var bId = link.b;
+              if (!aId || !bId) return;
+              var pa = planets.find(function(pl2) { return pl2.paper.id === aId; });
+              var pb = planets.find(function(pl2) { return pl2.paper.id === bId; });
+              if (!pa || !pb || !pa._screen || !pb._screen) return;
+              ctx.beginPath();
+              ctx.moveTo(pa._screen.x, pa._screen.y);
+              ctx.lineTo(pb._screen.x, pb._screen.y);
+              ctx.strokeStyle = 'rgba(148,163,184,0.55)';
+              ctx.lineWidth = 1;
+              ctx.stroke();
+            });
+          }
+
+          projectedPlanets.forEach(function(entry) {
+            var pl = entry.planet;
+            var proj = entry.proj;
+            var r = pl._screen.r;
+
+            var year = pl.paper.year || 0;
+            var highlighted = (filterYearValue === 'all') || (year && year >= parseInt(filterYearValue, 10));
+
+            // link from query to planet
+            ctx.beginPath();
+            ctx.moveTo(queryScreen.x, queryScreen.y);
+            ctx.lineTo(proj.x, proj.y);
+            ctx.strokeStyle = 'rgba(148,163,184,0.55)';
+            ctx.lineWidth = 1;
+            ctx.stroke();
+
+            // planet sphere (highlighted planets用更亮的米色，其他更浅，并添加木纹质感)
+            var radial = ctx.createRadialGradient(
+              proj.x - r * 0.4, proj.y - r * 0.4, r * 0.2,
+              proj.x, proj.y, r
+            );
+            if (highlighted) {
+              radial.addColorStop(0, '#fffaf2');       // lighter beige core
+              radial.addColorStop(0.5, '#f6dfba');
+              radial.addColorStop(1, '#e0b578');
+            } else {
+              radial.addColorStop(0, '#fdf5ea');
+              radial.addColorStop(0.5, '#f0d8b3');
+              radial.addColorStop(1, '#d1aa70');
+            }
+            ctx.beginPath();
+            ctx.arc(proj.x, proj.y, r, 0, Math.PI * 2);
+            ctx.fillStyle = radial;
+            ctx.fill();
+
+            // subtle rim light
+            ctx.beginPath();
+            ctx.arc(proj.x, proj.y, r, -Math.PI / 3, Math.PI / 3);
+            ctx.strokeStyle = 'rgba(248,250,252,0.6)';
+            ctx.lineWidth = 1;
+            ctx.stroke();
+
+            // simple wood grain rings（几条半透明同心弧线）
+            ctx.save();
+            ctx.translate(proj.x, proj.y);
+            ctx.rotate(0.2);
+            ctx.strokeStyle = 'rgba(133,77,25,0.25)';
+            ctx.lineWidth = 0.6;
+            for (var ring = 0.35; ring <= 0.85; ring += 0.2) {
+              ctx.beginPath();
+              ctx.arc(0, 0, r * ring, 0, Math.PI * 2);
+              ctx.stroke();
+            }
+            ctx.restore();
+
+            // label
+            var title = pl.paper.title || 'Untitled';
+            var short = title.length > 22 ? title.slice(0, 19) + '…' : title;
+            ctx.fillStyle = '#1a1a1a';
+            ctx.font = '10px Inter, system-ui';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'top';
+            ctx.fillText(short, proj.x, proj.y + r + 4);
+          });
+        }
+
+        drawScene();
+
+        // interactions
+        var isRotating = false;
+        var lastX = 0;
+        var lastY = 0;
+
+          canvas.addEventListener('mousedown', function(ev) {
+          var rect = canvas.getBoundingClientRect();
+          var x = (ev.clientX - rect.left) * window.devicePixelRatio;
+          var y = (ev.clientY - rect.top) * window.devicePixelRatio;
+
+          if (ev.button === 2) {
+            isRotating = true;
+            lastX = ev.clientX;
+            lastY = ev.clientY;
+            ev.preventDefault();
+          } else if (ev.button === 0) {
+            // left click: hit test planets
+            for (var i = planets.length - 1; i >= 0; i--) {
+              var scr = planets[i]._screen;
+              if (!scr) continue;
+              var dx = x - scr.x;
+              var dy = y - scr.y;
+              if (dx * dx + dy * dy <= scr.r * scr.r) {
+                var p = planets[i].paper;
+                if (useTestGalaxy && p && p.url) {
+                  window.open(p.url, '_blank');
+                } else if (p && p.file_path) {
+                  window.open(p.file_path, '_blank');
+                } else if (p && p.id) {
+                  var qEnc = encodeURIComponent(q);
+                  window.open('paper.html?id=' + encodeURIComponent(p.id) + '&q=' + qEnc + '&mode=' + mode, '_blank');
+                }
+                break;
+              }
+            }
+          }
+        });
+
+        window.addEventListener('mousemove', function(ev) {
+          if (!isRotating) return;
+          var dx = ev.clientX - lastX;
+          var dy = ev.clientY - lastY;
+          lastX = ev.clientX;
+          lastY = ev.clientY;
+          cameraTheta += dx * 0.005;
+          cameraPhi += dy * 0.005;
+          cameraPhi = Math.max(0.2, Math.min(Math.PI - 0.2, cameraPhi));
+          drawScene();
+        });
+        window.addEventListener('mouseup', function() {
+          isRotating = false;
+        });
+        canvas.addEventListener('contextmenu', function(ev) {
+          ev.preventDefault();
+        });
+
+        canvas.addEventListener('wheel', function(ev) {
+          ev.preventDefault();
+          var delta = ev.deltaY < 0 ? -40 : 40;
+          cameraRadius = Math.max(240, Math.min(700, cameraRadius + delta));
+          drawScene();
+        }, { passive: false });
+      }
+
+      // Skills Panel
+      skillsToggle.addEventListener('click', function() {
+        skillsPanel.classList.add('active');
+        loadSkills();
+      });
+
+      skillsClose.addEventListener('click', function() {
+        skillsPanel.classList.remove('active');
+      });
+
+      function loadSkills() {
+        var skills = mode === 'student' ? [
+          { name: 'Paper Draft (Write a paper)', id: 'draft', icon: '🧾' },
+          { name: 'Explain Core Concepts', id: 'explain', icon: '💡' },
+          { name: 'Compare Papers', id: 'compare', icon: '⚖️' }
+        ] : [
+          { name: 'Identify Research Gaps', id: 'gaps', icon: '🔍' },
+          { name: 'Track Latest Trends', id: 'trends', icon: '📈' },
+          { name: 'Compare Papers', id: 'compare', icon: '⚖️' }
+        ];
+
+        skillsContent.innerHTML = '<div class="skills-list">' +
+          skills.map(s => '<button class="skill-btn" data-skill="' + s.id + '">' + s.icon + ' ' + s.name + '</button>').join('') +
+          '</div>';
+
+        document.querySelectorAll('.skill-btn').forEach(btn => {
+          btn.addEventListener('click', function() {
+            var skillId = this.dataset.skill;
+            executeSkill(skillId);
+          });
+        });
+      }
+
+      // ===== Paper Draft (student writing workflow) =====
+      function draftStorageKey() {
+        // Keep drafts per (mode, query) so user can have multiple drafts
+        return 'thread_draft::' + mode + '::' + (q || '').trim().toLowerCase();
+      }
+
+      function draftHistoryKey() {
+        return draftStorageKey() + '::history';
+      }
+
+      // Track where the current snippet comes from: manual | claim | skill
+      var draftPendingSource = 'manual';
+
+      function loadDraft() {
+        try {
+          var raw = localStorage.getItem(draftStorageKey());
+          if (!raw) return null;
+          return JSON.parse(raw);
+        } catch (e) {
+          return null;
+        }
+      }
+
+      function saveDraft(draft) {
+        try {
+          draft.updated_at = new Date().toISOString();
+          localStorage.setItem(draftStorageKey(), JSON.stringify(draft));
+
+          // history (append snapshots, keep last 20)
+          var histRaw = localStorage.getItem(draftHistoryKey());
+          var hist = [];
+          try { hist = histRaw ? JSON.parse(histRaw) : []; } catch (e) { hist = []; }
+          hist.unshift({ at: draft.updated_at, draft: draft });
+          hist = hist.slice(0, 20);
+          localStorage.setItem(draftHistoryKey(), JSON.stringify(hist));
+        } catch (e) {
+          // ignore storage errors
+        }
+      }
+
+      function defaultDraftFromOutline(outlineJson) {
+        var sections = (outlineJson && outlineJson.sections) ? outlineJson.sections : [];
+        return {
+          query: q,
+          mode: mode,
+          title: (outlineJson && outlineJson.title) ? outlineJson.title : ('Paper Draft: ' + q),
+          sections: sections.map(function(s) {
+            return {
+              id: s.id,
+              title: s.title,
+              bullets: Array.isArray(s.bullets) ? s.bullets : [],
+              content: [], // user-added snippets (claims / skill outputs)
+              body: ''     // composed section text
+            };
+          }),
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString()
+        };
+      }
+
+      function renderDraft(draft) {
+        var sectionOptions = (draft.sections || []).map(function(s) {
+          return '<option value=\"' + s.id + '\">' + escapeHtml(s.title) + '</option>';
+        }).join('');
+
+        // Build section blocks
+        var sectionsHtml = (draft.sections || []).map(function(s) {
+          var bullets = (s.bullets || []).map(function(b) { return '<li>' + escapeHtml(b) + '</li>'; }).join('');
+          var items = (s.content || []).map(function(it) {
+            return (
+              '<li>' +
+                '<span class=\"draft-pill\">' + escapeHtml(it.source || 'note') + '</span> ' +
+                '<span class=\"draft-item-text\">' + escapeHtml(it.text) + '</span>' +
+                '<button class=\"draft-item-del\" data-section=\"' + s.id + '\" data-text=\"' + encodeURIComponent(it.text) + '\">✕</button>' +
+              '</li>'
+            );
+          }).join('');
+          if (!items) items = '<li class=\"draft-empty\">(No items yet)</li>';
+          return (
+            '<div class=\"draft-section\">' +
+              '<div class=\"draft-section-head\">' +
+                '<div class=\"draft-section-title\">' + escapeHtml(s.title) + '</div>' +
+                '<button class=\"draft-compose-btn\" data-section=\"' + s.id + '\">Compose section text</button>' +
+              '</div>' +
+              '<ul class=\"draft-bullets\">' + bullets + '</ul>' +
+              '<div class=\"draft-subtitle\">Draft items</div>' +
+              '<ul class=\"draft-items\">' + items + '</ul>' +
+              '<div class=\"draft-body-preview\">' + (s.body ? escapeHtml(s.body) : '<span class=\"draft-empty\">(No composed text yet)</span>') + '</div>' +
+            '</div>'
+          );
+        }).join('');
+
+        // Build references summary for sidebar (from draft items)
+        var refs = {};
+        (draft.sections || []).forEach(function(s) {
+          (s.content || []).forEach(function(it) {
+            if (it.refKey && it.refText && !refs[it.refKey]) {
+              refs[it.refKey] = it.refText;
+            }
+          });
+        });
+        var refsKeys = Object.keys(refs);
+        var refsHtml = '';
+        if (refsKeys.length) {
+          refsHtml = '<div class=\"draft-references\">' +
+            '<div class=\"draft-subtitle\">References used in draft items</div>' +
+            '<ul class=\"draft-history-list\">' +
+              refsKeys.map(function(k) {
+                return '<li class=\"draft-ref-item\">' + escapeHtml(refs[k]) + '</li>';
+              }).join('') +
+            '</ul>' +
+          '</div>';
+        } else {
+          refsHtml = '<div class=\"draft-references\"><div class=\"draft-subtitle\">References used in draft items</div><div class=\"draft-empty\">(No references yet)</div></div>';
+        }
+
+        var histRaw = localStorage.getItem(draftHistoryKey());
+        var hist = [];
+        try { hist = histRaw ? JSON.parse(histRaw) : []; } catch (e) { hist = []; }
+        var historyHtml = hist.slice(0, 5).map(function(h, idx) {
+          return '<li><button class=\"draft-link\" data-hist=\"' + idx + '\">' + escapeHtml(h.at) + '</button></li>';
+        }).join('');
+        if (!historyHtml) historyHtml = '<li class=\"draft-empty\">(No history yet)</li>';
+
+        skillsContent.innerHTML =
+          '<div class=\"draft-wrap\">' +
+            '<div class=\"draft-head\">' +
+              '<div>' +
+                '<div class=\"draft-title\">' + escapeHtml(draft.title) + '</div>' +
+                '<div class=\"draft-meta\">Saved automatically. Query: <strong>' + escapeHtml(q) + '</strong></div>' +
+              '</div>' +
+              '<div class=\"draft-actions\">' +
+                '<button class=\"skill-back-btn\" id=\"draft-regenerate\">Regenerate Outline</button>' +
+                '<button class=\"skill-back-btn\" id=\"draft-export\">Export Markdown</button>' +
+                '<button class=\"skill-back-btn\" id=\"draft-clear\">Clear Draft</button>' +
+              '</div>' +
+            '</div>' +
+
+            '<div class=\"draft-add\">' +
+              '<div class=\"draft-subtitle\">Add a snippet</div>' +
+              '<textarea id=\"draft-snippet\" class=\"draft-textarea\" rows=\"3\" placeholder=\"Paste a claim or a sentence from skills output...\"></textarea>' +
+              '<div class=\"draft-row\">' +
+                '<label class=\"draft-label\"><input type=\"checkbox\" id=\"draft-auto\" checked> Auto place (AI)</label>' +
+                '<select id=\"draft-section\" class=\"draft-select\">' + sectionOptions + '</select>' +
+                '<button class=\"skills-toggle\" id=\"draft-add-btn\">Add</button>' +
+              '</div>' +
+              '<div class=\"draft-hint\">Tip: you can also click “Add to Draft” on any Key Claim.</div>' +
+            '</div>' +
+
+            '<div class=\"draft-sections\">' + sectionsHtml + '</div>' +
+            '<div class=\"draft-history\">' +
+              '<div class=\"draft-subtitle\">Recent versions</div>' +
+              '<ul class=\"draft-history-list\">' + historyHtml + '</ul>' +
+            '</div>' +
+            refsHtml +
+          '</div>';
+
+        // wire actions
+        document.getElementById('draft-regenerate').addEventListener('click', async function() {
+          if (!confirm('Regenerate the outline bullets? (Your added draft items will be kept)')) return;
+          skillsContent.innerHTML = '<div class=\"skill-loading\">Regenerating outline...</div>';
+          var outlineJson = await AIService.generateDraftOutline(q, matchedPapers);
+          var current = loadDraft();
+          if (!current) current = defaultDraftFromOutline(outlineJson);
+
+          // merge: keep existing content per section id, replace bullets/titles from new outline
+          var contentById = {};
+          (current.sections || []).forEach(function(s) { contentById[s.id] = s.content || []; });
+
+          current.title = (outlineJson && outlineJson.title) ? outlineJson.title : current.title;
+          current.sections = (outlineJson.sections || []).map(function(s) {
+            return {
+              id: s.id,
+              title: s.title,
+              bullets: Array.isArray(s.bullets) ? s.bullets : [],
+              content: contentById[s.id] || []
+            };
+          });
+          saveDraft(current);
+          renderDraft(loadDraft());
+        });
+
+        document.getElementById('draft-add-btn').addEventListener('click', async function() {
+          var textEl = document.getElementById('draft-snippet');
+          var text = (textEl && textEl.value || '').trim();
+          if (!text) return;
+          var auto = document.getElementById('draft-auto').checked;
+          var sectionId = document.getElementById('draft-section').value;
+
+          // Ensure we operate on the latest draft and create one if missing
+          draft = loadDraft() || draft;
+          if (!draft) {
+            skillsContent.innerHTML = '<div class="skill-loading">Creating a draft outline...</div>';
+            var outlineJson = await AIService.generateDraftOutline(q, matchedPapers);
+            draft = defaultDraftFromOutline(outlineJson);
+            saveDraft(draft);
+          }
+
+          // Duplicate check: same text already exists anywhere in draft
+          var exists = false;
+          (draft.sections || []).forEach(function(s) {
+            (s.content || []).forEach(function(it) {
+              if ((it.text || '').trim() === text) {
+                exists = true;
+              }
+            });
+          });
+          if (exists) {
+            if (!confirm('This snippet already exists in the draft. Add again?')) {
+              return;
+            }
+          }
+
+          if (auto) {
+            try {
+              sectionId = await AIService.classifySnippetToSection(q, text);
+            } catch (e) {}
+          }
+
+          var source = draftPendingSource || (auto ? 'auto' : 'manual');
+
+          // If textarea carries ref info (from claim), use it
+          var refKey = (textEl && textEl.dataset.refKey) || null;
+          var refText = (textEl && textEl.dataset.refText) || null;
+
+          addToDraft(draft, sectionId, text, source, refKey, refText);
+
+          draftPendingSource = 'manual';
+          if (textEl) {
+            textEl.value = '';
+            textEl.dataset.refKey = '';
+            textEl.dataset.refText = '';
+          }
+          renderDraft(loadDraft());
+        });
+
+        document.getElementById('draft-export').addEventListener('click', function() {
+          var md = exportDraftMarkdown(loadDraft());
+          // copy to clipboard best effort
+          try {
+            navigator.clipboard.writeText(md);
+            alert('Markdown copied to clipboard.');
+          } catch (e) {
+            alert('Export generated. (Clipboard blocked)\\n\\n' + md.slice(0, 500));
+          }
+        });
+
+        document.getElementById('draft-clear').addEventListener('click', function() {
+          if (!confirm('Clear this draft?')) return;
+          localStorage.removeItem(draftStorageKey());
+          localStorage.removeItem(draftHistoryKey());
+          loadSkills();
+        });
+
+        document.querySelectorAll('.draft-link').forEach(function(btn) {
+          btn.addEventListener('click', function() {
+            var idx = parseInt(this.dataset.hist, 10);
+            var histRaw2 = localStorage.getItem(draftHistoryKey());
+            var hist2 = [];
+            try { hist2 = histRaw2 ? JSON.parse(histRaw2) : []; } catch (e) { hist2 = []; }
+            if (!hist2[idx] || !hist2[idx].draft) return;
+            try {
+              localStorage.setItem(draftStorageKey(), JSON.stringify(hist2[idx].draft));
+              renderDraft(loadDraft());
+            } catch (e) {}
+          });
+        });
+
+        // Compose section text buttons
+        document.querySelectorAll('.draft-compose-btn').forEach(function(btn) {
+          btn.addEventListener('click', async function() {
+            var secId = this.dataset.section;
+            var current = loadDraft();
+            if (!current || !current.sections) return;
+            var sec = current.sections.find(function(s) { return s.id === secId; }) || current.sections[0];
+            if (!sec) return;
+            var bullets = sec.bullets || [];
+            var items = sec.content || [];
+            var existingBody = sec.body || '';
+
+            skillsContent.innerHTML = '<div class="skill-loading">Composing section text...</div>';
+            var composed = await AIService.composeSectionText(q, sec.title, bullets, items, existingBody);
+            if (composed) {
+              sec.body = existingBody ? (existingBody + '\n\n' + composed) : composed;
+              saveDraft(current);
+            }
+            renderDraft(loadDraft());
+          });
+        });
+
+        // Delete individual draft items
+        document.querySelectorAll('.draft-item-del').forEach(function(btn) {
+          btn.addEventListener('click', function() {
+            var secId = this.dataset.section;
+            var text = '';
+            try { text = decodeURIComponent(this.dataset.text || ''); } catch (e) { text = this.dataset.text || ''; }
+            text = (text || '').trim();
+            var current = loadDraft();
+            if (!current || !current.sections || !text) return;
+            var sec = current.sections.find(function(s) { return s.id === secId; }) || current.sections[0];
+            if (!sec || !sec.content) return;
+            sec.content = sec.content.filter(function(it) {
+              return (it.text || '').trim() !== text;
+            });
+            saveDraft(current);
+            renderDraft(loadDraft());
+          });
+        });
+      }
+
+      function addToDraft(draft, sectionId, text, source, refKey, refText) {
+        if (!draft || !draft.sections) return;
+        var sec = draft.sections.find(function(s) { return s.id === sectionId; }) || draft.sections[0];
+        if (!sec.content) sec.content = [];
+        sec.content.push({
+          text: text,
+          source: source,
+          at: new Date().toISOString(),
+          refKey: refKey || null,
+          refText: refText || null
+        });
+        saveDraft(draft);
+      }
+
+      function exportDraftMarkdown(draft) {
+        if (!draft) return '';
+        var out = [];
+        // Title
+        out.push('# ' + (draft.title || ('Paper Draft: ' + q)));
+        out.push('');
+        // Meta info
+        out.push('> Query: ' + q);
+        out.push('> Mode: ' + mode);
+        out.push('> Updated: ' + (draft.updated_at || ''));
+        out.push('');
+        // Sections
+        (draft.sections || []).forEach(function(s) {
+          out.push('## ' + s.title);
+          out.push('');
+          if (s.bullets && s.bullets.length) {
+            out.push('### Outline');
+            (s.bullets || []).forEach(function(b) { out.push('- ' + b); });
+            out.push('');
+          }
+          // 混合好的正文直接写入对应 section 中
+          if (s.body && s.body.trim()) {
+            out.push(s.body.trim());
+            out.push('');
+          }
+        });
+        // References
+        var refs = {};
+        (draft.sections || []).forEach(function(s) {
+          (s.content || []).forEach(function(it) {
+            if (it.refKey && it.refText && !refs[it.refKey]) {
+              refs[it.refKey] = it.refText;
+            }
+          });
+        });
+        var keys = Object.keys(refs);
+        if (keys.length) {
+          out.push('## References');
+          out.push('');
+          keys.forEach(function(k) {
+            out.push('- ' + refs[k]);
+          });
+          out.push('');
+        }
+        // IMPORTANT: use real newlines, not literal "\n" sequences
+        return out.join('\n');
+      }
+
+      // Helper: extract bullet sentences under a markdown header
+      function extractBulletsByHeader(markdown, headerKeyword) {
+        if (!markdown) return [];
+        var lines = String(markdown).split(/\r?\n/);
+        var inSection = false;
+        var bullets = [];
+        var headerKey = headerKeyword.toLowerCase();
+        lines.forEach(function(line) {
+          var trimmed = line.trim();
+          if (trimmed.startsWith('#')) {
+            inSection = trimmed.toLowerCase().indexOf(headerKey) !== -1;
+            return;
+          }
+          if (!inSection) return;
+          if (trimmed.startsWith('- ')) {
+            bullets.push(trimmed.slice(2).trim());
+          }
+        });
+        return bullets.filter(function(b) { return b.length > 0; });
+      }
+
+      // Helper: ensure a draft exists (create outline if needed)
+      async function ensureDraftExists() {
+        var draft = loadDraft();
+        if (draft) return draft;
+        skillsPanel.classList.add('active');
+        skillsContent.innerHTML = '<div class="skill-loading">Creating a draft outline...</div>';
+        var outlineJson = await AIService.generateDraftOutline(q, matchedPapers);
+        draft = defaultDraftFromOutline(outlineJson);
+        saveDraft(draft);
+        return draft;
+      }
+
+      // Helper: stage a sentence into draft, optionally biasing to a section
+      async function stageSentenceToDraft(sentence, source, preferredSectionKeyword) {
+        sentence = (sentence || '').trim();
+        if (!sentence) return;
+        var draft = await ensureDraftExists();
+        skillsPanel.classList.add('active');
+        renderDraft(loadDraft());
+        draftPendingSource = source || 'skill';
+
+        // Try to select preferred section if provided
+        if (preferredSectionKeyword && draft && Array.isArray(draft.sections)) {
+          var key = preferredSectionKeyword.toLowerCase();
+          var sec = draft.sections.find(function(s) {
+            return s.title && s.title.toLowerCase().indexOf(key) !== -1;
+          });
+          if (sec && document.getElementById('draft-section')) {
+            document.getElementById('draft-section').value = sec.id;
+            var autoChk = document.getElementById('draft-auto');
+            if (autoChk) autoChk.checked = false;
+          }
+        }
+
+        var ta = document.getElementById('draft-snippet');
+        if (ta) {
+          ta.value = sentence;
+          ta.focus();
+        }
+      }
+
+      async function executeSkill(skillId) {
+        if (!matchedPapers || matchedPapers.length === 0) {
+          skillsContent.innerHTML = '<div class="skill-error">No papers available. Please search for papers first.<br><button class="skill-back-btn" id="skill-back-btn-error">Back to Skills</button></div>';
+          document.getElementById('skill-back-btn-error').addEventListener('click', function() {
+            loadSkills();
+          });
+          return;
+        }
+        
+        skillsContent.innerHTML = '<div class="skill-loading">Generating...</div>';
+        
+        try {
+          var result = '';
+          if (skillId === 'draft') {
+            // Create or open a draft (outline first), then allow incremental building.
+            var existing = loadDraft();
+            if (!existing) {
+              skillsContent.innerHTML = '<div class="skill-loading">Creating a draft outline...</div>';
+              var outlineJson = await AIService.generateDraftOutline(q, matchedPapers);
+              var draft = defaultDraftFromOutline(outlineJson);
+              saveDraft(draft);
+              renderDraft(loadDraft());
+              return;
+            }
+            renderDraft(existing);
+            return;
+          } else if (skillId === 'explain') {
+            result = await AIService.explainConcepts(q, matchedPapers);
+          } else if (skillId === 'compare') {
+            if (matchedPapers.length < 2) {
+              throw new Error('Need at least 2 papers to compare');
+            }
+            result = await AIService.comparePapers(matchedPapers.slice(0, 3));
+          } else if (skillId === 'gaps') {
+            result = await AIService.identifyResearchGaps(q, matchedPapers);
+          } else if (skillId === 'trends') {
+            result = await AIService.trackTrends(q, matchedPapers);
+          } else {
+            throw new Error('Unknown skill: ' + skillId);
+          }
+
+          if (!result || (typeof result === 'string' && !result.trim())) {
+            throw new Error('Empty response from AI service');
+          }
+
+          // Student skills with special UI: explain / compare
+          if (skillId === 'explain' || skillId === 'compare') {
+            var rawText = String(result);
+            var headerKey = skillId === 'explain'
+              ? 'paper-ready sentences (intro'
+              : 'paper-ready sentences (related work';
+            var bullets = extractBulletsByHeader(rawText, headerKey);
+
+            var escapedResult = escapeHtml(rawText).replace(/\n/g, '<br>');
+            var bulletsHtml = '';
+            if (bullets.length) {
+              bulletsHtml =
+                '<div class="draft-subtitle">' + (skillId === 'explain' ? 'Intro-ready sentences' : 'Related Work sentences') + '</div>' +
+                '<ul class="draft-items">' +
+                  bullets.map(function(sent, idx) {
+                    return (
+                      '<li>' +
+                        '<span class="draft-item-text">' + escapeHtml(sent) + '</span>' +
+                        '<button class="draft-item-del" data-role="add-to-draft" data-index="' + idx + '">+ Draft</button>' +
+                      '</li>'
+                    );
+                  }).join('') +
+                '</ul>';
+            } else {
+              bulletsHtml = '<div class="draft-empty">(No structured sentences found. You can still select text below and add manually.)</div>';
+            }
+
+            skillsContent.innerHTML =
+              '<div class="skill-result">' +
+                '<div class="draft-inline-actions">' +
+                  '<button class="skills-toggle" id="add-selected-to-draft">Add selected text to Draft</button>' +
+                  '<span class="draft-inline-hint">Select text in the output, then click.</span>' +
+                '</div>' +
+                '<div class="draft-add">' +
+                  bulletsHtml +
+                '</div>' +
+                '<pre style="white-space: pre-wrap; font-family: inherit; line-height: 1.6; margin-top: 1rem;">' +
+                  escapedResult +
+                '</pre>' +
+                '<button class="skill-back-btn" id="skill-back-btn">Back to Skills</button>' +
+              '</div>';
+
+            // Wire back button
+            var backBtn2 = document.getElementById('skill-back-btn');
+            if (backBtn2) {
+              backBtn2.addEventListener('click', function() {
+                loadSkills();
+              });
+            }
+
+            // Wire "Add selected text to Draft" (fallback manual selection)
+            var addSelBtn2 = document.getElementById('add-selected-to-draft');
+            if (addSelBtn2) {
+              addSelBtn2.addEventListener('click', async function() {
+                var selection = '';
+                try { selection = (window.getSelection && window.getSelection().toString()) || ''; } catch (e) { selection = ''; }
+                selection = (selection || '').trim();
+                if (!selection) {
+                  alert('Please select some text in the output first.');
+                  return;
+                }
+                await stageSentenceToDraft(selection, 'skill', null);
+              });
+            }
+
+            // Wire "+ Draft" buttons for structured sentences
+            if (bullets.length) {
+              var buttons = skillsContent.querySelectorAll('button[data-role="add-to-draft"]');
+              buttons.forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                  var idx = parseInt(this.dataset.index, 10);
+                  if (isNaN(idx) || idx < 0 || idx >= bullets.length) return;
+                  var preferred = (skillId === 'explain') ? 'introduction' : 'related';
+                  stageSentenceToDraft(bullets[idx], skillId, preferred);
+                });
+              });
+            }
+          } else {
+            // Default rendering for other skills
+            var escapedResult2 = escapeHtml(result).replace(/\n/g, '<br>');
+            skillsContent.innerHTML = '<div class="skill-result">' +
+              '<div class="draft-inline-actions">' +
+                '<button class="skills-toggle" id="add-selected-to-draft">Add selected text to Draft</button>' +
+                '<span class="draft-inline-hint">Select text in the output, then click.</span>' +
+              '</div>' +
+              '<pre style="white-space: pre-wrap; font-family: inherit; line-height: 1.6;">' + 
+              escapedResult2 + 
+              '</pre>' +
+              '<button class="skill-back-btn" id="skill-back-btn">Back to Skills</button>' +
+              '</div>';
+            
+            // Back button
+            var backBtn = document.getElementById('skill-back-btn');
+            if (backBtn) {
+              backBtn.addEventListener('click', function() {
+                loadSkills();
+              });
+            }
+
+            // Add selected snippet to draft (stage into Add a snippet box)
+            var addSelBtn = document.getElementById('add-selected-to-draft');
+            if (addSelBtn) {
+              addSelBtn.addEventListener('click', async function() {
+                var selection = '';
+                try { selection = (window.getSelection && window.getSelection().toString()) || ''; } catch (e) { selection = ''; }
+                selection = (selection || '').trim();
+                if (!selection) {
+                  alert('Please select some text in the output first.');
+                  return;
+                }
+                await stageSentenceToDraft(selection, 'skill', null);
+              });
+            }
+          }
+        } catch (error) {
+          console.error('Skill execution failed:', error);
+          var errorMsg = error.message || 'Unknown error occurred';
+          skillsContent.innerHTML = '<div class="skill-error">Error: ' + escapeHtml(errorMsg) + '<br><button class="skill-back-btn" id="skill-back-btn-error">Back to Skills</button></div>';
+          var errorBtn = document.getElementById('skill-back-btn-error');
+          if (errorBtn) {
+            errorBtn.addEventListener('click', function() {
+              loadSkills();
+            });
+          }
+        }
+      }
+
+      // Form submission
+      document.getElementById('results-search').addEventListener('submit', function(e) {
+        e.preventDefault();
+        var newQ = input.value.trim();
+        if (!newQ) return;
+        var newMode = searchMode.value;
+        location.href = 'results.html?q=' + encodeURIComponent(newQ) + '&mode=' + newMode;
+      });
+    })();
+  </script>
+</body>
+</html>

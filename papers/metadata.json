@@ -1,0 +1,478 @@
+{
+  "papers": [
+    {
+      "id": "attention_is_all_you_need",
+      "title": "Attention Is All You Need",
+      "authors": [
+        "Vaswani, A.",
+        "Shazeer, N.",
+        "Parmar, N.",
+        "Uszkoreit, J.",
+        "Jones, L.",
+        "Gomez, A. N.",
+        "Kaiser, L.",
+        "Polosukhin, I."
+      ],
+      "year": 2017,
+      "venue": "NeurIPS",
+      "category": "transformer",
+      "keywords": [
+        "transformer",
+        "attention mechanism",
+        "neural machine translation",
+        "sequence-to-sequence"
+      ],
+      "abstract": "We propose a new simple network architecture, the Transformer, based solely on attention mechanisms, dispensing with recurrence and convolutions entirely. Experiments on two machine translation tasks show that these models are superior in quality while being more parallelizable and requiring significantly less time to train.",
+      "claims": [
+        "The Transformer architecture achieves superior translation quality compared to recurrent and convolutional models.",
+        "Self-attention allows the model to attend to different positions of a single sequence to compute a representation.",
+        "The Transformer is more parallelizable and requires less training time than RNN-based models."
+      ],
+      "citation_count": 80000,
+      "file_path": "papers/attention_is_all_you_need.pdf"
+    },
+    {
+      "id": "bert",
+      "title": "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding",
+      "authors": [
+        "Devlin, J.",
+        "Chang, M. W.",
+        "Lee, K.",
+        "Toutanova, K."
+      ],
+      "year": 2018,
+      "venue": "NAACL",
+      "category": "nlp",
+      "keywords": [
+        "BERT",
+        "pre-training",
+        "bidirectional",
+        "language understanding",
+        "transformer"
+      ],
+      "abstract": "We introduce BERT, a new language representation model which stands for Bidirectional Encoder Representations from Transformers. BERT is designed to pre-train deep bidirectional representations from unlabeled text by jointly conditioning on both left and right context in all layers.",
+      "claims": [
+        "BERT achieves state-of-the-art results on 11 NLP tasks including GLUE, SQuAD, and SWAG.",
+        "Bidirectional pre-training is crucial for language understanding tasks compared to unidirectional models.",
+        "Fine-tuning BERT requires minimal task-specific architecture modifications."
+      ],
+      "citation_count": 120000,
+      "file_path": "papers/bert.pdf"
+    },
+    {
+      "id": "gpt3",
+      "title": "Language Models are Few-Shot Learners",
+      "authors": [
+        "Brown, T.",
+        "Mann, B.",
+        "Ryder, N.",
+        "Subbiah, M.",
+        "Kaplan, J. D.",
+        "Dhariwal, P.",
+        "Neelakantan, A.",
+        "Shyam, P.",
+        "Sastry, G.",
+        "Askell, A.",
+        "Agarwal, S.",
+        "Herbert-Voss, A.",
+        "Krueger, G.",
+        "Henighan, T.",
+        "Child, R.",
+        "Ramesh, A.",
+        "Ziegler, D. M.",
+        "Wu, J.",
+        "Winter, C.",
+        "Hesse, C.",
+        "Chen, M.",
+        "Sigler, E.",
+        "Litwin, M.",
+        "Gray, S.",
+        "Chess, B.",
+        "Clark, J.",
+        "Berner, C.",
+        "McCandlish, S.",
+        "Radford, A.",
+        "Sutskever, I.",
+        "Amodei, D."
+      ],
+      "year": 2020,
+      "venue": "NeurIPS",
+      "category": "llm",
+      "keywords": [
+        "GPT-3",
+        "language model",
+        "few-shot learning",
+        "scaling",
+        "in-context learning"
+      ],
+      "abstract": "We train GPT-3, an autoregressive language model with 175 billion parameters, 10x more than any previous non-sparse language model, and test its performance in the few-shot setting. GPT-3 achieves strong performance on many NLP datasets without gradient updates or fine-tuning.",
+      "claims": [
+        "GPT-3 demonstrates that scaling language models to 175B parameters enables few-shot learning without fine-tuning.",
+        "In-context learning emerges as a powerful capability in large language models.",
+        "GPT-3 shows strong performance on diverse tasks including translation, question-answering, and arithmetic."
+      ],
+      "citation_count": 15000,
+      "file_path": "papers/gpt3.pdf"
+    },
+    {
+      "id": "vision_transformer",
+      "title": "An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale",
+      "authors": [
+        "Dosovitskiy, A.",
+        "Beyer, L.",
+        "Kolesnikov, A.",
+        "Weissenborn, D.",
+        "Zhai, X.",
+        "Unterthiner, T.",
+        "Dehghani, M.",
+        "Minderer, M.",
+        "Heigold, G.",
+        "Gelly, S.",
+        "Uszkoreit, J.",
+        "Houlsby, N."
+      ],
+      "year": 2020,
+      "venue": "ICLR",
+      "category": "cv",
+      "keywords": [
+        "Vision Transformer",
+        "ViT",
+        "image recognition",
+        "transformer",
+        "computer vision"
+      ],
+      "abstract": "We show that Vision Transformer (ViT) can match or exceed state-of-the-art CNN performance when pre-trained on large datasets and transferred to mid-sized or small image recognition benchmarks.",
+      "claims": [
+        "Vision Transformer achieves competitive results with CNNs when pre-trained on large datasets.",
+        "Self-attention in ViT allows the model to attend to different image patches globally.",
+        "ViT requires less inductive bias than CNNs but needs more data to generalize well."
+      ],
+      "citation_count": 25000,
+      "file_path": "papers/vision_transformer.pdf"
+    },
+    {
+      "id": "chatgpt",
+      "title": "Training language models to follow instructions with human feedback",
+      "authors": [
+        "Ouyang, L.",
+        "Wu, J.",
+        "Jiang, X.",
+        "Almeida, D.",
+        "Wainwright, C.",
+        "Mishkin, P.",
+        "Zhang, C.",
+        "Agarwal, S.",
+        "Slama, K.",
+        "Ray, A.",
+        "Schulman, J.",
+        "Hilton, J.",
+        "Kelton, F.",
+        "Miller, L.",
+        "Simens, M.",
+        "Askell, A.",
+        "Welinder, P.",
+        "Christiano, P.",
+        "Leike, J.",
+        "Lowe, R."
+      ],
+      "year": 2022,
+      "venue": "arXiv",
+      "category": "llm",
+      "keywords": [
+        "ChatGPT",
+        "RLHF",
+        "reinforcement learning",
+        "human feedback",
+        "instruction following"
+      ],
+      "abstract": "We train language models to follow instructions using Reinforcement Learning from Human Feedback (RLHF). This approach makes language models more helpful, harmless, and aligned with user intent.",
+      "claims": [
+        "RLHF significantly improves language model alignment with human preferences.",
+        "Instruction-tuned models outperform base language models on helpfulness and harmlessness metrics.",
+        "Human feedback is crucial for training models that follow complex instructions."
+      ],
+      "citation_count": 5000,
+      "file_path": "papers/chatgpt.pdf"
+    },
+    {
+      "id": "resnet",
+      "title": "Deep Residual Learning for Image Recognition",
+      "authors": [
+        "He, K.",
+        "Zhang, X.",
+        "Ren, S.",
+        "Sun, J."
+      ],
+      "year": 2016,
+      "venue": "CVPR",
+      "category": "cv",
+      "keywords": [
+        "ResNet",
+        "residual learning",
+        "deep learning",
+        "image recognition",
+        "neural networks"
+      ],
+      "abstract": "We present a residual learning framework to ease the training of networks that are substantially deeper than those used previously. We provide comprehensive empirical evidence showing that these residual networks are easier to optimize and can gain accuracy from considerably increased depth.",
+      "claims": [
+        "Residual connections enable training of very deep neural networks (up to 152 layers).",
+        "ResNet achieves state-of-the-art results on ImageNet classification and COCO object detection.",
+        "Residual learning addresses the degradation problem in deep networks."
+      ],
+      "citation_count": 150000,
+      "file_path": "papers/resnet.pdf"
+    },
+    {
+      "id": "alphago",
+      "title": "Mastering the game of Go with deep neural networks and tree search",
+      "authors": [
+        "Silver, D.",
+        "Huang, A.",
+        "Maddison, C. J.",
+        "Guez, A.",
+        "Sifre, L.",
+        "Van Den Driessche, G.",
+        "Schrittwieser, J.",
+        "Antonoglou, I.",
+        "Panneershelvam, V.",
+        "Lanctot, M.",
+        "Dieleman, S.",
+        "Grewe, D.",
+        "Nham, J.",
+        "Kalchbrenner, N.",
+        "Sutskever, I.",
+        "Lillicrap, T.",
+        "Leach, M.",
+        "Kavukcuoglu, K.",
+        "Graepel, T.",
+        "Hassabis, D."
+      ],
+      "year": 2016,
+      "venue": "Nature",
+      "category": "rl",
+      "keywords": [
+        "AlphaGo",
+        "reinforcement learning",
+        "Monte Carlo tree search",
+        "deep learning",
+        "game AI"
+      ],
+      "abstract": "We introduce a new approach to computer Go that uses 'value networks' to evaluate board positions and 'policy networks' to select moves. These deep neural networks are trained by a novel combination of supervised learning from human expert games, and reinforcement learning from games of self-play.",
+      "claims": [
+        "AlphaGo defeats the world champion Go player using deep neural networks and Monte Carlo tree search.",
+        "Combining supervised learning and reinforcement learning enables superhuman performance in Go.",
+        "Value networks and policy networks work together to achieve strong play."
+      ],
+      "citation_count": 12000,
+      "file_path": "papers/alphago.pdf"
+    },
+    {
+      "id": "clip",
+      "title": "Learning Transferable Visual Models From Natural Language Supervision",
+      "authors": [
+        "Radford, A.",
+        "Kim, J. W.",
+        "Hallacy, C.",
+        "Ramesh, A.",
+        "Goh, G.",
+        "Agarwal, S.",
+        "Sastry, G.",
+        "Askell, A.",
+        "Mishkin, P.",
+        "Clark, J.",
+        "Krueger, G.",
+        "Sutskever, I."
+      ],
+      "year": 2021,
+      "venue": "ICML",
+      "category": "multimodal",
+      "keywords": [
+        "CLIP",
+        "multimodal",
+        "vision-language",
+        "contrastive learning",
+        "zero-shot"
+      ],
+      "abstract": "We train a model that learns to associate images and text from 400 million image-text pairs. CLIP can be applied to any visual classification benchmark in a zero-shot manner, matching the performance of fully supervised models.",
+      "claims": [
+        "CLIP achieves strong zero-shot performance on diverse visual classification tasks.",
+        "Contrastive learning on large-scale image-text pairs enables transferable visual representations.",
+        "Natural language supervision provides a scalable way to learn visual concepts."
+      ],
+      "citation_count": 18000,
+      "file_path": "papers/clip.pdf"
+    },
+    {
+      "id": "diffusion",
+      "title": "Denoising Diffusion Probabilistic Models",
+      "authors": [
+        "Ho, J.",
+        "Jain, A.",
+        "Abbeel, P."
+      ],
+      "year": 2020,
+      "venue": "NeurIPS",
+      "category": "generative",
+      "keywords": [
+        "diffusion models",
+        "generative models",
+        "image generation",
+        "denoising",
+        "DDPM"
+      ],
+      "abstract": "We present high quality image synthesis results using diffusion probabilistic models, a class of latent variable models inspired by considerations from nonequilibrium thermodynamics. Our method achieves state-of-the-art log-likelihoods and produces high-quality samples.",
+      "claims": [
+        "Diffusion models achieve state-of-the-art image generation quality comparable to GANs.",
+        "The forward diffusion process gradually adds noise, while the reverse process learns to denoise.",
+        "Diffusion models provide stable training compared to adversarial methods."
+      ],
+      "citation_count": 8000,
+      "file_path": "papers/diffusion.pdf"
+    },
+    {
+      "id": "llama",
+      "title": "LLaMA: Open and Efficient Foundation Language Models",
+      "authors": [
+        "Touvron, H.",
+        "Lavril, T.",
+        "Izacard, G.",
+        "Martinet, X.",
+        "Lachaux, M. A.",
+        "Lacoste, A.",
+        "Rozière, B.",
+        "Goyal, N.",
+        "Hambro, E.",
+        "Azhar, F.",
+        "Rodriguez, A.",
+        "Joulin, A.",
+        "Gravier, E.",
+        "El-Nouby, A."
+      ],
+      "year": 2023,
+      "venue": "arXiv",
+      "category": "llm",
+      "keywords": [
+        "LLaMA",
+        "open-source",
+        "language model",
+        "efficient",
+        "foundation model"
+      ],
+      "abstract": "We introduce LLaMA, a collection of foundation language models ranging from 7B to 65B parameters. We train our models on trillions of tokens, and show that it is possible to train state-of-the-art models using publicly available datasets exclusively, without resorting to proprietary and inaccessible datasets.",
+      "claims": [
+        "LLaMA demonstrates that open-source models can match proprietary models' performance.",
+        "Training on public datasets exclusively enables competitive language models.",
+        "Efficient architectures allow for strong performance with fewer parameters."
+      ],
+      "citation_count": 3000,
+      "file_path": "papers/llama.pdf"
+    },
+    {
+      "id": "stable_diffusion",
+      "title": "High-Resolution Image Synthesis with Latent Diffusion Models",
+      "authors": [
+        "Rombach, R.",
+        "Blattmann, A.",
+        "Lorenz, D.",
+        "Esser, P.",
+        "Ommer, B."
+      ],
+      "year": 2022,
+      "venue": "CVPR",
+      "category": "generative",
+      "keywords": [
+        "Stable Diffusion",
+        "latent diffusion",
+        "image synthesis",
+        "text-to-image",
+        "generative AI"
+      ],
+      "abstract": "We apply diffusion models in the latent space of pretrained autoencoders, enabling high-resolution image synthesis without excessive computational requirements. Stable Diffusion achieves high-quality image generation from text prompts.",
+      "claims": [
+        "Latent diffusion models enable efficient high-resolution image generation.",
+        "Stable Diffusion democratizes access to high-quality text-to-image generation.",
+        "Operating in latent space reduces computational costs compared to pixel-space diffusion."
+      ],
+      "citation_count": 12000,
+      "file_path": "papers/stable_diffusion.pdf"
+    },
+    {
+      "id": "gemini",
+      "title": "Gemini: A Family of Highly Capable Multimodal Models",
+      "authors": [
+        "Gemini Team",
+        "Anil, R.",
+        "Borgeaud, S.",
+        "Yin, Y.",
+        "Baptista, A.",
+        "Buchatskaya, E.",
+        "Hajishirzi, H.",
+        "Matthias, A.",
+        "Raffel, C.",
+        "Ribeiro, O.",
+        "Shazeer, N.",
+        "Sidgwick, A.",
+        "Slone, A.",
+        "Sorensen, D.",
+        "Vinyals, O.",
+        "Vinyals, O.",
+        "Wang, T.",
+        "Wierstra, D.",
+        "Wu, Y.",
+        "Young, S.",
+        "Zhou, Z."
+      ],
+      "year": 2023,
+      "venue": "arXiv",
+      "category": "multimodal",
+      "keywords": [
+        "Gemini",
+        "multimodal",
+        "large language model",
+        "vision-language",
+        "reasoning"
+      ],
+      "abstract": "We introduce Gemini, a family of multimodal models capable of understanding and generating text, images, audio, and video. Gemini Ultra achieves state-of-the-art performance across a wide range of benchmarks.",
+      "claims": [
+        "Gemini demonstrates strong multimodal understanding across text, image, audio, and video.",
+        "Gemini Ultra matches or exceeds GPT-4 performance on many benchmarks.",
+        "Multimodal pretraining enables unified understanding of diverse input modalities."
+      ],
+      "citation_count": 2000,
+      "file_path": "papers/gemini.pdf"
+    },
+    {
+      "id": "moe",
+      "title": "GShard: Scaling Giant Models with Conditional Computation and Automatic Sharding",
+      "authors": [
+        "Lepikhin, D.",
+        "Lee, H.",
+        "Xu, Y.",
+        "Chen, D.",
+        "Firat, O.",
+        "Huang, Y.",
+        "Krikun, M.",
+        "Shazeer, N.",
+        "Chen, Z."
+      ],
+      "year": 2020,
+      "venue": "ICLR",
+      "category": "llm",
+      "keywords": [
+        "Mixture of Experts",
+        "MoE",
+        "scaling",
+        "conditional computation",
+        "sparse models"
+      ],
+      "abstract": "We present GShard, a module that enables scaling Transformer models to 600B+ parameters using conditional computation and automatic sharding. MoE layers activate only a subset of experts for each token, enabling efficient scaling.",
+      "claims": [
+        "Mixture of Experts enables scaling to 600B+ parameters with manageable computational costs.",
+        "Conditional computation activates only relevant experts, reducing FLOPs per token.",
+        "MoE models achieve better performance than dense models of similar computational cost."
+      ],
+      "citation_count": 1500,
+      "file_path": "papers/moe.pdf"
+    }
+  ]
+}
