@@ -75,7 +75,7 @@ Generate only the snapshot text, no markdown formatting, no bullet points. Keep 
   },
 
   /**
-   * Extract Key Claims from papers (if not already extracted)
+   * Extract Key Claims from papers (if not already extracted) – legacy, no query.
    */
   async extractClaims(paper) {
     const prompt = `Extract 2-3 key claims or findings from this research paper abstract. Each claim should be a clear, verifiable statement.
@@ -94,6 +94,139 @@ Return only the claims, one per line, without numbering or bullets.`;
     } catch (error) {
       return paper.claims || [];
     }
+  },
+
+  /**
+   * Flatten semantic index tree to text (label, content, page) for prompt.
+   */
+  flattenIndexTree(node, depth = 0) {
+    if (!node) return '';
+    const indent = '  '.repeat(depth);
+    const pageStr = node.position && typeof node.position.page === 'number' ? ` (Page ${node.position.page})` : '';
+    let out = indent + (node.label || node.id || '') + pageStr + '\n';
+    if (node.content && node.content.trim()) {
+      out += indent + node.content.trim() + '\n';
+    }
+    const children = node.children;
+    if (Array.isArray(children)) {
+      children.forEach(child => {
+        out += this.flattenIndexTree(child, depth + 1);
+      });
+    }
+    return out;
+  },
+
+  /**
+   * Generate 1–2 key claims for one paper given query and optional structured index.
+   * Returns [{ claim, page }]. Page is set only when from index.
+   */
+  async extractClaimsForPaper(query, paper, indexData) {
+    const title = paper.title || 'Untitled';
+    const abstract = (paper.abstract || '').trim();
+
+    if (indexData && indexData.tree) {
+      const treeText = this.flattenIndexTree(indexData.tree);
+      const prompt = `The user asks: "${query}"
+
+You are given a structured summary (with page numbers) of the paper "${title}".
+
+Your task is to return 1–3 key claims that directly answer or relate to the question.
+
+Return the result as a JSON array using exactly this schema:
+[
+  {"claim": "string", "page": 2},
+  {"claim": "string", "page": null}
+]
+
+Rules:
+- "claim" must be a short, clear, verifiable statement.
+- "page" must be an integer page number when the evidence mainly comes from a specific page in the summary; otherwise use null.
+- Do NOT include any extra fields.
+- Do NOT include any text before or after the JSON.
+
+Structured summary:
+${treeText}
+
+Now return ONLY the JSON array (no prose, no markdown).`;
+
+      try {
+        const body = await this.callAPI([
+          { role: 'system', content: 'You are a research assistant. Output ONLY valid JSON matching the requested schema. No prose, no markdown, no comments.' },
+          { role: 'user', content: prompt }
+        ], 0.3, 400);
+
+        let parsed = [];
+        try {
+          const json = JSON.parse(body);
+          if (Array.isArray(json)) {
+            parsed = json
+              .filter(obj => obj && typeof obj.claim === 'string')
+              .map(obj => {
+                const claim = obj.claim.trim();
+                const page = typeof obj.page === 'number' ? obj.page : undefined;
+                return { claim, page };
+              })
+              .filter(x => x.claim);
+          }
+        } catch (e) {
+          // fall through to line-based fallback below
+        }
+
+        if (parsed.length) return parsed;
+
+        // Fallback: tolerate non-JSON outputs by treating each non-empty line as a claim,
+        // optionally ending with "(Page N)".
+        const lines = body.split('\n').filter(c => c.trim()).map(c => c.trim().replace(/^[-•\d.]+\s*/, ''));
+        return lines.map(line => {
+          const match = line.match(/\s*\(Page\s+(\d+)\)\s*$/i);
+          const page = match ? parseInt(match[1], 10) : undefined;
+          const claim = match ? line.slice(0, match.index).trim() : line;
+          return { claim, page };
+        }).filter(x => x.claim);
+      } catch (e) {
+        return [];
+      }
+    }
+
+    const prompt = `The user asks: "${query}"
+
+Given this paper abstract, give 1-2 key claims that directly answer or relate to the question. Each claim should be a clear, verifiable statement.
+
+Paper: ${title}
+Abstract: ${abstract}
+
+Return only the claims, one per line, without numbering or bullets.`;
+
+    try {
+      const body = await this.callAPI([
+        { role: 'system', content: 'You are a research assistant that extracts key claims from academic papers.' },
+        { role: 'user', content: prompt }
+      ], 0.4, 350);
+      return body.split('\n').filter(c => c.trim()).map(c => ({
+        claim: c.trim().replace(/^[-•\d.]+\s*/, ''),
+        page: undefined
+      }));
+    } catch (e) {
+      return [];
+    }
+  },
+
+  /**
+   * Generate key claims for the query from top papers, using structured index when available.
+   * indexByPaperId: { [paperId]: indexJson } (optional).
+   * Returns [{ claim, paper, page? }].
+   */
+  async generateKeyClaimsForQuery(query, papers, indexByPaperId = {}) {
+    const top = (papers || []).slice(0, 5);
+    const results = [];
+    for (const paper of top) {
+      const indexData = indexByPaperId[paper.id] || null;
+      const list = await this.extractClaimsForPaper(query, paper, indexData);
+      list.forEach(({ claim, page }) => {
+        results.push({ claim, paper, page });
+      });
+    }
+    return results.slice(0, 6);
   },
 
   /**
@@ -471,46 +604,7 @@ Important formatting rules:
   },
 
   /**
-   * Semantic Search (TEST MODE): rule-based scoring.
-   * Kept for debugging / offline testing.
-   */
-  semanticSearchTest(query, allPapers) {
-    const queryLower = (query || '').toLowerCase();
-    const scoredPapers = (allPapers || []).map(paper => {
-      let score = 0;
-      const title = paper.title || '';
-      const abstract = paper.abstract || '';
-      const paperKeywords = Array.isArray(paper.keywords) ? paper.keywords.join(' ') : '';
-      const text = `${title} ${abstract} ${paperKeywords}`.toLowerCase();
-
-      // Keyword matching
-      const queryKeywords = queryLower.split(/\s+/).filter(Boolean);
-      queryKeywords.forEach(kw => {
-        if (text.includes(kw)) score += 2;
-      });
-
-      // Category matching
-      if (queryLower.includes('transformer') && paper.category === 'transformer') score += 5;
-      if (queryLower.includes('llm') && paper.category === 'llm') score += 5;
-      if (queryLower.includes('vision') && paper.category === 'cv') score += 5;
-      if (queryLower.includes('nlp') && paper.category === 'nlp') score += 5;
-
-      // Recency bonus
-      if (paper.year >= 2020) score += 1;
-
-      return { ...paper, relevanceScore: score };
-    });
-
-    scoredPapers.sort((a, b) => (b.relevanceScore || 0) - (a.relevanceScore || 0));
-    const topPapers = scoredPapers.slice(0, 10);
-    if (topPapers.length > 0 && (topPapers[0].relevanceScore || 0) > 0) {
-      return topPapers;
-    }
-    return (allPapers || []).slice(0, 10);
-  },
-
-  /**
-   * Semantic Search (REAL MODE): LLM thinks and selects papers.
+   * Semantic Search: LLM thinks and selects papers.
    * Returns a list of papers ordered by AI-chosen relevance.
    */
   async semanticSearchAI(query, allPapers) {
@@ -599,11 +693,9 @@ Rules:
         return ordered.slice(0, 10);
       }
 
-      // Fallback: test-mode scoring
-      return this.semanticSearchTest(query, allPapers);
+      return allPapers.slice(0, 10);
     } catch (e) {
-      // On any error, fall back to test-mode scoring
-      return this.semanticSearchTest(query, allPapers);
+      return allPapers.slice(0, 10);
     }
   },
 

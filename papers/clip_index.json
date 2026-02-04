@@ -1,0 +1,260 @@
+{
+  "paperId": "clip",
+  "title": "Learning Transferable Visual Models From Natural Language Supervision",
+  "builtAt": "2026-02-04T05:05:44Z",
+  "tree": {
+    "id": "root",
+    "label": "Learning Transferable Visual Models From Natural Language Supervision",
+    "content": null,
+    "position": null,
+    "children": [
+      {
+        "id": "sec1",
+        "label": "Abstract",
+        "content": "Pre-training on 400M (image,text) pairs via contrastive learning produces zero-shot ImageNet accuracy matching ResNet-50 without using its 1.28M training labels.",
+        "position": {
+          "page": 1
+        },
+        "children": []
+      },
+      {
+        "id": "sec2",
+        "label": "1. Introduction and Motivating Work",
+        "content": "Scalable pre-training from raw web text can revolutionize vision as it did NLP; prior attempts were small-scale and under-performed supervised baselines.",
+        "position": {
+          "page": 1
+        },
+        "children": [
+          {
+            "id": "sec2-1",
+            "label": "1.1 NLP Pre-training Success",
+            "content": "Task-agnostic objectives and text-to-text interfaces enable zero-shot transfer at web scale (GPT-3).",
+            "position": {
+              "page": 1
+            },
+            "children": []
+          },
+          {
+            "id": "sec2-2",
+            "label": "1.2 Early Vision-from-Text Attempts",
+            "content": "Mori 1999, VirTex, ConVIRT etc. showed promise but remained low-performance and small-data.",
+            "position": {
+              "page": 1
+            },
+            "children": []
+          },
+          {
+            "id": "sec2-3",
+            "label": "1.3 Scale Gap Identified",
+            "content": "Weakly-supervised vision trains on billions of images; language-supervised works used ≤200k images—this paper closes the gap.",
+            "position": {
+              "page": 2
+            },
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "sec3",
+        "label": "2. Approach",
+        "content": "Contrastive Language–Image Pre-training (CLIP) pairs an image encoder and a text encoder to maximize agreement between 400M true (image,text) pairs.",
+        "position": {
+          "page": 2
+        },
+        "children": [
+          {
+            "id": "sec3-1",
+            "label": "2.1 Natural Language Supervision",
+            "content": "Uses raw text as scalable, flexible supervision without fixed label sets.",
+            "position": {
+              "page": 3
+            },
+            "children": []
+          },
+          {
+            "id": "sec3-2",
+            "label": "2.2 Dataset Construction (WIT)",
+            "content": "400M English (image,text) pairs collected from the web using 500k query terms, capped at 20k per query for balance.",
+            "position": {
+              "page": 3
+            },
+            "children": []
+          },
+          {
+            "id": "sec3-3",
+            "label": "2.3 Contrastive Pre-training Objective",
+            "content": "Predict which text belongs to which image in a batch (InfoNCE loss); 4× more efficient than caption generation.",
+            "position": {
+              "page": 4
+            },
+            "children": []
+          },
+          {
+            "id": "sec3-4",
+            "label": "2.4 Model Architectures",
+            "content": "ResNet-50/101/EfficientNet-style scaled ResNets and Vision Transformers for images; 63M-parameter Transformer for text.",
+            "position": {
+              "page": 5
+            },
+            "children": []
+          },
+          {
+            "id": "sec3-5",
+            "label": "2.5 Training Details",
+            "content": "32k batch, 32 epochs, Adam with cosine decay; largest RN50×64 trained 18 days on 592 V100s, ViT-L/14@336px best.",
+            "position": {
+              "page": 5
+            },
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "sec4",
+        "label": "3. Experiments",
+        "content": "Evaluate zero-shot, linear-probe and few-shot transfer on 30+ datasets spanning OCR, action recognition, geo-localization, fine-grained classification.",
+        "position": {
+          "page": 6
+        },
+        "children": [
+          {
+            "id": "sec4-1",
+            "label": "3.1 Zero-shot Transfer",
+            "content": "Natural language class names generate classifiers without training images; CLIP matches supervised ResNet-50 on ImageNet (76.2%).",
+            "position": {
+              "page": 6
+            },
+            "children": [
+              {
+                "id": "sec4-1-1",
+                "label": "3.1.1 Motivation & Definition",
+                "content": "Zero-shot here means generalising to unseen datasets/tasks, not just unseen classes.",
+                "position": {
+                  "page": 6
+                },
+                "children": []
+              },
+              {
+                "id": "sec4-1-2",
+                "label": "3.1.2 Zero-shot Protocol",
+                "content": "Embed dataset class names with text encoder, pick highest cosine similarity with image embedding.",
+                "position": {
+                  "page": 6
+                },
+                "children": []
+              },
+              {
+                "id": "sec4-1-3",
+                "label": "3.1.3 vs Visual N-Grams",
+                "content": "CLIP improves ImageNet zero-shot from 11.5% to 76.2%; large gains on aYahoo and SUN.",
+                "position": {
+                  "page": 7
+                },
+                "children": []
+              },
+              {
+                "id": "sec4-1-4",
+                "label": "3.1.4 Prompt Engineering & Ensembling",
+                "content": "Template \"A photo of a {label}.\" + 80 prompt ensemble adds ~5% ImageNet accuracy almost free.",
+                "position": {
+                  "page": 7
+                },
+                "children": []
+              },
+              {
+                "id": "sec4-1-5",
+                "label": "3.1.5 Performance Analysis",
+                "content": "Zero-shot CLIP beats logistic regression on ResNet-50 features on 16/27 datasets; median data efficiency 5.4 examples/class.",
+                "position": {
+                  "page": 8
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "sec4-2",
+            "label": "3.2 Representation Quality (Linear Probe)",
+            "content": "CLIP features outperform ImageNet-sup features on 20/27 datasets while requiring less compute.",
+            "position": {
+              "page": 9
+            },
+            "children": []
+          },
+          {
+            "id": "sec4-3",
+            "label": "3.3 Robustness to Distribution Shift",
+            "content": "Zero-shot CLIP degrades less than supervised models under ImageNet distribution shifts (ImageNet-A, R, Sketch, etc.).",
+            "position": {
+              "page": 10
+            },
+            "children": []
+          },
+          {
+            "id": "sec4-4",
+            "label": "3.4 Few-shot Learning",
+            "content": "4-shot linear classifier on CLIP features equals zero-shot; 16-shot rivals best public 16-shot models.",
+            "position": {
+              "page": 10
+            },
+            "children": []
+          },
+          {
+            "id": "sec4-5",
+            "label": "3.5 Ablation Studies",
+            "content": "Contrastive objective, dataset size, and prompt ensembling each give large gains; text encoder width less critical.",
+            "position": {
+              "page": 11
+            },
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "sec5",
+        "label": "4. Broader Capabilities",
+        "content": "CLIP exhibits emergent skills during pre-training: OCR, geo-localisation, action recognition, facial emotion, etc.",
+        "position": {
+          "page": 11
+        },
+        "children": []
+      },
+      {
+        "id": "sec6",
+        "label": "5. Comparison with Prior Work",
+        "content": "CLIP zero-shot surpasses previous self-supervised and weakly-supervised models; linear-probe beats Noisy Student EfficientNet-L2.",
+        "position": {
+          "page": 12
+        },
+        "children": []
+      },
+      {
+        "id": "sec7",
+        "label": "6. Limitations",
+        "content": "Struggles on fine-grained, abstract or specialist tasks; inherits social biases and privacy issues from web data.",
+        "position": {
+          "page": 12
+        },
+        "children": []
+      },
+      {
+        "id": "sec8",
+        "label": "7. Ethical & Societal Implications",
+        "content": "Surveillance, bias, environmental cost; release of model weights and code intended to aid transparency and research.",
+        "position": {
+          "page": 13
+        },
+        "children": []
+      },
+      {
+        "id": "sec9",
+        "label": "8. Conclusion & Future Work",
+        "content": "Natural language supervision at scale yields versatile vision models; future directions include improved architectures, data, and bias mitigation.",
+        "position": {
+          "page": 13
+        },
+        "children": []
+      }
+    ]
+  }
+}

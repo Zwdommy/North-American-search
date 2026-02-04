@@ -22,31 +22,37 @@
 
   <main class="main">
     <section class="hero">
-      <h1>AI-Powered Academic Search for AI Research</h1>
-      <p class="tagline">Search by question, get key claims and evidence first—then decide what to read. Built for students and researchers in AI/ML.</p>
+      <div class="hero-glass">
+        <div class="glass-noise" aria-hidden="true"></div>
+        <div class="glass-border" aria-hidden="true"></div>
+        <h1>AI-Powered Academic Search for AI Research</h1>
+        <p class="tagline">Search by question, get key claims and evidence first—then decide what to read. Built for students and researchers in AI/ML.</p>
 
-      <!-- Mode Selector -->
-      <div class="mode-selector">
-        <button class="mode-btn active" data-mode="student" id="mode-student">Student</button>
-        <button class="mode-btn" data-mode="researcher" id="mode-researcher">Researcher</button>
-      </div>
-      <input type="hidden" name="mode" id="mode-input" value="student">
+        <!-- Mode Selector -->
+        <div class="mode-selector">
+          <button class="mode-btn active" data-mode="student" id="mode-student">Student</button>
+          <button class="mode-btn" data-mode="researcher" id="mode-researcher">Researcher</button>
+        </div>
+        <input type="hidden" name="mode" id="mode-input" value="student">
 
-      <form class="search-form" id="search-form" action="results.html" method="get">
-        <span class="icon" aria-hidden="true">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-        </span>
-        <input type="search" name="q" class="search-input" placeholder="e.g. How do transformers work in language models?" required autofocus>
-        <input type="hidden" name="mode" id="search-mode" value="student">
-        <button type="submit" class="search-btn">Search</button>
-      </form>
+        <form class="search-form" id="search-form" action="results.html" method="get">
+          <div class="search-input-wrap">
+            <span class="icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+            </span>
+            <input type="search" name="q" class="search-input" placeholder="e.g. How do transformers work in language models?" required autofocus>
+          </div>
+          <input type="hidden" name="mode" id="search-mode" value="student">
+          <button type="submit" class="search-btn">Search</button>
+        </form>
 
-      <div class="examples">
-        <p>Try an AI research question:</p>
-        <div class="example-chips">
-          <a href="#" class="example-chip" data-q="How do transformers work in language models?">How do transformers work in language models?</a>
-          <a href="#" class="example-chip" data-q="What are the latest advances in multimodal AI?">What are the latest advances in multimodal AI?</a>
-          <a href="#" class="example-chip" data-q="How does reinforcement learning from human feedback work?">How does RLHF work?</a>
+        <div class="examples">
+          <p>Try an AI research question:</p>
+          <div class="example-chips">
+            <a href="#" class="example-chip" data-q="How do transformers work in language models?">How do transformers work in language models?</a>
+            <a href="#" class="example-chip" data-q="What are the latest advances in multimodal AI?">What are the latest advances in multimodal AI?</a>
+            <a href="#" class="example-chip" data-q="How does reinforcement learning from human feedback work?">How does RLHF work?</a>
+          </div>
         </div>
       </div>
     </section>
@@ -88,6 +94,14 @@
         location.href = 'results.html?q=' + encodeURIComponent(q) + '&mode=' + mode;
       });
     });
+
+    // Page entrance animations (no tilt)
+    (function () {
+      // allow CSS to animate in after first paint
+      window.requestAnimationFrame(function () {
+        document.documentElement.classList.add('home-loaded');
+      });
+    })();
   </script>
 </body>
 </html>

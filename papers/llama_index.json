@@ -1,0 +1,250 @@
+{
+  "paperId": "llama",
+  "title": "LLaMA: Open and Efficient Foundation Language Models",
+  "builtAt": "2026-02-04T05:06:55Z",
+  "tree": {
+    "id": "root",
+    "label": "LLaMA: Open and Efficient Foundation Language Models",
+    "content": null,
+    "position": null,
+    "children": [
+      {
+        "id": "sec1",
+        "label": "Abstract",
+        "content": "We introduce LLaMA, a collection of foundation language models ranging from 7B to 65B parameters trained on trillions of tokens using only publicly available datasets. LLaMA-13B outperforms GPT-3 (175B) on most benchmarks; LLaMA-65B is competitive with Chinchilla-70B and PaLM-540B. All models are released to the research community.",
+        "position": {
+          "page": 1
+        },
+        "children": []
+      },
+      {
+        "id": "sec2",
+        "label": "1 Introduction",
+        "content": "Large Language Models (LLMs) demonstrate few-shot abilities when scaled. Recent work shows smaller models trained on more data outperform larger ones for a given compute budget. This paper trains smaller models on more tokens to optimize inference efficiency, yielding LLaMA models (7B–65B) that outperform GPT-3 and rival PaLM/Chinchilla while using only public data.",
+        "position": {
+          "page": 1
+        },
+        "children": []
+      },
+      {
+        "id": "sec3",
+        "label": "2 Approach",
+        "content": "We train transformer models on 1.0–1.4T tokens following Chinchilla scaling laws, using only publicly available data and architectural improvements.",
+        "position": {
+          "page": 2
+        },
+        "children": [
+          {
+            "id": "sec3-1",
+            "label": "2.1 Pre-training Data",
+            "content": "1.4T-token mixture: 67% English CommonCrawl, 15% C4, 4.5% GitHub, 4.5% Wikipedia, 4.5% Books, 2.5% ArXiv, 2% StackExchange; all sources publicly available.",
+            "position": {
+              "page": 2
+            },
+            "children": []
+          },
+          {
+            "id": "sec3-2",
+            "label": "2.2 Architecture",
+            "content": "Transformer with pre-normalization (RMSNorm), SwiGLU activation, rotary positional embeddings (RoPE), and no bias. Hyper-parameters listed for 7B, 13B, 33B, 65B models.",
+            "position": {
+              "page": 3
+            },
+            "children": []
+          },
+          {
+            "id": "sec3-3",
+            "label": "2.3 Optimizer",
+            "content": "AdamW with cosine LR schedule, weight decay 0.1, gradient clipping 1.0, 2k warmup steps; LR and batch size scale with model size.",
+            "position": {
+              "page": 3
+            },
+            "children": []
+          },
+          {
+            "id": "sec3-4",
+            "label": "2.4 Efficient Implementation",
+            "content": "Memory-efficient causal attention (xformers), selective activation checkpointing, manual backward for transformer layers, model & sequence parallelism, overlapping compute/communication; 65B trained on 2048 A100-80GB for ~21 days.",
+            "position": {
+              "page": 3
+            },
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "sec4",
+        "label": "3 Main Results",
+        "content": "Zero- and few-shot evaluation on 20 benchmarks versus GPT-3, Gopher, Chinchilla, PaLM, OPT, GPT-J, GPT-Neo.",
+        "position": {
+          "page": 4
+        },
+        "children": [
+          {
+            "id": "sec4-1",
+            "label": "3.1 Common Sense Reasoning",
+            "content": "Eight benchmarks (BoolQ, PIQA, SIQA, HellaSwag, WinoGrande, ARC-e/c, OpenBookQA). LLaMA-65B beats Chinchilla-70B and PaLM-540B on most tasks; LLaMA-13B surpasses GPT-3 despite 10× fewer parameters.",
+            "position": {
+              "page": 4
+            },
+            "children": []
+          },
+          {
+            "id": "sec4-2",
+            "label": "3.2 Closed-book Question Answering",
+            "content": "NaturalQuestions & TriviaQA exact-match. LLaMA-65B sets new SOTA in 0- and few-shot; LLaMA-13B matches GPT-3 & Chinchilla while runnable on a single V100.",
+            "position": {
+              "page": 4
+            },
+            "children": []
+          },
+          {
+            "id": "sec4-3",
+            "label": "3.3 Reading Comprehension",
+            "content": "RACE-middle & RACE-high accuracy. LLaMA-65B ties PaLM-540B; LLaMA-13B exceeds GPT-3.",
+            "position": {
+              "page": 5
+            },
+            "children": []
+          },
+          {
+            "id": "sec4-4",
+            "label": "3.4 Mathematical Reasoning",
+            "content": "MATH and GSM8k with maj1@k. LLaMA-65B beats Minerva-62B on GSM8k without math-specific fine-tuning.",
+            "position": {
+              "page": 5
+            },
+            "children": []
+          },
+          {
+            "id": "sec4-5",
+            "label": "3.5 Code Generation",
+            "content": "HumanEval & MBPP pass@k. LLaMA-65B outperforms PaLM-62B and LaMDA-137B without code fine-tuning.",
+            "position": {
+              "page": 5
+            },
+            "children": []
+          },
+          {
+            "id": "sec4-6",
+            "label": "3.6 Massive Multitask Language Understanding",
+            "content": "5-shot MMLU accuracy across 57 tasks. LLaMA-65B trails Chinchilla-70B & PaLM-540B by a few points, attributed to smaller book corpus.",
+            "position": {
+              "page": 6
+            },
+            "children": []
+          },
+          {
+            "id": "sec4-7",
+            "label": "3.7 Evolution of Performance During Training",
+            "content": "Performance on QA and common-sense tasks improves steadily with tokens, correlating with training perplexity except for SIQA and WinoGrande.",
+            "position": {
+              "page": 6
+            },
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "sec5",
+        "label": "4 Instruction Finetuning",
+        "content": "Brief fine-tuning on instruction data yields LLaMA-I 65B reaching 68.9% on MMLU, outperforming OPT-IML-30B and Flan-PaLM-62B.",
+        "position": {
+          "page": 7
+        },
+        "children": []
+      },
+      {
+        "id": "sec6",
+        "label": "5 Bias, Toxicity and Misinformation",
+        "content": "Evaluations on RealToxicityPrompts, CrowS-Pairs, WinoGender, and TruthfulQA show LLaMA exhibits measurable toxicity, stereotypical biases, and hallucination, increasing with model size.",
+        "position": {
+          "page": 7
+        },
+        "children": [
+          {
+            "id": "sec6-1",
+            "label": "5.1 RealToxicityPrompts",
+            "content": "Average toxicity scores rise with model size, especially under respectful prompts.",
+            "position": {
+              "page": 8
+            },
+            "children": []
+          },
+          {
+            "id": "sec6-2",
+            "label": "5.2 CrowS-Pairs",
+            "content": "LLaMA-65B shows highest bias in religion, age, and gender versus GPT-3 & OPT-175B.",
+            "position": {
+              "page": 8
+            },
+            "children": []
+          },
+          {
+            "id": "sec6-3",
+            "label": "5.3 WinoGender",
+            "content": "Co-reference accuracy drops on gotcha examples, indicating gender-occupation bias.",
+            "position": {
+              "page": 9
+            },
+            "children": []
+          },
+          {
+            "id": "sec6-4",
+            "label": "5.4 TruthfulQA",
+            "content": "LLaMA models exceed GPT-3 in truthful answers but still hallucinate frequently.",
+            "position": {
+              "page": 9
+            },
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "sec7",
+        "label": "6 Carbon Footprint",
+        "content": "Training LLaMA models consumed ~2,638 MWh, emitting ~1,015 tCO2eq under US-average carbon intensity; detailed breakdown provided per model.",
+        "position": {
+          "page": 9
+        },
+        "children": []
+      },
+      {
+        "id": "sec8",
+        "label": "7 Related Work",
+        "content": "Reviews history from n-gram to neural LMs, transformer scaling, and power-law relationships between model/data size and performance.",
+        "position": {
+          "page": 10
+        },
+        "children": []
+      },
+      {
+        "id": "sec9",
+        "label": "8 Conclusion",
+        "content": "LLaMA models achieve state-of-the-art performance using only public data, democratizing LLM research; future work will scale further and address toxicity/bias.",
+        "position": {
+          "page": 11
+        },
+        "children": []
+      },
+      {
+        "id": "sec10",
+        "label": "Acknowledgements",
+        "content": "Thanks to xformers team, data & training infrastructure supporters, and evaluators.",
+        "position": {
+          "page": 12
+        },
+        "children": []
+      },
+      {
+        "id": "sec11",
+        "label": "References",
+        "content": "Comprehensive bibliography spanning 60+ citations on language modeling, scaling, evaluation, and efficiency.",
+        "position": {
+          "page": 12
+        },
+        "children": []
+      }
+    ]
+  }
+}

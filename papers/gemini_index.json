@@ -1,0 +1,150 @@
+{
+  "paperId": "gemini",
+  "title": "Gemini: A Family of Highly Capable Multimodal Models",
+  "builtAt": "2026-02-04T05:08:01Z",
+  "tree": {
+    "id": "root",
+    "label": "Gemini: A Family of Highly Capable Multimodal Models",
+    "content": null,
+    "position": null,
+    "children": [
+      {
+        "id": "sec1",
+        "label": "Introduction",
+        "content": "Gemini is a new family of multimodal models (Ultra, Pro, Nano) trained jointly on image, audio, video, and text that achieve state-of-the-art results across 30 of 32 benchmarks, including human-expert-level MMLU, and enable cross-modal reasoning.",
+        "position": {
+          "page": 1
+        },
+        "children": []
+      },
+      {
+        "id": "sec2",
+        "label": "Model Architecture",
+        "content": "Transformer-decoder models enhanced for 32k context, native multimodal in/out, variable resolution, and TPU-optimized inference; three sizes tailored for complex tasks (Ultra), scalable serving (Pro), and on-device (Nano).",
+        "position": {
+          "page": 3
+        },
+        "children": []
+      },
+      {
+        "id": "sec3",
+        "label": "Training Infrastructure",
+        "content": "Trained on TPUv4/v5e at unprecedented scale using synchronous data/model parallelism across multi-datacenter SuperPods, with redundant in-memory recovery, deterministic replay for silent-data-corruption mitigation, and 97 % goodput.",
+        "position": {
+          "page": 4
+        },
+        "children": []
+      },
+      {
+        "id": "sec4",
+        "label": "Pre-Training Dataset",
+        "content": "Large multimodal & multilingual corpus of web, books, code, image, audio, video; quality & safety filtered, evaluation data removed, tokenizer trained on full corpus, staged mixture scheduling, smaller models trained on proportionally more tokens.",
+        "position": {
+          "page": 5
+        },
+        "children": []
+      },
+      {
+        "id": "sec5",
+        "label": "Evaluation",
+        "content": "Comprehensive benchmarks covering text, code, and multimodal tasks; Gemini Ultra sets new state-of-the-art in 30/32 benchmarks, Pro offers strong performance at lower cost, Nano delivers best-in-class on-device results.",
+        "position": {
+          "page": 6
+        },
+        "children": [
+          {
+            "id": "sec5-1",
+            "label": "Text Benchmarks",
+            "content": "Ultra exceeds human-expert MMLU (90 %), leads GSM8K, MATH, HumanEval, Natural2Code, BIG-Bench-Hard; Pro competitive with GPT-3.5; both show scaling gains in reasoning, math, summarization, long-context.",
+            "position": {
+              "page": 6
+            },
+            "children": []
+          },
+          {
+            "id": "sec5-2",
+            "label": "Nano On-Device Results",
+            "content": "1.8 B & 3.25 B distilled 4-bit models achieve 45–90 % of Pro’s accuracy on factuality, coding, MATH, MMLU while fitting mobile constraints.",
+            "position": {
+              "page": 8
+            },
+            "children": []
+          },
+          {
+            "id": "sec5-3",
+            "label": "Multilingual Capabilities",
+            "content": "Ultra leads WMT23 translation (74.4 BLEURT), MGSM math (79 %), XLSum summarization vs PaLM-2 & GPT-4; strong low-resource translation (chrF 27 vs 25.3).",
+            "position": {
+              "page": 9
+            },
+            "children": []
+          },
+          {
+            "id": "sec5-4",
+            "label": "Long Context & Factuality",
+            "content": "32 k context fully utilized (98 % synthetic retrieval); post-training halves factual inaccuracies, boosts attribution AIS by 50 %, enables 70 % accurate hedging.",
+            "position": {
+              "page": 10
+            },
+            "children": []
+          },
+          {
+            "id": "sec5-5",
+            "label": "Complex Reasoning Systems",
+            "content": "AlphaCode 2 powered by Gemini Pro solves 43 % of Codeforces problems (vs 25 % prior), ranking in top 15 % of competitors.",
+            "position": {
+              "page": 12
+            },
+            "children": []
+          },
+          {
+            "id": "sec5-6",
+            "label": "Multimodal Evaluation",
+            "content": "Native multimodal training yields state-of-the-art zero-shot performance on image, video, audio tasks without domain-specific heads.",
+            "position": {
+              "page": 13
+            },
+            "children": [
+              {
+                "id": "sec5-6-1",
+                "label": "Image Understanding",
+                "content": "Ultra leads MMMU (+5.6 %), MathVista (+3.1 %), InfographicVQA (+5.2 %), TextVQA, DocVQA, ChartQA, AI2D, VQAv2 vs GPT-4V & prior fine-tuned models.",
+                "position": {
+                  "page": 13
+                },
+                "children": []
+              },
+              {
+                "id": "sec5-6-2",
+                "label": "Video Understanding",
+                "content": "16-frame sampling: Ultra achieves new best on VATEX, YouCook2, NextQA, ActivityNet-QA, Perception Test MCQA.",
+                "position": {
+                  "page": 16
+                },
+                "children": []
+              },
+              {
+                "id": "sec5-6-3",
+                "label": "Image Generation",
+                "content": "Models natively output discrete image tokens, enabling interleaved text+image generation in few-shot prompts without external decoders.",
+                "position": {
+                  "page": 16
+                },
+                "children": []
+              },
+              {
+                "id": "sec5-6-4",
+                "label": "Audio Understanding",
+                "content": "Pro outperforms Whisper & USM on ASR (YouTube 4.9 % WER, FLEURS 7.6 % WER) and speech translation (CoVoST 2 BLEU); Nano-1 also superior except on FLEURS.",
+                "position": {
+                  "page": 18
+                },
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

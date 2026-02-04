@@ -1,0 +1,249 @@
+{
+  "paperId": "gpt3",
+  "title": "Language Models are Few-Shot Learners",
+  "builtAt": "2026-02-04T05:03:46Z",
+  "tree": {
+    "id": "root",
+    "label": "Language Models are Few-Shot Learners",
+    "content": null,
+    "position": null,
+    "children": [
+      {
+        "id": "sec1",
+        "label": "Introduction",
+        "content": "Scaling language models greatly improves task-agnostic few-shot performance, reaching competitiveness with prior fine-tuning approaches.",
+        "position": {
+          "page": 1
+        },
+        "children": [
+          {
+            "id": "sec1-1",
+            "label": "Motivation: limitations of fine-tuning",
+            "content": "Fine-tuning requires thousands of task-specific examples, while humans learn from few examples or simple instructions.",
+            "position": {
+              "page": 3
+            }
+          },
+          {
+            "id": "sec1-2",
+            "label": "Meta-learning via in-context learning",
+            "content": "Language models develop broad skills during pre-training and rapidly adapt at inference time without gradient updates.",
+            "position": {
+              "page": 4
+            }
+          },
+          {
+            "id": "sec1-3",
+            "label": "Hypothesis: scaling enables few-shot learning",
+            "content": "Larger models absorb more knowledge, so in-context learning abilities should improve with scale.",
+            "position": {
+              "page": 5
+            }
+          },
+          {
+            "id": "sec1-4",
+            "label": "GPT-3 overview and key results",
+            "content": "175B-parameter GPT-3 evaluated in zero-, one-, and few-shot settings across 40+ NLP tasks; few-shot sometimes surpasses fine-tuned SOTA.",
+            "position": {
+              "page": 5
+            }
+          }
+        ]
+      },
+      {
+        "id": "sec2",
+        "label": "Approach",
+        "content": "Train GPT-3 with unchanged GPT-2 architecture at 8 sizes; evaluate without fine-tuning under zero-, one-, and few-shot conditions.",
+        "position": {
+          "page": 6
+        },
+        "children": [
+          {
+            "id": "sec2-1",
+            "label": "Model and Architectures",
+            "content": "Same GPT-2 transformer with alternating dense & sparse attention; 8 models from 125M to 175B parameters.",
+            "position": {
+              "page": 8
+            }
+          },
+          {
+            "id": "sec2-2",
+            "label": "Training Dataset",
+            "content": "Filtered Common Crawl + WebText2 + Books1/2 + Wikipedia; 300B tokens sampled with quality weighting.",
+            "position": {
+              "page": 8
+            }
+          },
+          {
+            "id": "sec2-3",
+            "label": "Training Process",
+            "content": "Power-law scaling continues; largest model trained on V100 cluster with model parallelism; 300B tokens total.",
+            "position": {
+              "page": 9
+            }
+          },
+          {
+            "id": "sec2-4",
+            "label": "Evaluation",
+            "content": "K examples (0–100) prepended to each test instance; likelihood-based scoring for MC/binary, beam search for free-form.",
+            "position": {
+              "page": 10
+            }
+          }
+        ]
+      },
+      {
+        "id": "sec3",
+        "label": "Results",
+        "content": "Across 9 task categories, larger models yield smoother scaling; few-shot often nears or beats fine-tuned SOTA.",
+        "position": {
+          "page": 10
+        },
+        "children": [
+          {
+            "id": "sec3-1",
+            "label": "Language Modeling, Cloze, and Completion Tasks",
+            "content": "GPT-3 sets new PTB perplexity SOTA (20.5); few-shot lifts LAMBADA accuracy to 86.4% (+18%).",
+            "position": {
+              "page": 11
+            }
+          },
+          {
+            "id": "sec3-2",
+            "label": "Closed Book Question Answering",
+            "content": "Few-shot GPT-3 reaches 71.2% on TriviaQA, matching open-domain fine-tuned SOTA without retrieval.",
+            "position": {
+              "page": 13
+            }
+          },
+          {
+            "id": "sec3-3",
+            "label": "Translation",
+            "content": "Few-shot GPT-3 outperforms prior unsupervised NMT by +5 BLEU into English; weaker when translating out of English.",
+            "position": {
+              "page": 14
+            }
+          },
+          {
+            "id": "sec3-4",
+            "label": "Winograd-Style Tasks",
+            "content": "Few-shot GPT-3 175B scores 77.7% on adversarial Winogrande, competitive with fine-tuned RoBERTa-large.",
+            "position": {
+              "page": 16
+            }
+          },
+          {
+            "id": "sec3-5",
+            "label": "Common Sense Reasoning",
+            "content": "Performance scales smoothly; few-shot GPT-3 nears but does not surpass specialized fine-tuned models.",
+            "position": {
+              "page": 17
+            }
+          },
+          {
+            "id": "sec3-6",
+            "label": "Reading Comprehension",
+            "content": "Strong gains over zero-shot baselines, yet still below dedicated reading-comp systems on RACE/QuAC.",
+            "position": {
+              "page": 18
+            }
+          },
+          {
+            "id": "sec3-7",
+            "label": "SuperGLUE",
+            "content": "Few-shot GPT-3 ranks near single-task fine-tuned BERT-size models; gap grows with model size.",
+            "position": {
+              "page": 18
+            }
+          },
+          {
+            "id": "sec3-8",
+            "label": "NLI",
+            "content": "ANLI remains difficult; few-shot GPT-3 lags behind specialized NLI models, indicating limitation.",
+            "position": {
+              "page": 20
+            }
+          },
+          {
+            "id": "sec3-9",
+            "label": "Synthetic and Qualitative Tasks",
+            "content": "GPT-3 performs arithmetic, unscrambling, novel-word usage, and generates human-like news articles.",
+            "position": {
+              "page": 21
+            }
+          }
+        ]
+      },
+      {
+        "id": "sec4",
+        "label": "Measuring and Preventing Memorization Of Benchmarks",
+        "content": "Systematic overlap detection reveals minor contamination; results flagged where inflation possible.",
+        "position": {
+          "page": 29
+        },
+        "children": []
+      },
+      {
+        "id": "sec5",
+        "label": "Limitations",
+        "content": "GPT-3 struggles on some NLI/reading-comp datasets, exhibits bias, and has high compute cost.",
+        "position": {
+          "page": 33
+        },
+        "children": []
+      },
+      {
+        "id": "sec6",
+        "label": "Broader Impacts",
+        "content": "Discussion of misuse potential, fairness & bias issues, and energy consumption of large-scale training.",
+        "position": {
+          "page": 34
+        },
+        "children": [
+          {
+            "id": "sec6-1",
+            "label": "Misuse of Language Models",
+            "content": "Risk of generating deceptive or abusive text at low cost; need for mitigation policies.",
+            "position": {
+              "page": 35
+            }
+          },
+          {
+            "id": "sec6-2",
+            "label": "Fairness, Bias, and Representation",
+            "content": "Models reflect training-data biases; evaluation shows demographic and religious skews.",
+            "position": {
+              "page": 36
+            }
+          },
+          {
+            "id": "sec6-3",
+            "label": "Energy Usage",
+            "content": "Training GPT-3 175B consumed thousands of petaflop/s-days; efficiency improvements crucial.",
+            "position": {
+              "page": 39
+            }
+          }
+        ]
+      },
+      {
+        "id": "sec7",
+        "label": "Related Work",
+        "content": "Review of pre-training, few-shot, meta-learning, and scaling literature contextualizing GPT-3.",
+        "position": {
+          "page": 39
+        },
+        "children": []
+      },
+      {
+        "id": "sec8",
+        "label": "Conclusion",
+        "content": "Scaling produces strong few-shot learners; future work should target efficiency, alignment, and safety.",
+        "position": {
+          "page": 40
+        },
+        "children": []
+      }
+    ]
+  }
+}

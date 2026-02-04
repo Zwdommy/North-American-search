@@ -1,0 +1,76 @@
+{
+  "paperId": "alphago",
+  "title": "Mastering the game of Go with deep neural networks and tree search",
+  "builtAt": "2026-02-04T05:05:14Z",
+  "tree": {
+    "id": "root",
+    "label": "Mastering the game of Go with deep neural networks and tree search",
+    "content": null,
+    "position": null,
+    "children": [
+      {
+        "id": "abstract",
+        "label": "Abstract",
+        "content": "AlphaGo uses value and policy networks trained by supervised and reinforcement learning, achieving 99.8% win rate against other Go programs and defeating the human European champion 5–0.",
+        "position": {
+          "page": 3
+        },
+        "children": []
+      },
+      {
+        "id": "figures",
+        "label": "Key Figures",
+        "content": "Six figures illustrate the neural-network pipeline, network accuracy, MCTS process, tournament evaluation, and example moves from the Fan Hui match.",
+        "position": {
+          "page": 4
+        },
+        "children": []
+      },
+      {
+        "id": "references",
+        "label": "References",
+        "content": "62 references cover game AI history, Monte-Carlo tree search, deep learning, and prior Go programs.",
+        "position": {
+          "page": 5
+        },
+        "children": []
+      },
+      {
+        "id": "ack",
+        "label": "Acknowledgements & Author Information",
+        "content": "Thanks to Fan Hui and the DeepMind team; equal contribution by David Silver and Aja Huang; affiliations and contributions listed.",
+        "position": {
+          "page": 12
+        },
+        "children": []
+      },
+      {
+        "id": "extdata",
+        "label": "Extended Data",
+        "content": "Eleven supplementary tables detail match results, network inputs, parameters, and scalability studies.",
+        "position": {
+          "page": 16
+        },
+        "children": []
+      },
+      {
+        "id": "comments",
+        "label": "Reader Comments",
+        "content": "Three public comments discuss MCTS expansion details, GPU scaling jumps, and the historic AI milestone.",
+        "position": {
+          "page": 20
+        },
+        "children": []
+      },
+      {
+        "id": "editorial",
+        "label": "Editorial Summary",
+        "content": "Nature’s summary highlights AlphaGo as the first program to defeat a human professional on a full 19×19 board without handicap.",
+        "position": {
+          "page": 22
+        },
+        "children": []
+      }
+    ]
+  }
+}

@@ -1,0 +1,198 @@
+{
+  "paperId": "stable_diffusion",
+  "title": "High-Resolution Image Synthesis with Latent Diffusion Models",
+  "builtAt": "2026-02-04T05:07:29Z",
+  "tree": {
+    "id": "root",
+    "label": "High-Resolution Image Synthesis with Latent Diffusion Models",
+    "content": null,
+    "position": null,
+    "children": [
+      {
+        "id": "abstract",
+        "label": "Abstract",
+        "content": "Latent diffusion models (LDMs) apply diffusion in a learned low-dimensional space, reducing compute while retaining quality and enabling flexible conditioning.",
+        "position": {
+          "page": 1
+        },
+        "children": []
+      },
+      {
+        "id": "intro",
+        "label": "1. Introduction",
+        "content": "Motivation for moving diffusion from pixel space to a learned latent space to cut training/inference cost and democratize high-resolution synthesis.",
+        "position": {
+          "page": 1
+        },
+        "children": [
+          {
+            "id": "intro-motivation",
+            "label": "Compute bottleneck of pixel-space DMs",
+            "content": "Pixel-based DMs need hundreds of GPU days and sequential steps, limiting access.",
+            "position": {
+              "page": 1,
+              "quote": "training the most powerful DMs often takes hundreds of GPU days"
+            },
+            "children": []
+          },
+          {
+            "id": "intro-idea",
+            "label": "Departure to latent space",
+            "content": "Separate perceptual compression (autoencoder) from semantic generation (DM); reuse encoder for many tasks.",
+            "position": {
+              "page": 2
+            },
+            "children": []
+          },
+          {
+            "id": "intro-contrib",
+            "label": "Contributions",
+            "content": "(i) faithful mild compression, (ii) lower cost, (iii) no trade-off weighting, (iv) convolutional megapixel synthesis, (v) general cross-attention conditioning, (vi) release of pretrained models.",
+            "position": {
+              "page": 2
+            },
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "related",
+        "label": "2. Related Work",
+        "content": "Comparison with GANs, VAEs, ARMs, and prior two-stage diffusion methods; highlight LDM advantages in compression vs. quality.",
+        "position": {
+          "page": 2
+        },
+        "children": []
+      },
+      {
+        "id": "method",
+        "label": "3. Method",
+        "content": "Two-stage approach: perceptual autoencoder + diffusion in latent space with flexible conditioning.",
+        "position": {
+          "page": 3
+        },
+        "children": [
+          {
+            "id": "method-perceptual",
+            "label": "3.1 Perceptual Image Compression",
+            "content": "Autoencoder (E,D) with perceptual + adversarial loss; downsampling factor f=2^m; KL or VQ regularization; mild compression preserves detail.",
+            "position": {
+              "page": 3
+            },
+            "children": []
+          },
+          {
+            "id": "method-ldm",
+            "label": "3.2 Latent Diffusion Models",
+            "content": "Standard DM objective applied to latent z=E(x); UNet backbone exploits 2D structure; efficient sampling via single decoder pass.",
+            "position": {
+              "page": 4
+            },
+            "children": []
+          },
+          {
+            "id": "method-conditioning",
+            "label": "3.3 Conditioning Mechanisms",
+            "content": "Cross-attention layers inject arbitrary modalities (text, layout, etc.) via domain-specific encoder τθ; trained end-to-end.",
+            "position": {
+              "page": 4
+            },
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "exp",
+        "label": "4. Experiments",
+        "content": "Empirical validation on unconditional, class-conditional, text-to-image, super-resolution and inpainting tasks.",
+        "position": {
+          "page": 5
+        },
+        "children": [
+          {
+            "id": "exp-compression",
+            "label": "4.1 Perceptual Compression Trade-offs",
+            "content": "Sweep f ∈{1,2,4,8,16,32}; LDM-4/8 give best FID vs. speed; too little compression wastes compute, too much loses quality.",
+            "position": {
+              "page": 5
+            },
+            "children": []
+          },
+          {
+            "id": "exp-uncond",
+            "label": "4.2 Image Generation with Latent Diffusion",
+            "content": "Unconditional 256² models achieve SOTA FID on CelebA-HQ (5.11) and competitive scores on FFHQ, LSUN-Churches, Bedrooms.",
+            "position": {
+              "page": 5
+            },
+            "children": []
+          },
+          {
+            "id": "exp-cond",
+            "label": "4.3 Conditional Latent Diffusion",
+            "content": "Text-to-image, layout-to-image and class-conditional results.",
+            "position": {
+              "page": 6
+            },
+            "children": [
+              {
+                "id": "exp-text",
+                "label": "4.3.1 Transformer Encoders for LDMs",
+                "content": "1.45B text-to-image model on LAION-400M; with classifier-free guidance reaches FID 12.63 on MS-COCO, rivaling GLIDE/Make-A-Scene with fewer parameters.",
+                "position": {
+                  "page": 6
+                },
+                "children": []
+              },
+              {
+                "id": "exp-megapixel",
+                "label": "4.3.2 Convolutional Sampling Beyond 256²",
+                "content": "Spatial concatenation allows convolutional inference up to ~1024² for semantic synthesis, SR and inpainting without retraining.",
+                "position": {
+                  "page": 7
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "exp-sr",
+            "label": "4.4 Super-Resolution with Latent Diffusion",
+            "content": "LDM-SR trained for 4× upsampling beats SR3 in FID (2.8 vs 5.2) on ImageNet-64→256; user study favors LDM-SR.",
+            "position": {
+              "page": 7
+            },
+            "children": []
+          },
+          {
+            "id": "exp-inpaint",
+            "label": "4.5 Inpainting with Latent Diffusion",
+            "content": "LDM-4 inpainting surpasses LaMa in FID and user preference on Places; big model with 512² fine-tuning sets new SOTA.",
+            "position": {
+              "page": 8
+            },
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "limits",
+        "label": "5. Limitations & Societal Impact",
+        "content": "Sequential sampling slower than GANs; reconstruction error may harm pixel-perfect tasks. Ethical concerns: deepfakes, data privacy, bias amplification.",
+        "position": {
+          "page": 9
+        },
+        "children": []
+      },
+      {
+        "id": "concl",
+        "label": "6. Conclusion",
+        "content": "LDMs deliver efficient, high-quality synthesis across tasks with general conditioning; released models facilitate future research.",
+        "position": {
+          "page": 9
+        },
+        "children": []
+      }
+    ]
+  }
+}

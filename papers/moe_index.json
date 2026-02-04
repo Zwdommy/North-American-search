@@ -1,0 +1,143 @@
+{
+  "paperId": "moe",
+  "title": "GShard: Scaling Giant Models with Conditional Computation and Automatic Sharding",
+  "builtAt": "2026-02-04T05:08:26Z",
+  "tree": {
+    "id": "root",
+    "label": "GShard: Scaling Giant Models with Conditional Computation and Automatic Sharding",
+    "content": null,
+    "position": null,
+    "children": [
+      {
+        "id": "sec1",
+        "label": "Introduction",
+        "content": "Scaling neural networks improves quality but faces practical challenges; GShard enables 600B-parameter sparse Transformer with sub-linear cost.",
+        "position": {
+          "page": 1
+        },
+        "children": [
+          {
+            "id": "sec1-1",
+            "label": "Practical Challenges for Scaling",
+            "content": "Four key obstacles: lack of framework model-parallelism, super-linear cost growth, graph-representation bottlenecks, and complex manual partitioning.",
+            "position": {
+              "page": 2
+            },
+            "children": []
+          },
+          {
+            "id": "sec1-2",
+            "label": "Design Principles for Efficient Training at Scale",
+            "content": "Sub-linear scaling via conditional computation, separation of model and partitioning via annotations, and SPMD compiler for constant-time compilation.",
+            "position": {
+              "page": 3
+            },
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "sec2",
+        "label": "Model",
+        "content": "Transformer scaled by replacing every other FFN with a Position-wise Mixture-of-Experts (MoE) layer using top-2 gating.",
+        "position": {
+          "page": 4
+        },
+        "children": [
+          {
+            "id": "sec2-1",
+            "label": "Sparse Scaling of the Transformer Architecture",
+            "content": "Encoder/decoder stacks alternate dense self-attention with sparse MoE layers; only a sub-network is activated per token, enabling sub-linear growth.",
+            "position": {
+              "page": 4
+            },
+            "children": []
+          },
+          {
+            "id": "sec2-2",
+            "label": "Position-wise Mixture-of-Experts Layer",
+            "content": "Top-2 gating balances load across E experts via capacity limits, local group dispatch, auxiliary loss, and random routing; formalized in Algorithm 1.",
+            "position": {
+              "page": 5
+            },
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "sec3",
+        "label": "Highly Parallel Implementation Using GShard",
+        "content": "Module couples lightweight sharding annotations with XLA SPMD compiler to generate a single program executed on thousands of TPU cores.",
+        "position": {
+          "page": 6
+        },
+        "children": [
+          {
+            "id": "sec3-1",
+            "label": "Position-wise MoE Layer Expressed in Linear Algebra",
+            "content": "Algorithm 2 reformulates MoE as four einsums; complexity analysis shows per-device FLOPS ≈ O(1) and communication O(√D).",
+            "position": {
+              "page": 7
+            },
+            "children": []
+          },
+          {
+            "id": "sec3-2",
+            "label": "GShard Annotation API for Parallel Execution",
+            "content": "Three APIs—replicate, split, shard—annotate tensors; compiler propagates sharding, supports mixed manual/auto partitioning, and frees users from low-level details.",
+            "position": {
+              "page": 8
+            },
+            "children": []
+          },
+          {
+            "id": "sec3-3",
+            "label": "The XLA SPMD Partitioner for GShard",
+            "content": "Transforms annotated HLO graph into one SPMD program; introduces collective primitives (AllReduce, AllToAll, CollectivePermute) and handles uneven partitions & halo exchange.",
+            "position": {
+              "page": 10
+            },
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "sec4",
+        "label": "Massively Multilingual, Massive Machine Translation (M4)",
+        "content": "600B-parameter MoE Transformer trained on 100-language-to-English data achieves superior BLEU with 4-day training on 2048 TPU v3 cores.",
+        "position": {
+          "page": 14
+        },
+        "children": [
+          {
+            "id": "sec4-1",
+            "label": "Multilingual Translation",
+            "content": "Single model leverages positive transfer for low-resource languages while scaling capacity with sparsely-gated experts to avoid high-resource bottlenecks.",
+            "position": {
+              "page": 14
+            },
+            "children": []
+          },
+          {
+            "id": "sec4-2",
+            "label": "Dataset and Baselines",
+            "content": "25B-sentence web-crawled corpus; baselines are 100 individual bilingual models and a 96-layer dense GPipe Transformer.",
+            "position": {
+              "page": 15
+            },
+            "children": []
+          },
+          {
+            "id": "sec4-3",
+            "label": "Sparsely-Gated MoE Transformer: Model and Training",
+            "content": "Details of training regime, expert scaling, and convergence behavior (text truncated in source).",
+            "position": {
+              "page": 15
+            },
+            "children": []
+          }
+        ]
+      }
+    ]
+  }
+}

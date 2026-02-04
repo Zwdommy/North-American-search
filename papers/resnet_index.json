@@ -1,0 +1,188 @@
+{
+  "paperId": "resnet",
+  "title": "Deep Residual Learning for Image Recognition",
+  "builtAt": "2026-02-04T05:04:57Z",
+  "tree": {
+    "id": "root",
+    "label": "Deep Residual Learning for Image Recognition",
+    "content": null,
+    "position": null,
+    "children": [
+      {
+        "id": "abstract",
+        "label": "Abstract",
+        "content": "Introduces residual learning to enable training of substantially deeper networks; 152-layer ResNet achieves 3.57% ImageNet test error and wins ILSVRC 2015.",
+        "position": {
+          "page": 1
+        },
+        "children": []
+      },
+      {
+        "id": "intro",
+        "label": "1. Introduction",
+        "content": "Motivates the degradation problem: deeper plain networks exhibit higher training error; proposes residual learning with identity shortcuts to ease optimization.",
+        "position": {
+          "page": 1
+        },
+        "children": [
+          {
+            "id": "intro-degradation",
+            "label": "1.1 Degradation Problem",
+            "content": "Adding layers to a suitable depth increases training error, verified on CIFAR-10 (Fig. 1) and ImageNet.",
+            "position": {
+              "page": 1
+            },
+            "children": []
+          },
+          {
+            "id": "intro-residual",
+            "label": "1.2 Residual Learning Idea",
+            "content": "Instead of fitting H(x), layers fit residual F(x)=H(x)−x realized by shortcut connections; no extra parameters or complexity.",
+            "position": {
+              "page": 2
+            },
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "related",
+        "label": "2. Related Work",
+        "content": "Reviews residual representations (VLAD, Fisher Vector) and prior shortcut-connection practices including highway networks.",
+        "position": {
+          "page": 2
+        },
+        "children": []
+      },
+      {
+        "id": "method",
+        "label": "3. Deep Residual Learning",
+        "content": "Details the residual formulation, network architectures, and implementation.",
+        "position": {
+          "page": 3
+        },
+        "children": [
+          {
+            "id": "residual-formulation",
+            "label": "3.1 Residual Learning Formulation",
+            "content": "Layers approximate F(x)=H(x)−x; identity mappings provide preconditioning for optimization.",
+            "position": {
+              "page": 3
+            },
+            "children": []
+          },
+          {
+            "id": "shortcut-design",
+            "label": "3.2 Identity Mapping by Shortcuts",
+            "content": "y=F(x,{Wi})+x; optional linear projection Ws for dimension matching; no extra parameters for identity shortcuts.",
+            "position": {
+              "page": 3
+            },
+            "children": []
+          },
+          {
+            "id": "architectures",
+            "label": "3.3 Network Architectures",
+            "content": "Plain and residual variants for ImageNet: 34-layer baseline vs. ResNet-34; bottleneck blocks for 50/101/152-layer ResNets.",
+            "position": {
+              "page": 4
+            },
+            "children": []
+          },
+          {
+            "id": "implementation",
+            "label": "3.4 Implementation Details",
+            "content": "Training: SGD, batch normalization, scale augmentation, 60×10⁴ iterations; testing: 10-crop and multi-scale fully-convolutional averaging.",
+            "position": {
+              "page": 4
+            },
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "experiments",
+        "label": "4. Experiments",
+        "content": "Empirical evaluation on ImageNet, CIFAR-10, and detection datasets.",
+        "position": {
+          "page": 5
+        },
+        "children": [
+          {
+            "id": "imagenet-cls",
+            "label": "4.1 ImageNet Classification",
+            "content": "ResNets outperform plain nets; 152-layer ensemble achieves 3.57% top-5 test error (ILSVRC 2015 1st place).",
+            "position": {
+              "page": 5
+            },
+            "children": [
+              {
+                "id": "plain-vs-residual",
+                "label": "4.1.1 Plain vs Residual Comparisons",
+                "content": "34-layer ResNet reduces top-1 error by 3.5% vs plain-34; deeper ResNets show consistent gains without degradation.",
+                "position": {
+                  "page": 5
+                },
+                "children": []
+              },
+              {
+                "id": "shortcut-ablation",
+                "label": "4.1.2 Shortcut Options A/B/C",
+                "content": "Identity and projection shortcuts both effective; identity preferred for efficiency.",
+                "position": {
+                  "page": 6
+                },
+                "children": []
+              },
+              {
+                "id": "bottleneck-depth",
+                "label": "4.1.3 Bottleneck Depth Study",
+                "content": "50/101/152-layer ResNets yield further accuracy gains; 152-layer single model sets new state-of-the-art.",
+                "position": {
+                  "page": 6
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "cifar10",
+            "label": "4.2 CIFAR-10 and Analysis",
+            "content": "ResNets enable training up to 110 layers (6.43% error) and 1202 layers; residual responses are smaller than plain nets.",
+            "position": {
+              "page": 7
+            },
+            "children": []
+          },
+          {
+            "id": "detection",
+            "label": "4.3 Object Detection on PASCAL and MS COCO",
+            "content": "Replacing VGG-16 with ResNet-101 in Faster R-CNN boosts mAP by 3–6% on VOC and 28% relative on COCO.",
+            "position": {
+              "page": 8
+            },
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "appendix",
+        "label": "Appendix",
+        "content": "Details of detection pipelines and competition-winning enhancements (box refinement, global context, multi-scale testing).",
+        "position": {
+          "page": 10
+        },
+        "children": []
+      },
+      {
+        "id": "refs",
+        "label": "References",
+        "content": "Bibliography of 50 cited works.",
+        "position": {
+          "page": 9
+        },
+        "children": []
+      }
+    ]
+  }
+}

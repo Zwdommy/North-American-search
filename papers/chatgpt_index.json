@@ -1,0 +1,192 @@
+{
+  "paperId": "chatgpt",
+  "title": "Training language models to follow instructions with human feedback",
+  "builtAt": "2026-02-04T05:04:32Z",
+  "tree": {
+    "id": "root",
+    "label": "Training language models to follow instructions with human feedback",
+    "content": null,
+    "position": null,
+    "children": [
+      {
+        "id": "sec1",
+        "label": "Abstract",
+        "content": "Fine-tuning GPT-3 with human feedback produces InstructGPT, which is preferred to 175B GPT-3 despite 100× fewer parameters, improves truthfulness, reduces toxicity, and incurs minimal performance regressions.",
+        "position": {
+          "page": 1
+        },
+        "children": []
+      },
+      {
+        "id": "sec2",
+        "label": "1 Introduction",
+        "content": "Large LMs are misaligned with user intent; we align them via supervised + RL fine-tuning on human demonstrations and preferences, creating InstructGPT.",
+        "position": {
+          "page": 1
+        },
+        "children": [
+          {
+            "id": "sec2-1",
+            "label": "1.1 Misalignment problem",
+            "content": "LMs trained on next-token prediction exhibit untruthful, biased, or unhelpful behavior.",
+            "position": {
+              "page": 1
+            },
+            "children": []
+          },
+          {
+            "id": "sec2-2",
+            "label": "1.2 Alignment goal",
+            "content": "Models should be helpful, honest, and harmless.",
+            "position": {
+              "page": 2
+            },
+            "children": []
+          },
+          {
+            "id": "sec2-3",
+            "label": "1.3 RLHF pipeline overview",
+            "content": "Three steps: (1) supervised fine-tuning on demonstrations, (2) train reward model on human comparisons, (3) PPO optimization against the reward model.",
+            "position": {
+              "page": 2
+            },
+            "children": []
+          },
+          {
+            "id": "sec2-4",
+            "label": "1.4 Key findings preview",
+            "content": "InstructGPT preferred over GPT-3, more truthful, less toxic, minimal alignment tax.",
+            "position": {
+              "page": 3
+            },
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "sec3",
+        "label": "2 Related Work",
+        "content": "Covers alignment via RLHF, instruction-following datasets, harm evaluation, and behavior-mitigation methods.",
+        "position": {
+          "page": 4
+        },
+        "children": []
+      },
+      {
+        "id": "sec4",
+        "label": "3 Methods and Experimental Details",
+        "content": "Detailed pipeline, datasets, tasks, human data collection, model training, and evaluation protocol.",
+        "position": {
+          "page": 6
+        },
+        "children": [
+          {
+            "id": "sec4-1",
+            "label": "3.1 High-level methodology",
+            "content": "Three-step RLHF pipeline: SFT → RM → PPO.",
+            "position": {
+              "page": 6
+            },
+            "children": []
+          },
+          {
+            "id": "sec4-2",
+            "label": "3.2 Dataset composition",
+            "content": "API prompts (filtered for PII) plus labeler-written prompts; split into SFT (13k), RM (33k), PPO (31k) datasets.",
+            "position": {
+              "page": 6
+            },
+            "children": []
+          },
+          {
+            "id": "sec4-3",
+            "label": "3.3 Task diversity",
+            "content": "96 % English; spans generation, QA, dialog, summarization, extraction, etc.",
+            "position": {
+              "page": 7
+            },
+            "children": []
+          },
+          {
+            "id": "sec4-4",
+            "label": "3.4 Human data collection",
+            "content": "40 contractors screened for sensitivity; high inter-labeler agreement (~73 %).",
+            "position": {
+              "page": 7
+            },
+            "children": []
+          },
+          {
+            "id": "sec4-5",
+            "label": "3.5 Model training",
+            "content": "SFT 16 epochs, 6B RM, PPO with KL penalty; PPO-ptx mixes pretraining gradients to reduce alignment tax.",
+            "position": {
+              "page": 8
+            },
+            "children": []
+          },
+          {
+            "id": "sec4-6",
+            "label": "3.6 Evaluation framework",
+            "content": "Alignment defined as helpful, honest, harmless; evaluated via labeler preference, TruthfulQA, toxicity benchmarks, and public NLP datasets.",
+            "position": {
+              "page": 9
+            },
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "sec5",
+        "label": "4 Results",
+        "content": "Quantitative and qualitative outcomes across API prompts, public datasets, and generalization probes.",
+        "position": {
+          "page": 10
+        },
+        "children": [
+          {
+            "id": "sec5-1",
+            "label": "4.1 API distribution results",
+            "content": "InstructGPT preferred 85 % vs GPT-3; better follows constraints, fewer hallucinations, generalizes to held-out labelers.",
+            "position": {
+              "page": 10
+            },
+            "children": []
+          },
+          {
+            "id": "sec5-2",
+            "label": "4.2 Public NLP datasets",
+            "content": "2× more truthful on TruthfulQA, 25 % less toxic on RealToxicityPrompts, no bias reduction; PPO-ptx mitigates alignment tax.",
+            "position": {
+              "page": 12
+            },
+            "children": []
+          },
+          {
+            "id": "sec5-3",
+            "label": "4.3 Qualitative generalization",
+            "content": "InstructGPT follows code-summarization, French instructions, etc., despite rarity in fine-tuning data.",
+            "position": {
+              "page": 15
+            },
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "sec6",
+        "label": "5 Discussion",
+        "content": "Implications for alignment research, what is being aligned to, limitations, open questions, and broader impacts.",
+        "position": null,
+        "children": []
+      },
+      {
+        "id": "sec7",
+        "label": "References & Appendices",
+        "content": null,
+        "position": null,
+        "children": []
+      }
+    ]
+  }
+}

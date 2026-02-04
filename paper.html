@@ -27,6 +27,7 @@
         <p class="authors" id="paper-authors">—</p>
         <p class="venue" id="paper-venue">—</p>
         <div class="links">
+          <a href="#semantic-tree-section" id="link-tree" class="link-tree">Thought tree</a>
           <a href="#" id="link-pdf" target="_blank">PDF</a>
           <a href="#" id="link-doi" target="_blank">DOI</a>
         </div>
@@ -37,6 +38,24 @@
       <div class="wrap">
         <h2>Abstract</h2>
         <p id="paper-abstract">Loading...</p>
+      </div>
+    </section>
+
+    <section class="detail-section semantic-tree-section" id="semantic-tree-section" style="padding-top: 0;">
+      <div class="wrap">
+        <h2><span class="badge">Semantic index</span> Thought tree</h2>
+        <p class="semantic-tree-desc" id="semantic-tree-desc">The paper is broken down into a logical tree; each node links to a page in the PDF so you can trace evidence to the source.</p>
+        <p class="semantic-tree-highlight-hint" id="semantic-tree-highlight-hint" style="display: none;"></p>
+        <div class="semantic-view-mode">
+          <button type="button" class="view-mode-btn active" data-mode="tree" id="view-mode-tree">Tree</button>
+          <button type="button" class="view-mode-btn" data-mode="network" id="view-mode-network">Network</button>
+        </div>
+        <div id="semantic-tree-root" class="semantic-tree"></div>
+        <div id="semantic-network-container" class="semantic-network-container" style="display: none;">
+          <p class="semantic-network-hint">Drag to pan · Scroll to zoom · Click a node to open PDF page</p>
+          <div id="semantic-network-graph" class="semantic-network-graph"></div>
+        </div>
+        <p id="semantic-tree-empty" class="semantic-tree-empty" style="display: none;">No semantic index yet. From the project root run <code>pip install -r scripts/requirements.txt</code>, then <code>set MOONSHOT_API_KEY=your_key &amp;&amp; python scripts/build_semantic_index.py</code> to generate.</p>
       </div>
     </section>
 
@@ -59,12 +78,20 @@
     <p>Thread — AI-powered academic search for AI/ML research.</p>
   </footer>
 
+  <script src="https://unpkg.com/d3@7.8.5/dist/d3.min.js"></script>
+  <script src="assets/js/semantic-network.js"></script>
   <script>
     (function() {
       var params = new URLSearchParams(location.search);
       var id = params.get('id');
       var q = params.get('q') || '';
       var mode = params.get('mode') || 'student';
+      var pageParam = params.get('page');
+      var highlightPage = (pageParam !== null && pageParam !== '') ? parseInt(pageParam, 10) : null;
+      if (isNaN(highlightPage)) highlightPage = null;
+      
+      // Debug: log URL params
+      console.log('[Paper Page] URL params - id:', id, 'q:', q, 'mode:', mode, 'page:', pageParam, 'parsed highlightPage:', highlightPage);
       var back = document.getElementById('back-link');
       
       if (q) {
@@ -146,6 +173,158 @@
           // Update title
           var title = paper.title || 'Untitled';
           document.title = (title.length > 50 ? title.slice(0, 47) + '…' : title) + ' — Thread';
+
+          // Semantic index: thought tree (highlightPage: from key-claim link, highlight nodes on that page)
+          function renderSemanticNode(container, node, pdfHref, isRoot, highlightPageNum) {
+            if (!node) return;
+            var label = node.label || node.id || '—';
+            var content = node.content;
+            var position = node.position;
+            var children = node.children;
+            var hasChildren = Array.isArray(children) && children.length > 0;
+            var isHighlight = highlightPageNum != null && position && typeof position.page === 'number' && position.page === highlightPageNum;
+            
+            // Debug: log when highlighting or when checking
+            if (highlightPageNum != null) {
+              if (isHighlight) {
+                console.log('[Semantic Tree] ✓ Highlighting node:', label, 'at page', position.page, 'matches highlightPage', highlightPageNum);
+              } else if (position && typeof position.page === 'number') {
+                console.log('[Semantic Tree] ✗ Node:', label, 'at page', position.page, 'does NOT match highlightPage', highlightPageNum);
+              }
+            }
+
+            var wrap = document.createElement('div');
+            wrap.className = 'semantic-tree-node' + (isRoot ? ' semantic-tree-node-root' : '') + (hasChildren ? ' has-children' : '') + (isHighlight ? ' semantic-tree-node-highlight' : '');
+
+            var head = document.createElement('div');
+            head.className = 'semantic-tree-node-head';
+            var toggle = document.createElement('span');
+            toggle.className = 'semantic-tree-toggle';
+            toggle.setAttribute('aria-label', hasChildren ? 'Expand/Collapse' : '');
+            if (hasChildren) {
+              toggle.textContent = '▶';
+              toggle.addEventListener('click', function() {
+                var open = childWrap.classList.toggle('open');
+                toggle.textContent = open ? '▼' : '▶';
+              });
+            } else {
+              toggle.classList.add('leaf');
+            }
+            head.appendChild(toggle);
+
+            var labelSpan = document.createElement('span');
+            labelSpan.className = 'semantic-tree-label';
+            labelSpan.textContent = label;
+            head.appendChild(labelSpan);
+
+            if (position && typeof position.page === 'number') {
+              var pageLink = document.createElement('a');
+              pageLink.className = 'semantic-tree-page-link';
+              pageLink.href = pdfHref + '#page=' + position.page;
+              pageLink.target = '_blank';
+              pageLink.rel = 'noopener';
+              pageLink.textContent = 'Page ' + position.page;
+              head.appendChild(pageLink);
+            }
+            wrap.appendChild(head);
+
+            if (content && content.trim()) {
+              var contentEl = document.createElement('div');
+              contentEl.className = 'semantic-tree-content';
+              contentEl.textContent = content.trim();
+              wrap.appendChild(contentEl);
+            }
+
+            var childWrap = document.createElement('div');
+            childWrap.className = 'semantic-tree-children';
+            if (hasChildren) {
+              childWrap.classList.add('open');
+              toggle.textContent = '▼';
+              children.forEach(function(child) {
+                renderSemanticNode(childWrap, child, pdfHref, false, highlightPageNum);
+              });
+            }
+            wrap.appendChild(childWrap);
+            container.appendChild(wrap);
+          }
+
+          var treeRoot = document.getElementById('semantic-tree-root');
+          var treeEmpty = document.getElementById('semantic-tree-empty');
+          fetch('papers/' + encodeURIComponent(id) + '_index.json')
+            .then(function(res) {
+              if (!res.ok) {
+                treeRoot.style.display = 'none';
+                treeEmpty.style.display = 'block';
+                return null;
+              }
+              return res.json();
+            })
+            .then(function(indexData) {
+              if (!indexData || !indexData.tree) {
+                treeRoot.style.display = 'none';
+                treeEmpty.style.display = 'block';
+                return;
+              }
+              treeEmpty.style.display = 'none';
+              treeRoot.style.display = 'block';
+              treeRoot.innerHTML = '';
+              var pdfHref = paper.file_path || '#';
+              
+              // Debug: log highlightPage value
+              console.log('[Semantic Tree] highlightPage from URL:', highlightPage);
+              
+              renderSemanticNode(treeRoot, indexData.tree, pdfHref, true, highlightPage);
+
+              var hintEl = document.getElementById('semantic-tree-highlight-hint');
+              if (hintEl) {
+                if (highlightPage != null) {
+                  var highlightedCount = treeRoot.querySelectorAll('.semantic-tree-node-highlight').length;
+                  hintEl.innerHTML = '<strong>🔍 Highlighting nodes for Page ' + highlightPage + '</strong> (from key claim). Found ' + highlightedCount + ' node' + (highlightedCount !== 1 ? 's' : '') + '.';
+                  hintEl.style.display = 'block';
+                } else {
+                  hintEl.style.display = 'none';
+                }
+              }
+
+              var highlightedNodes = treeRoot.querySelectorAll('.semantic-tree-node-highlight');
+              console.log('[Semantic Tree] Found highlighted nodes:', highlightedNodes.length);
+              if (highlightedNodes.length > 0) {
+                console.log('[Semantic Tree] First highlighted node:', highlightedNodes[0]);
+                highlightedNodes[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
+              } else if (highlightPage != null) {
+                console.warn('[Semantic Tree] highlightPage is', highlightPage, 'but no nodes found with that page number');
+              }
+
+              var networkContainer = document.getElementById('semantic-network-container');
+              var viewModeTree = document.getElementById('view-mode-tree');
+              var viewModeNetwork = document.getElementById('view-mode-network');
+              var semanticNetworkInstance = null;
+
+              function setViewMode(mode) {
+                if (mode === 'tree') {
+                  treeRoot.style.display = 'block';
+                  networkContainer.style.display = 'none';
+                  if (viewModeTree) viewModeTree.classList.add('active');
+                  if (viewModeNetwork) viewModeNetwork.classList.remove('active');
+                } else {
+                  treeRoot.style.display = 'none';
+                  networkContainer.style.display = 'block';
+                  if (viewModeTree) viewModeTree.classList.remove('active');
+                  if (viewModeNetwork) viewModeNetwork.classList.add('active');
+                  if (!semanticNetworkInstance && typeof initSemanticNetwork === 'function') {
+                    var graphEl = document.getElementById('semantic-network-graph');
+                    if (graphEl) semanticNetworkInstance = initSemanticNetwork(graphEl, indexData.tree, pdfHref, highlightPage);
+                  }
+                }
+              }
+
+              if (viewModeTree) viewModeTree.addEventListener('click', function () { setViewMode('tree'); });
+              if (viewModeNetwork) viewModeNetwork.addEventListener('click', function () { setViewMode('network'); });
+            })
+            .catch(function() {
+              treeRoot.style.display = 'none';
+              treeEmpty.style.display = 'block';
+            });
         })
         .catch(err => {
           console.error('Failed to load paper:', err);

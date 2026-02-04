@@ -1,0 +1,205 @@
+{
+  "paperId": "vision_transformer",
+  "title": "An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale",
+  "builtAt": "2026-02-04T05:04:12Z",
+  "tree": {
+    "id": "root",
+    "label": "An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale",
+    "content": null,
+    "position": null,
+    "children": [
+      {
+        "id": "sec1",
+        "label": "Abstract",
+        "content": "A pure Transformer applied directly to sequences of image patches attains excellent classification results when pre-trained at scale, outperforming CNNs while requiring less compute.",
+        "position": {
+          "page": 1
+        },
+        "children": []
+      },
+      {
+        "id": "sec2",
+        "label": "Introduction",
+        "content": "Transformers dominate NLP; in vision they are usually combined with CNNs. We show that a standard Transformer operating on image patches rivals or beats state-of-the-art CNNs when pre-trained on large datasets.",
+        "position": {
+          "page": 1
+        },
+        "children": [
+          {
+            "id": "sec2-1",
+            "label": "Motivation",
+            "content": "CNNs still rule vision; attention either augments or replaces parts of CNNs. Large-scale NLP pre-training inspires us to apply vanilla Transformers directly to images.",
+            "position": {
+              "page": 1
+            },
+            "children": []
+          },
+          {
+            "id": "sec2-2",
+            "label": "Key finding",
+            "content": "Without strong regularization, ViT underperforms ResNets on mid-sized data, but surpasses them when pre-trained on 14M–300M images.",
+            "position": {
+              "page": 2
+            },
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "sec3",
+        "label": "Related Work",
+        "content": "Survey of Transformer adaptations in vision: local/sparse attention, CNN-attention hybrids, and large-scale pre-training studies.",
+        "position": {
+          "page": 2
+        },
+        "children": []
+      },
+      {
+        "id": "sec4",
+        "label": "Method",
+        "content": "Vision Transformer (ViT) splits an image into fixed-size patches, linearly embeds them, adds position embeddings, and processes the sequence with a standard Transformer encoder.",
+        "position": {
+          "page": 3
+        },
+        "children": [
+          {
+            "id": "sec4-1",
+            "label": "Vision Transformer (ViT) architecture",
+            "content": "Patches → linear projection → plus class token & 1-D pos embeddings → L Transformer layers → MLP head.",
+            "position": {
+              "page": 3
+            },
+            "children": []
+          },
+          {
+            "id": "sec4-2",
+            "label": "Inductive bias discussion",
+            "content": "ViT encodes far less 2D locality/equivariance than CNNs; spatial relations must be learned.",
+            "position": {
+              "page": 4
+            },
+            "children": []
+          },
+          {
+            "id": "sec4-3",
+            "label": "Hybrid CNN+Transformer variant",
+            "content": "Input sequence can instead come from CNN feature maps; patch size 1×1 special case.",
+            "position": {
+              "page": 4
+            },
+            "children": []
+          },
+          {
+            "id": "sec4-4",
+            "label": "Fine-tuning & higher resolution",
+            "content": "Pre-trained ViT is fine-tuned at higher resolution by 2-D interpolation of learned position embeddings.",
+            "position": {
+              "page": 4
+            },
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "sec5",
+        "label": "Experiments",
+        "content": "ViT is pre-trained on ImageNet, ImageNet-21k, or JFT-300M and evaluated on ImageNet, CIFAR, Pets, Flowers, VTAB, etc.",
+        "position": {
+          "page": 4
+        },
+        "children": [
+          {
+            "id": "sec5-1",
+            "label": "Setup",
+            "content": "Model variants (Base/Large/Huge), patch sizes, ResNet baselines (BiT), training/fine-tuning protocols, and metrics.",
+            "position": {
+              "page": 4
+            },
+            "children": []
+          },
+          {
+            "id": "sec5-2",
+            "label": "Comparison to state of the art",
+            "content": "ViT-H/14 and ViT-L/16 outperform BiT-L and Noisy Student on most benchmarks while using 2–18× fewer TPUv3-core-days.",
+            "position": {
+              "page": 5
+            },
+            "children": []
+          },
+          {
+            "id": "sec5-3",
+            "label": "Pre-training data requirements",
+            "content": "ViT needs large pre-training data: performance scales with dataset size; on small data ResNets are superior due to inductive bias.",
+            "position": {
+              "page": 6
+            },
+            "children": []
+          },
+          {
+            "id": "sec5-4",
+            "label": "Scaling study",
+            "content": "Controlled compute comparison: ViT dominates ResNets on performance/FLOP; hybrids help only at small scales.",
+            "position": {
+              "page": 7
+            },
+            "children": []
+          },
+          {
+            "id": "sec5-5",
+            "label": "Inspecting Vision Transformer",
+            "content": "Visualization shows learned patch embeddings, 2D structure in position embeddings, and global/local attention distances.",
+            "position": {
+              "page": 8
+            },
+            "children": []
+          },
+          {
+            "id": "sec5-6",
+            "label": "Self-supervision",
+            "content": "Masked-patch pre-training improves ViT-B/16 by 2% on ImageNet, still 4% below supervised pre-training.",
+            "position": {
+              "page": 8
+            },
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "sec6",
+        "label": "Conclusion",
+        "content": "A vanilla Transformer can excel at image classification when pre-trained at scale, opening avenues for detection, segmentation, and better self-supervised methods.",
+        "position": {
+          "page": 9
+        },
+        "children": []
+      },
+      {
+        "id": "sec7",
+        "label": "Acknowledgements",
+        "content": "Thanks to Google colleagues for infrastructure and discussions.",
+        "position": {
+          "page": 9
+        },
+        "children": []
+      },
+      {
+        "id": "sec8",
+        "label": "References",
+        "content": "Bibliography omitted for brevity.",
+        "position": {
+          "page": 9
+        },
+        "children": []
+      },
+      {
+        "id": "sec9",
+        "label": "Appendix",
+        "content": "Multi-head self-attention equations, detailed training & fine-tuning hyper-parameters, additional tables, and visualizations.",
+        "position": {
+          "page": 12
+        },
+        "children": []
+      }
+    ]
+  }
+}

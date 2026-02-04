@@ -1,0 +1,4 @@
+# 强语义索引构建脚本依赖
+# 使用: pip install -r scripts/requirements.txt
+pymupdf>=1.23.0
+requests>=2.28.0

@@ -1,0 +1,230 @@
+{
+  "paperId": "diffusion",
+  "title": "Denoising Diffusion Probabilistic Models",
+  "builtAt": "2026-02-04T05:06:15Z",
+  "tree": {
+    "id": "root",
+    "label": "Denoising Diffusion Probabilistic Models",
+    "content": null,
+    "position": null,
+    "children": [
+      {
+        "id": "abstract",
+        "label": "Abstract",
+        "content": "High-quality image synthesis via diffusion probabilistic models linked to denoising score matching; achieves IS 9.46 and FID 3.17 on unconditional CIFAR10 and comparable quality to ProgressiveGAN on 256×256 LSUN.",
+        "position": {
+          "page": 1
+        },
+        "children": []
+      },
+      {
+        "id": "intro",
+        "label": "1 Introduction",
+        "content": "Diffusion models, though simple to define and train, had not previously demonstrated high-quality generation; we show they can outperform GANs and others, while also admitting a progressive lossy compression interpretation.",
+        "position": {
+          "page": 1
+        },
+        "children": []
+      },
+      {
+        "id": "background",
+        "label": "2 Background",
+        "content": "Defines diffusion models as parameterized Markov chains trained by variational inference to reverse a fixed Gaussian noising process; derives tractable variational bound and closed-form posteriors.",
+        "position": {
+          "page": 2
+        },
+        "children": [
+          {
+            "id": "bg-model",
+            "label": "2.1 Model definition",
+            "content": "Joint distribution pθ(x0:T ) is reverse Markov chain with learned Gaussian transitions; forward process q(x1:T |x0) is fixed noising schedule.",
+            "position": {
+              "page": 2
+            },
+            "children": []
+          },
+          {
+            "id": "bg-training",
+            "label": "2.2 Training objective",
+            "content": "Variational bound L rewritten as sum of KL terms between Gaussians enabling Rao-Blackwellized training.",
+            "position": {
+              "page": 3
+            },
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "ddpm",
+        "label": "3 Diffusion models and denoising autoencoders",
+        "content": "Establishes connection between diffusion models and denoising score matching, leading to simplified weighted objective and ε-prediction parameterization.",
+        "position": {
+          "page": 3
+        },
+        "children": [
+          {
+            "id": "forward",
+            "label": "3.1 Forward process and LT",
+            "content": "Forward variances βt fixed as constants; LT constant and ignored during training.",
+            "position": {
+              "page": 3
+            },
+            "children": []
+          },
+          {
+            "id": "reverse",
+            "label": "3.2 Reverse process and L1:T−1",
+            "content": "Propose ε-prediction parameterization that simplifies variational bound to unweighted MSE resembling multi-scale denoising score matching; links sampling to Langevin dynamics.",
+            "position": {
+              "page": 3
+            },
+            "children": []
+          },
+          {
+            "id": "decoder",
+            "label": "3.3 Data scaling, reverse-process decoder and L0",
+            "content": "Images scaled to [−1,1]; discrete decoder integrates Gaussian over bins to yield exact log-likelihood for integer data.",
+            "position": {
+              "page": 4
+            },
+            "children": []
+          },
+          {
+            "id": "simple",
+            "label": "3.4 Simplified training objective",
+            "content": "Unweighted Lsimple(θ)=Et,x0,ε∥ε−εθ(√ᾱtx0+√1−ᾱtε,t)∥2 improves sample quality by down-weighting low-noise terms.",
+            "position": {
+              "page": 4
+            },
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "exp",
+        "label": "4 Experiments",
+        "content": "Evaluations on CIFAR10 and 256×256 LSUN/Bedroom/Church/Cat with T=1000 linear β schedule; U-Net architecture details.",
+        "position": {
+          "page": 5
+        },
+        "children": [
+          {
+            "id": "quality",
+            "label": "4.1 Sample quality",
+            "content": "Unconditional CIFAR10 FID 3.17 (IS 9.46) surpasses most prior models; LSUN samples comparable to ProgressiveGAN.",
+            "position": {
+              "page": 5
+            },
+            "children": []
+          },
+          {
+            "id": "ablate",
+            "label": "4.2 Parameterization ablation",
+            "content": "ε-prediction with Lsimple outperforms predicting ˜µ or learned diagonal Σ; fixed isotropic variances give best stability.",
+            "position": {
+              "page": 6
+            },
+            "children": []
+          },
+          {
+            "id": "coding",
+            "label": "4.3 Progressive coding",
+            "content": "Diffusion models act as lossy compressors: >50% bits encode imperceptible details; progressive transmission yields steep rate-distortion curve.",
+            "position": {
+              "page": 6
+            },
+            "children": []
+          },
+          {
+            "id": "interp",
+            "label": "4.4 Interpolation",
+            "content": "Linear latent interpolation followed by reverse decoding produces smooth high-quality image morphs.",
+            "position": {
+              "page": 7
+            },
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "relwork",
+        "label": "5 Related Work",
+        "content": "Diffusion models relate to flows, VAEs, score-based models, energy-based models, and autoregressive generation but differ in fixed forward process and direct sampler training via variational inference.",
+        "position": {
+          "page": 8
+        },
+        "children": []
+      },
+      {
+        "id": "conc",
+        "label": "6 Conclusion",
+        "content": "Demonstrated state-of-the-art samples with diffusion models, revealed equivalences to score matching and autoregressive decoding, and suggested applications in compression and representation learning.",
+        "position": {
+          "page": 9
+        },
+        "children": []
+      },
+      {
+        "id": "impact",
+        "label": "Broader Impact",
+        "content": "Highlights potential misuse for deepfakes and dataset-bias amplification, but also benefits for compression, creativity, and representation learning.",
+        "position": {
+          "page": 9
+        },
+        "children": []
+      },
+      {
+        "id": "ack",
+        "label": "Acknowledgments & Funding",
+        "content": "Supported by ONR PECASE, NSF GRFP, and Google TFRC Cloud TPUs.",
+        "position": {
+          "page": 9
+        },
+        "children": []
+      },
+      {
+        "id": "app",
+        "label": "Appendices",
+        "position": null,
+        "children": [
+          {
+            "id": "appA",
+            "label": "A Extended derivations",
+            "content": "Full derivation of reduced-variance variational bound and alternative form used for rate-distortion discussion.",
+            "position": {
+              "page": 13
+            },
+            "children": []
+          },
+          {
+            "id": "appB",
+            "label": "B Experimental details",
+            "content": "U-Net architecture, hyperparameter choices, training times, compute resources, and evaluation protocols.",
+            "position": {
+              "page": 14
+            },
+            "children": []
+          },
+          {
+            "id": "appC",
+            "label": "C Discussion on related work",
+            "content": "Detailed comparison with NCSN highlighting architectural, scaling, and training differences that improve quality.",
+            "position": {
+              "page": 15
+            },
+            "children": []
+          },
+          {
+            "id": "appD",
+            "label": "D Additional samples and analyses",
+            "content": "Uncurated samples, nearest-neighbor checks, progressive generation visuals, and latent stochasticity study.",
+            "position": {
+              "page": 15
+            },
+            "children": []
+          }
+        ]
+      }
+    ]
+  }
+}

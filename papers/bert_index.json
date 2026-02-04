@@ -1,0 +1,288 @@
+{
+  "paperId": "bert",
+  "title": "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding",
+  "builtAt": "2026-02-04T05:03:21Z",
+  "tree": {
+    "id": "root",
+    "label": "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding",
+    "content": null,
+    "position": null,
+    "children": [
+      {
+        "id": "sec1",
+        "label": "Abstract",
+        "content": "BERT is a bidirectional pre-training model that achieves state-of-the-art on 11 NLP tasks after fine-tuning.",
+        "position": {
+          "page": 1
+        },
+        "children": []
+      },
+      {
+        "id": "sec2",
+        "label": "1 Introduction",
+        "content": "Motivation for bidirectional pre-training and overview of BERT’s contributions.",
+        "position": {
+          "page": 1
+        },
+        "children": [
+          {
+            "id": "sec2-1",
+            "label": "1.1 Limitations of unidirectional pre-training",
+            "content": "Standard LMs restrict context to one direction, harming token-level tasks.",
+            "position": {
+              "page": 1,
+              "quote": "The major limitation is that standard language models are unidirectional..."
+            }
+          },
+          {
+            "id": "sec2-2",
+            "label": "1.2 BERT proposal",
+            "content": "Uses masked LM and next-sentence prediction to enable deep bidirectionality.",
+            "position": {
+              "page": 1,
+              "quote": "BERT alleviates the previously mentioned unidirectionality constraint..."
+            }
+          },
+          {
+            "id": "sec2-3",
+            "label": "1.3 Contributions",
+            "content": "Demonstrates bidirectional importance, reduces need for task-specific architectures, advances 11 tasks.",
+            "position": {
+              "page": 2,
+              "quote": "The contributions of our paper are as follows..."
+            }
+          }
+        ]
+      },
+      {
+        "id": "sec3",
+        "label": "2 Related Work",
+        "content": "Surveys feature-based, fine-tuning, and supervised-transfer pre-training approaches.",
+        "position": {
+          "page": 2
+        },
+        "children": [
+          {
+            "id": "sec3-1",
+            "label": "2.1 Unsupervised feature-based approaches",
+            "content": "Word & sentence embeddings, ELMo-style contextual vectors.",
+            "position": {
+              "page": 2
+            }
+          },
+          {
+            "id": "sec3-2",
+            "label": "2.2 Unsupervised fine-tuning approaches",
+            "content": "OpenAI GPT and similar left-to-right fine-tunable encoders.",
+            "position": {
+              "page": 3
+            }
+          },
+          {
+            "id": "sec3-3",
+            "label": "2.3 Transfer from supervised data",
+            "content": "Using NLI or MT data, and ImageNet analogies.",
+            "position": {
+              "page": 3
+            }
+          }
+        ]
+      },
+      {
+        "id": "sec4",
+        "label": "3 BERT Model",
+        "content": "Two-stage framework: bidirectional Transformer pre-training then task-specific fine-tuning.",
+        "position": {
+          "page": 3
+        },
+        "children": [
+          {
+            "id": "sec4-1",
+            "label": "3.0 Model Architecture",
+            "content": "Multi-layer bidirectional Transformer encoder; BERTBASE and BERTLARGE sizes.",
+            "position": {
+              "page": 3,
+              "quote": "BERT’s model architecture is a multi-layer bidirectional Transformer encoder..."
+            }
+          },
+          {
+            "id": "sec4-2",
+            "label": "3.0 Input/Output Representations",
+            "content": "WordPiece embeddings, [CLS], [SEP], segment & position embeddings.",
+            "position": {
+              "page": 4,
+              "quote": "To make BERT handle a variety of down-stream tasks..."
+            }
+          },
+          {
+            "id": "sec4-3",
+            "label": "3.1 Pre-training Tasks",
+            "content": "",
+            "position": {
+              "page": 4
+            },
+            "children": [
+              {
+                "id": "sec4-3-1",
+                "label": "Task #1: Masked LM",
+                "content": "Random 15 % token masking with 80/10/10 % replacement rule.",
+                "position": {
+                  "page": 4,
+                  "quote": "we mask 15% of all WordPiece tokens in each sequence at random..."
+                }
+              },
+              {
+                "id": "sec4-3-2",
+                "label": "Task #2: Next Sentence Prediction",
+                "content": "Binary IsNext/NotNext classification on sentence pairs.",
+                "position": {
+                  "page": 5,
+                  "quote": "we pre-train for a binarized next sentence prediction task..."
+                }
+              },
+              {
+                "id": "sec4-3-3",
+                "label": "Pre-training data",
+                "content": "BooksCorpus + English Wikipedia (3.3 B words).",
+                "position": {
+                  "page": 5
+                }
+              }
+            ]
+          },
+          {
+            "id": "sec4-4",
+            "label": "3.2 Fine-tuning BERT",
+            "content": "Plug in task inputs/outputs; all parameters fine-tuned end-to-end.",
+            "position": {
+              "page": 5,
+              "quote": "For each task, we simply plug in the task-specific inputs and outputs..."
+            }
+          }
+        ]
+      },
+      {
+        "id": "sec5",
+        "label": "4 Experiments",
+        "content": "Fine-tuning results on 11 NLP benchmarks.",
+        "position": {
+          "page": 6
+        },
+        "children": [
+          {
+            "id": "sec5-1",
+            "label": "4.1 GLUE",
+            "content": "BERTLARGE obtains 80.5 GLUE score; +7.0 % avg over prior SOTA.",
+            "position": {
+              "page": 6,
+              "quote": "BERTLARGE obtains a score of 80.5, compared to OpenAI GPT... 72.8"
+            }
+          },
+          {
+            "id": "sec5-2",
+            "label": "4.2 SQuAD v1.1",
+            "content": "Single BERTLARGE+F1 91.1; ensemble 93.2 Test F1.",
+            "position": {
+              "page": 6,
+              "quote": "Our best performing system outperforms the top leaderboard system by +1.5 F1"
+            }
+          },
+          {
+            "id": "sec5-3",
+            "label": "4.3 SQuAD v2.0",
+            "content": "+5.1 F1 improvement over previous best.",
+            "position": {
+              "page": 7,
+              "quote": "We observe a +5.1 F1 improvement over the previous best system."
+            }
+          },
+          {
+            "id": "sec5-4",
+            "label": "4.4 SWAG",
+            "content": "BERTLARGE +8.3 % over OpenAI GPT.",
+            "position": {
+              "page": 7,
+              "quote": "BERTLARGE outperforms... OpenAI GPT by 8.3%."
+            }
+          }
+        ]
+      },
+      {
+        "id": "sec6",
+        "label": "5 Ablation Studies",
+        "content": "Analyzing impact of pre-training tasks and model size.",
+        "position": {
+          "page": 7
+        },
+        "children": [
+          {
+            "id": "sec6-1",
+            "label": "5.1 Effect of Pre-training Tasks",
+            "content": "Removing NSP or bidirectionality hurts; MLM essential.",
+            "position": {
+              "page": 7,
+              "quote": "removing NSP hurts performance significantly..."
+            }
+          },
+          {
+            "id": "sec6-2",
+            "label": "5.2 Effect of Model Size",
+            "content": "Larger models improve accuracy even on small datasets.",
+            "position": {
+              "page": 8,
+              "quote": "larger models lead to a strict accuracy improvement..."
+            }
+          },
+          {
+            "id": "sec6-3",
+            "label": "5.3 Feature-based Approach",
+            "content": "Frozen BERT features + BiLSTM reach 96.1 Dev F1 on CoNLL-2003 NER.",
+            "position": {
+              "page": 9,
+              "quote": "The best performing method concatenates the token representations..."
+            }
+          }
+        ]
+      },
+      {
+        "id": "sec7",
+        "label": "6 Conclusion",
+        "content": "Deep bidirectional pre-training enables strong transfer to diverse NLP tasks.",
+        "position": {
+          "page": 9,
+          "quote": "Our major contribution is further generalizing these findings to deep bidirectional architectures..."
+        }
+      },
+      {
+        "id": "sec8",
+        "label": "Appendix",
+        "content": "Implementation & experimental details plus extra ablations.",
+        "position": {
+          "page": 10
+        },
+        "children": [
+          {
+            "id": "sec8-1",
+            "label": "A Additional Details for BERT",
+            "content": "Masking example, hyper-parameters, hardware notes.",
+            "position": {
+              "page": 10
+            }
+          },
+          {
+            "id": "sec8-2",
+            "label": "B Experimental Details",
+            "content": "Per-task hyper-parameters and data descriptions.",
+            "position": null
+          },
+          {
+            "id": "sec8-3",
+            "label": "C Extra Ablation Studies",
+            "content": "Training-step curves and masking-strategy comparisons.",
+            "position": null
+          }
+        ]
+      }
+    ]
+  }
+}
