@@ -12,89 +12,183 @@
 <body class="page">
   <header class="site-header">
     <div class="wrap">
-      <a href="index.html" class="logo">Thread<span>.</span></a>
-      <nav class="nav">
-        <a href="index.html">Home</a>
-      </nav>
+      <a href="index.html" class="logo">
+        <span class="logo-icon" aria-hidden="true">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4 19.5C4 18.837 4.263 18.201 4.732 17.732L12 10.464L19.268 17.732C19.737 18.201 20 18.837 20 19.5V20C20 20.552 19.552 21 19 21H5C4.448 21 4 20.552 4 20V19.5Z" fill="currentColor" opacity="0.1"/>
+            <path d="M12 4V10.464M4 19.5C4 18.837 4.263 18.201 4.732 17.732L12 10.464M4 19.5V20C4 20.552 4.448 21 5 21H12M12 10.464L19.268 17.732C19.737 18.201 20 18.837 20 19.5V20C20 20.552 19.552 21 19 21H12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M4 4H12M20 4H12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </span>
+        Thread
+      </a>
     </div>
   </header>
 
   <main class="main">
-    <section class="results-header">
-      <div class="wrap">
-        <form class="results-search-form" id="results-search" action="results.html" method="get">
-          <span class="icon" aria-hidden="true">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    <aside class="mini-sidebar">
+      <nav class="mini-sidebar-nav">
+        <a href="index.html" class="mini-sidebar-item" aria-label="Home" title="Home">
+          <span class="mini-sidebar-icon" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+            </svg>
           </span>
-          <input type="search" name="q" class="search-input" placeholder="Ask an AI research question…" id="query-input" required>
-          <input type="hidden" name="mode" id="search-mode" value="student">
-          <button type="submit" class="search-btn">Search</button>
-        </form>
-        <div class="mode-selector" style="margin-top: 0.75rem; justify-content: flex-start;">
-          <button class="mode-btn" data-mode="student" id="mode-student">Student</button>
-          <button class="mode-btn" data-mode="researcher" id="mode-researcher">Researcher</button>
-        </div>
-        <div class="query-display-wrap">
-          <p class="query-display" id="query-display">Showing results for <strong id="query-bold"></strong></p>
-          <div class="mode-badge" id="mode-badge">Student Mode</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Skills Panel (Sidebar) -->
-    <aside class="skills-panel" id="skills-panel">
-      <div class="skills-header">
-        <h3>Skills</h3>
-        <button class="skills-close" id="skills-close">×</button>
-      </div>
-      <div class="skills-content" id="skills-content">
-        <div class="skill-loading">Select a skill to use AI assistance...</div>
-      </div>
+        </a>
+        <a href="results.html" class="mini-sidebar-item active" aria-label="Results" title="Results">
+          <span class="mini-sidebar-icon" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+            </svg>
+          </span>
+        </a>
+        <a href="notebook.html" class="mini-sidebar-item" aria-label="Notebook" title="Notebook">
+          <span class="mini-sidebar-icon" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 19.5C4 18.837 4.263 18.201 4.732 17.732L12 10.464L19.268 17.732C19.737 18.201 20 18.837 20 19.5V20C20 20.552 19.552 21 19 21H5C4.448 21 4 20.552 4 20V19.5Z"/>
+              <path d="M12 4V10.464M4 19.5V20C4 20.552 4.448 21 5 21H12M12 10.464L19.268 17.732C19.737 18.201 20 18.837 20 19.5V20C20 20.552 19.552 21 19 21H12"/>
+            </svg>
+          </span>
+        </a>
+        <a href="#" class="mini-sidebar-item" aria-label="Info" title="About">
+          <span class="mini-sidebar-icon" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>
+            </svg>
+          </span>
+        </a>
+      </nav>
     </aside>
 
-    <section class="section">
-      <div class="wrap">
-        <div class="section-header-with-skills">
-          <h2 class="section-title"><span class="badge">Overview</span> Field snapshot</h2>
-          <button class="skills-toggle" id="skills-toggle">Skills</button>
-        </div>
-        <div class="overview-card" id="overview-card">
-          <div class="loading-spinner" id="overview-loading">Generating AI overview...</div>
-          <p id="overview-text" style="display: none;">—</p>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" style="padding-top: 0;">
-      <div class="wrap">
-        <h2 class="section-title"><span class="badge">Key claims</span> Evidence-backed statements</h2>
-        <div class="claims-list" id="claims-list">
-          <div class="loading-spinner">Loading claims...</div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" style="padding-top: 0;">
-      <div class="wrap">
-        <h2 class="section-title"><span class="badge">Retrieval</span> Knowledge graph</h2>
-        <div class="retrieval-shell">
-          <div class="retrieval-card">
-            <div id="retrieval-status" class="retrieval-status-text">
-              Graph will appear after search.
+    <section class="results-shell">
+      <section class="results-header">
+        <div class="wrap">
+          <form class="search-form" id="results-search" action="results.html" method="get">
+            <div class="search-input-wrap">
+              <div class="search-input-area">
+                <input type="search" name="q" class="search-input" placeholder="Ask a research question..." id="query-input" required>
+              </div>
+              <div class="search-controls">
+                <button type="button" class="search-control-btn pdf-upload-btn" id="results-pdf-upload-btn" aria-label="Upload PDF" title="Upload PDF">
+                  <span class="search-control-icon" aria-hidden="true">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/>
+                    </svg>
+                  </span>
+                </button>
+                <div class="search-control-group">
+                  <button type="button" class="search-control-btn" aria-label="Suggestions" title="Suggestions">
+                    <span class="search-control-icon" aria-hidden="true">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M9 21h6M12 3a6 6 0 0 0-6 6c0 2.5 1.5 4.5 3 6M12 3a6 6 0 0 1 6 6c0 2.5-1.5 4.5-3 6M12 9v6M12 15h.01"/>
+                      </svg>
+                    </span>
+                  </button>
+                  <button type="button" class="search-control-btn" aria-label="Quick actions" title="Quick actions">
+                    <span class="search-control-icon" aria-hidden="true">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                      </svg>
+                    </span>
+                  </button>
+                  <button type="button" class="search-control-btn" aria-label="Language" title="Language">
+                    <span class="search-control-icon" aria-hidden="true">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                      </svg>
+                    </span>
+                  </button>
+                  <button type="submit" class="search-control-btn search-submit-btn" aria-label="Search">
+                    <span class="search-control-icon" aria-hidden="true">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 19V5M5 12l7-7 7 7"/>
+                      </svg>
+                    </span>
+                  </button>
+                </div>
+              </div>
             </div>
-            <div class="retrieval-filter">
-              <label for="retrieval-filter-year">Filter by year</label>
-              <select id="retrieval-filter-year">
-                <option value="all">All years</option>
-                <option value="2015">Since 2015</option>
-                <option value="2018">Since 2018</option>
-                <option value="2020">Since 2020</option>
-              </select>
-            </div>
-            <div id="retrieval-graph" class="retrieval-graph"></div>
+          </form>
+          <div class="query-display-wrap">
+            <p class="query-display" id="query-display">Showing results for <strong id="query-bold"></strong></p>
           </div>
         </div>
-      </div>
+      </section>
+
+      <!-- Skills Panel (Sidebar) -->
+      <aside class="skills-panel" id="skills-panel">
+        <div class="skills-header">
+          <h3>Skills</h3>
+          <button class="skills-close" id="skills-close">×</button>
+        </div>
+        <div class="skills-content" id="skills-content">
+          <div class="skill-loading">Select a skill to use AI assistance...</div>
+        </div>
+      </aside>
+
+      <section class="section">
+        <div class="wrap">
+          <div class="section-header-with-skills">
+            <h2 class="section-title"><span class="badge">Key claims</span> Evidence-backed statements</h2>
+            <button class="skills-toggle" id="skills-toggle">Skills</button>
+          </div>
+          <div class="claims-card">
+            <div class="claims-list" id="claims-list">
+              <div class="claims-loading" role="status" aria-live="polite">
+                <div class="claims-loading__header">
+                  <span class="claims-loading__dots" aria-hidden="true">
+                    <span></span><span></span><span></span>
+                  </span>
+                  <span class="claims-loading__text">Preparing search…</span>
+                </div>
+                <div class="claim-skeleton-list" aria-hidden="true">
+                  <div class="claim-skeleton">
+                    <div class="claim-skeleton-line" style="width: 34%;"></div>
+                    <div class="claim-skeleton-line" style="width: 92%;"></div>
+                    <div class="claim-skeleton-line" style="width: 86%;"></div>
+                    <div class="claim-skeleton-line claim-skeleton-line--meta" style="width: 52%;"></div>
+                  </div>
+                  <div class="claim-skeleton">
+                    <div class="claim-skeleton-line" style="width: 28%;"></div>
+                    <div class="claim-skeleton-line" style="width: 88%;"></div>
+                    <div class="claim-skeleton-line" style="width: 80%;"></div>
+                    <div class="claim-skeleton-line claim-skeleton-line--meta" style="width: 44%;"></div>
+                  </div>
+                  <div class="claim-skeleton">
+                    <div class="claim-skeleton-line" style="width: 31%;"></div>
+                    <div class="claim-skeleton-line" style="width: 90%;"></div>
+                    <div class="claim-skeleton-line" style="width: 83%;"></div>
+                    <div class="claim-skeleton-line claim-skeleton-line--meta" style="width: 48%;"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section--tight">
+        <div class="wrap">
+          <h2 class="section-title"><span class="badge">Retrieval</span> Knowledge graph</h2>
+          <div class="retrieval-shell">
+            <div class="retrieval-card">
+              <div id="retrieval-status" class="retrieval-status-text">
+                Graph will appear after search.
+              </div>
+              <div class="retrieval-filter">
+                <label for="retrieval-filter-year">Filter by year</label>
+                <select id="retrieval-filter-year">
+                  <option value="all">All years</option>
+                  <option value="2015">Since 2015</option>
+                  <option value="2018">Since 2018</option>
+                  <option value="2020">Since 2020</option>
+                </select>
+              </div>
+              <div id="retrieval-graph" class="retrieval-graph"></div>
+            </div>
+          </div>
+        </div>
+      </section>
     </section>
   </main>
 
@@ -119,74 +213,26 @@
       }
       var params = new URLSearchParams(location.search);
       var q = params.get('q') || 'How do transformers work?';
-      var mode = params.get('mode') || 'student';
+      var mode = 'student'; // Default mode, kept for backward compatibility
       var allPapers = [];
       var matchedPapers = [];
 
       // UI Elements
       var input = document.getElementById('query-input');
       var queryBold = document.getElementById('query-bold');
-      var overviewText = document.getElementById('overview-text');
-      var overviewLoading = document.getElementById('overview-loading');
-      var overviewCard = document.getElementById('overview-card');
       var claimsEl = document.getElementById('claims-list');
-      var modeBadge = document.getElementById('mode-badge');
-      var searchMode = document.getElementById('search-mode');
       var skillsPanel = document.getElementById('skills-panel');
       var skillsToggle = document.getElementById('skills-toggle');
       var skillsClose = document.getElementById('skills-close');
       var skillsContent = document.getElementById('skills-content');
-      var modeBtnStudent = document.getElementById('mode-student');
-      var modeBtnResearcher = document.getElementById('mode-researcher');
+      var retrievalStatusEl = document.getElementById('retrieval-status');
+      var retrievalGraphEl = document.getElementById('retrieval-graph');
       var retrievalSimilarities = [];
 
       // Set UI
       input.value = q;
       queryBold.textContent = q;
       document.title = (q.length > 50 ? q.slice(0, 47) + '…' : q) + ' — Thread';
-      modeBadge.textContent = mode === 'student' ? 'Student Mode' : 'Researcher Mode';
-      searchMode.value = mode;
-      // Sync toggle buttons
-      if (modeBtnStudent && modeBtnResearcher) {
-        if (mode === 'student') {
-          modeBtnStudent.classList.add('active');
-          modeBtnResearcher.classList.remove('active');
-        } else {
-          modeBtnResearcher.classList.add('active');
-          modeBtnStudent.classList.remove('active');
-        }
-      }
-
-      function setMode(nextMode) {
-        if (nextMode !== 'student' && nextMode !== 'researcher') return;
-        mode = nextMode;
-        searchMode.value = nextMode;
-        modeBadge.textContent = nextMode === 'student' ? 'Student Mode' : 'Researcher Mode';
-
-        if (modeBtnStudent && modeBtnResearcher) {
-          if (nextMode === 'student') {
-            modeBtnStudent.classList.add('active');
-            modeBtnResearcher.classList.remove('active');
-          } else {
-            modeBtnResearcher.classList.add('active');
-            modeBtnStudent.classList.remove('active');
-          }
-        }
-
-        // Update URL without reloading
-        try {
-          var url = new URL(location.href);
-          url.searchParams.set('mode', nextMode);
-          history.replaceState({}, '', url.toString());
-        } catch (e) {}
-
-        // Re-render links that embed mode, and refresh skills list
-        displayClaims();
-        if (skillsPanel.classList.contains('active')) loadSkills();
-      }
-
-      if (modeBtnStudent) modeBtnStudent.addEventListener('click', function() { setMode('student'); });
-      if (modeBtnResearcher) modeBtnResearcher.addEventListener('click', function() { setMode('researcher'); });
 
       // Load papers metadata
       fetch('papers/metadata.json')
@@ -205,8 +251,7 @@
         })
         .catch(err => {
           console.error('Failed to load papers:', err);
-          overviewLoading.textContent = 'Error loading papers: ' + err.message + '. Please check metadata.json exists.';
-          claimsEl.innerHTML = '<p style="color: var(--text-muted);">Error loading claims.</p>';
+          claimsEl.innerHTML = '<p style="color: var(--text-muted);">Error loading papers/claims: ' + escapeHtml(err.message) + '.</p>';
         });
 
       // Helper function to escape HTML
@@ -217,28 +262,95 @@
         return div.innerHTML;
       }
 
+      function setClaimsLoading(message) {
+        var msg = escapeHtml(message || 'Working…');
+        claimsEl.innerHTML =
+          '<div class="claims-loading" role="status" aria-live="polite">' +
+            '<div class="claims-loading__header">' +
+              '<span class="claims-loading__dots" aria-hidden="true">' +
+                '<span></span><span></span><span></span>' +
+              '</span>' +
+              '<span class="claims-loading__text">' + msg + '</span>' +
+            '</div>' +
+            '<div class="claim-skeleton-list" aria-hidden="true">' +
+              '<div class="claim-skeleton">' +
+                '<div class="claim-skeleton-line" style="width: 34%;"></div>' +
+                '<div class="claim-skeleton-line" style="width: 92%;"></div>' +
+                '<div class="claim-skeleton-line" style="width: 86%;"></div>' +
+                '<div class="claim-skeleton-line claim-skeleton-line--meta" style="width: 52%;"></div>' +
+              '</div>' +
+              '<div class="claim-skeleton">' +
+                '<div class="claim-skeleton-line" style="width: 28%;"></div>' +
+                '<div class="claim-skeleton-line" style="width: 88%;"></div>' +
+                '<div class="claim-skeleton-line" style="width: 80%;"></div>' +
+                '<div class="claim-skeleton-line claim-skeleton-line--meta" style="width: 44%;"></div>' +
+              '</div>' +
+              '<div class="claim-skeleton">' +
+                '<div class="claim-skeleton-line" style="width: 31%;"></div>' +
+                '<div class="claim-skeleton-line" style="width: 90%;"></div>' +
+                '<div class="claim-skeleton-line" style="width: 83%;"></div>' +
+                '<div class="claim-skeleton-line claim-skeleton-line--meta" style="width: 48%;"></div>' +
+              '</div>' +
+            '</div>' +
+          '</div>';
+      }
+
+      function setRetrievalLoading(message) {
+        var msg = escapeHtml(message || 'Working…');
+        if (retrievalStatusEl) {
+          retrievalStatusEl.classList.add('retrieval-status-text--loading');
+          retrievalStatusEl.innerHTML =
+            '<span class="claims-loading__dots" aria-hidden="true">' +
+              '<span></span><span></span><span></span>' +
+            '</span>' +
+            '<span class="retrieval-loading__text">' + msg + '</span>';
+        }
+        if (retrievalGraphEl) {
+          retrievalGraphEl.innerHTML = '<div class="retrieval-skeleton" aria-hidden="true"></div>';
+        }
+      }
+
+      function setSkillsLoading(message) {
+        var msg = escapeHtml(message || 'Working…');
+        skillsContent.innerHTML =
+          '<div class="skills-loading" role="status" aria-live="polite">' +
+            '<div class="skills-loading__header">' +
+              '<span class="claims-loading__dots" aria-hidden="true">' +
+                '<span></span><span></span><span></span>' +
+              '</span>' +
+              '<span class="skills-loading__text">' + msg + '</span>' +
+            '</div>' +
+            '<div class="skills-skeleton-list" aria-hidden="true">' +
+              '<div class="skills-skeleton-line" style="width: 78%;"></div>' +
+              '<div class="skills-skeleton-line" style="width: 92%;"></div>' +
+              '<div class="skills-skeleton-line" style="width: 86%;"></div>' +
+              '<div class="skills-skeleton-line skills-skeleton-line--muted" style="width: 62%;"></div>' +
+            '</div>' +
+          '</div>';
+      }
+
       async function performSearch() {
         if (!allPapers || allPapers.length === 0) {
           console.error('No papers loaded');
-          overviewLoading.textContent = 'No papers available. Please check papers/metadata.json.';
-          overviewLoading.style.display = '';
-          overviewText.style.display = 'none';
+          claimsEl.innerHTML = '<p style="color: var(--text-muted);">No papers available. Please check papers/metadata.json.</p>';
           return;
         }
         
         // Semantic search (AI ranking)
         try {
-          overviewLoading.textContent = 'AI is thinking about which papers are most relevant...';
+          setClaimsLoading('Searching papers…');
+          setRetrievalLoading('Building knowledge graph…');
           matchedPapers = await AIService.semanticSearchAI(q, allPapers);
           
           if (!matchedPapers || matchedPapers.length === 0) {
             claimsEl.innerHTML = '<p style="color: var(--text-muted);">No papers found. Try a different query.</p>';
-            overviewLoading.textContent = 'No papers found for this query.';
+            if (retrievalStatusEl) {
+              retrievalStatusEl.classList.remove('retrieval-status-text--loading');
+              retrievalStatusEl.textContent = 'No papers to visualize.';
+            }
+            if (retrievalGraphEl) retrievalGraphEl.innerHTML = '';
             return;
           }
-          
-          // Generate AI overview
-          generateOverview();
           
           // Extract and display claims
           displayClaims();
@@ -258,34 +370,11 @@
         } catch (error) {
           console.error('Search error:', error);
           claimsEl.innerHTML = '<p style="color: var(--text-muted);">Error performing search: ' + error.message + '</p>';
-        }
-      }
-
-      async function generateOverview() {
-        if (!matchedPapers || matchedPapers.length === 0) {
-          overviewText.textContent = 'No papers found for this query.';
-          overviewText.style.display = 'block';
-          overviewLoading.style.display = 'none';
-          return;
-        }
-        
-        try {
-          overviewLoading.textContent = 'Generating AI overview...';
-          var snapshot = await AIService.generateFieldSnapshot(q, matchedPapers);
-          if (snapshot && snapshot.trim()) {
-            overviewText.textContent = snapshot;
-          } else {
-            throw new Error('Empty response from AI');
+          if (retrievalStatusEl) {
+            retrievalStatusEl.classList.remove('retrieval-status-text--loading');
+            retrievalStatusEl.textContent = 'Error building knowledge graph.';
           }
-          overviewText.style.display = 'block';
-          overviewLoading.style.display = 'none';
-        } catch (error) {
-          console.error('Overview generation failed:', error);
-          // Fallback overview
-          var paperCount = matchedPapers.length;
-          overviewText.textContent = 'Found ' + paperCount + ' relevant paper' + (paperCount > 1 ? 's' : '') + ' related to "' + q + '". Research in this area shows significant developments, with notable contributions to understanding and advancing the field.';
-          overviewText.style.display = 'block';
-          overviewLoading.style.display = 'none';
+          if (retrievalGraphEl) retrievalGraphEl.innerHTML = '';
         }
       }
 
@@ -297,7 +386,7 @@
           return;
         }
 
-        claimsEl.innerHTML = '<div class="loading-spinner">Generating key claims from question and papers...</div>';
+        setClaimsLoading('Generating key claims from question and papers…');
         var indexByPaperId = {};
         var topPapers = matchedPapers.slice(0, 5);
         try {
@@ -359,7 +448,7 @@
             pageLink = ' <a class="claim-page-link" href="' + escapeHtml(c.paper.file_path) + '#page=' + pageNum + '" target="_blank" rel="noopener">Page ' + pageNum + '</a>';
           }
           
-          var paperUrl = 'paper.html?id=' + encodeURIComponent(c.paper.id) + '&q=' + qEnc + '&mode=' + mode;
+          var paperUrl = 'paper.html?id=' + encodeURIComponent(c.paper.id) + '&q=' + qEnc;
           if (pageNum != null) {
             paperUrl += '&page=' + pageNum;
             console.log('[Key Claims] Paper URL with page:', paperUrl);
@@ -367,15 +456,19 @@
             console.log('[Key Claims] Paper URL WITHOUT page (pageNum is null):', paperUrl);
           }
           
-          // Add title attribute to show full URL on hover (for debugging)
-          var linkTitle = pageNum != null ? 'Click to open paper page with Page ' + pageNum + ' highlighted' : 'Click to open paper page';
+          var linkTitle = pageNum != null ? 'Open paper with Page ' + pageNum + ' highlighted' : 'Open paper';
           
-          card.innerHTML = '<p class="claim-text">' + escapeHtml(c.claim) + '</p>' +
-            '<div class="claim-meta">' +
+          card.innerHTML =
+            '<div class="claim-card-header">' +
+              '<span class="claim-card-title">Key claim</span>' +
               '<span class="evidence-badge evidence-strong">AI · question + papers</span>' +
-              '<span>From </span><a class="claim-source" href="' + escapeHtml(paperUrl) + '" title="' + escapeHtml(linkTitle) + '">' + escapeHtml(authorName) + ' et al., ' + c.paper.year + '</a>' +
-              (pageNum != null ? ' <span style="font-size:0.8em; color:var(--text-muted);">(click "From" to highlight Page ' + pageNum + ')</span>' : '') +
-              pageLink +
+            '</div>' +
+            '<p class="claim-text">' + escapeHtml(c.claim) + '</p>' +
+            '<div class="claim-meta claim-card-meta">' +
+              '<span>From <a class="claim-source" href="' + escapeHtml(paperUrl) + '" title="' + escapeHtml(linkTitle) + '">' + escapeHtml(authorName) + ' et al., ' + c.paper.year + '</a>' +
+              (pageNum != null ? ' · Page ' + pageNum : '') +
+              (pageLink || '') +
+              '</span>' +
               '<button class="claim-add-btn" type="button" data-claim="' + encodeURIComponent(c.claim) + '" data-ref-key="' + encodeURIComponent(shortKey) + '" data-ref-text="' + encodeURIComponent(refText) + '">Add to Draft</button>' +
             '</div>';
           claimsEl.appendChild(card);
@@ -397,7 +490,7 @@
             var draft = loadDraft();
             if (!draft) {
               skillsPanel.classList.add('active');
-              skillsContent.innerHTML = '<div class="skill-loading">Creating a draft outline...</div>';
+              setSkillsLoading('Creating a draft outline…');
               var outlineJson = await AIService.generateDraftOutline(q, matchedPapers);
               draft = defaultDraftFromOutline(outlineJson);
               saveDraft(draft);
@@ -431,11 +524,13 @@
         if (!statusEl || !graphEl) return;
 
         if (!matchedPapers || matchedPapers.length === 0) {
+          statusEl.classList.remove('retrieval-status-text--loading');
           statusEl.textContent = 'No papers to visualize.';
           graphEl.innerHTML = '';
           return;
         }
 
+        statusEl.classList.remove('retrieval-status-text--loading');
         statusEl.textContent = 'Drag to pan · Scroll to zoom · Click a node to open paper.';
 
         var filterYearValue = (filterYearSelect && filterYearSelect.value) ? filterYearSelect.value : 'all';
@@ -446,7 +541,7 @@
             window.open(paper.file_path, '_blank');
           } else if (paper.id) {
             var qEnc = encodeURIComponent(q);
-            window.open('paper.html?id=' + encodeURIComponent(paper.id) + '&q=' + qEnc + '&mode=' + mode, '_blank');
+            window.open('paper.html?id=' + encodeURIComponent(paper.id) + '&q=' + qEnc, '_blank');
           }
         }
 
@@ -491,14 +586,12 @@
       });
 
       function loadSkills() {
-        var skills = mode === 'student' ? [
+        var skills = [
           { name: 'Paper Draft (Write a paper)', id: 'draft', icon: '🧾' },
           { name: 'Explain Core Concepts', id: 'explain', icon: '💡' },
-          { name: 'Compare Papers', id: 'compare', icon: '⚖️' }
-        ] : [
+          { name: 'Compare Papers', id: 'compare', icon: '⚖️' },
           { name: 'Identify Research Gaps', id: 'gaps', icon: '🔍' },
-          { name: 'Track Latest Trends', id: 'trends', icon: '📈' },
-          { name: 'Compare Papers', id: 'compare', icon: '⚖️' }
+          { name: 'Track Latest Trends', id: 'trends', icon: '📈' }
         ];
 
         skillsContent.innerHTML = '<div class="skills-list">' +
@@ -515,8 +608,8 @@
 
       // ===== Paper Draft (student writing workflow) =====
       function draftStorageKey() {
-        // Keep drafts per (mode, query) so user can have multiple drafts
-        return 'thread_draft::' + mode + '::' + (q || '').trim().toLowerCase();
+        // Keep drafts per query so user can have multiple drafts
+        return 'thread_draft::' + (q || '').trim().toLowerCase();
       }
 
       function draftHistoryKey() {
@@ -692,7 +785,7 @@
               '</div>' +
               '<div class=\"draft-actions\">' +
                 '<button class=\"skill-back-btn\" id=\"draft-regenerate\">Regenerate Outline</button>' +
-                '<button class=\"skill-back-btn\" id=\"draft-export\">Export Markdown</button>' +
+                '<button class=\"skill-back-btn\" id=\"draft-export\">Notebook</button>' +
                 '<button class=\"skill-back-btn\" id=\"draft-clear\">Clear Draft</button>' +
               '</div>' +
             '</div>' +
@@ -727,7 +820,7 @@
         // wire actions
         document.getElementById('draft-regenerate').addEventListener('click', async function() {
           if (!confirm('Regenerate the outline bullets? (Your added draft items will be kept)')) return;
-          skillsContent.innerHTML = '<div class=\"skill-loading\">Regenerating outline...</div>';
+          setSkillsLoading('Regenerating outline…');
           var outlineJson = await AIService.generateDraftOutline(q, matchedPapers);
           var current = loadDraft();
           if (!current) current = defaultDraftFromOutline(outlineJson);
@@ -759,7 +852,7 @@
           // Ensure we operate on the latest draft and create one if missing
           draft = loadDraft() || draft;
           if (!draft) {
-            skillsContent.innerHTML = '<div class="skill-loading">Creating a draft outline...</div>';
+            setSkillsLoading('Creating a draft outline…');
             var outlineJson = await AIService.generateDraftOutline(q, matchedPapers);
             draft = defaultDraftFromOutline(outlineJson);
             saveDraft(draft);
@@ -849,7 +942,7 @@
             var items = sec.content || [];
             var existingBody = sec.body || '';
 
-            skillsContent.innerHTML = '<div class="skill-loading">Composing section text...</div>';
+            setSkillsLoading('Composing section text…');
             var composed = await AIService.composeSectionText(q, sec.title, bullets, items, existingBody);
             if (composed) {
               sec.body = existingBody ? (existingBody + '\n\n' + composed) : composed;
@@ -1043,7 +1136,7 @@
         var draft = loadDraft();
         if (draft) return draft;
         skillsPanel.classList.add('active');
-        skillsContent.innerHTML = '<div class="skill-loading">Creating a draft outline...</div>';
+        setSkillsLoading('Creating a draft outline…');
         var outlineJson = await AIService.generateDraftOutline(q, matchedPapers);
         draft = defaultDraftFromOutline(outlineJson);
         saveDraft(draft);
@@ -1088,7 +1181,7 @@
           return;
         }
         
-        skillsContent.innerHTML = '<div class="skill-loading">Generating...</div>';
+        setSkillsLoading('Generating…');
         
         try {
           var result = '';
@@ -1096,7 +1189,7 @@
             // Create or open a draft (outline first), then allow incremental building.
             var existing = loadDraft();
             if (!existing) {
-              skillsContent.innerHTML = '<div class="skill-loading">Creating a draft outline...</div>';
+              setSkillsLoading('Creating a draft outline…');
               var outlineJson = await AIService.generateDraftOutline(q, matchedPapers);
               var draft = defaultDraftFromOutline(outlineJson);
               saveDraft(draft);
@@ -1256,8 +1349,7 @@
         e.preventDefault();
         var newQ = input.value.trim();
         if (!newQ) return;
-        var newMode = searchMode.value;
-        location.href = 'results.html?q=' + encodeURIComponent(newQ) + '&mode=' + newMode;
+        location.href = 'results.html?q=' + encodeURIComponent(newQ);
       });
     })();
   </script>

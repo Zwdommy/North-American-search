@@ -12,8 +12,18 @@
 <body class="page notebook-page">
   <header class="site-header notebook-header">
     <div class="wrap">
-      <div class="notebook-header-left">
-        <a href="index.html" class="logo">Thread<span>.</span></a>
+      <a href="index.html" class="logo">
+        <span class="logo-icon" aria-hidden="true">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Minimalist open book icon -->
+            <path d="M4 19.5C4 18.837 4.263 18.201 4.732 17.732L12 10.464L19.268 17.732C19.737 18.201 20 18.837 20 19.5V20C20 20.552 19.552 21 19 21H5C4.448 21 4 20.552 4 20V19.5Z" fill="currentColor" opacity="0.1"/>
+            <path d="M12 4V10.464M4 19.5C4 18.837 4.263 18.201 4.732 17.732L12 10.464M4 19.5V20C4 20.552 4.448 21 5 21H12M12 10.464L19.268 17.732C19.737 18.201 20 18.837 20 19.5V20C20 20.552 19.552 21 19 21H12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M4 4H12M20 4H12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </span>
+        Thread
+      </a>
+      <div class="notebook-header-right">
         <div class="notebook-title-block">
           <div class="notebook-title" id="notebook-title">
             <span class="notebook-title-icon" aria-hidden="true">
@@ -28,32 +38,65 @@
           </div>
           <div class="notebook-subtitle" id="notebook-subtitle">—</div>
         </div>
-      </div>
-      <div class="notebook-header-actions">
-        <button id="notebook-export" class="notebook-btn">
-          <span class="notebook-btn-icon" aria-hidden="true">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="9" y="9" width="11" height="11" rx="2"></rect>
-              <rect x="4" y="4" width="11" height="11" rx="2"></rect>
-            </svg>
-          </span>
-          <span class="notebook-btn-label">Copy Markdown</span>
-        </button>
-        <button id="notebook-clear" class="notebook-btn notebook-btn-ghost">
-          <span class="notebook-btn-icon" aria-hidden="true">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="3 6 5 6 21 6"></polyline>
-              <path d="M8 6v14a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2V6"></path>
-              <path d="M10 3h4a1 1 0 0 1 1 1v2H9V4a1 1 0 0 1 1-1z"></path>
-            </svg>
-          </span>
-          <span class="notebook-btn-label">Clear</span>
-        </button>
+        <div class="notebook-header-actions">
+          <button id="notebook-export" class="notebook-btn">
+            <span class="notebook-btn-icon" aria-hidden="true">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="9" y="9" width="11" height="11" rx="2"></rect>
+                <rect x="4" y="4" width="11" height="11" rx="2"></rect>
+              </svg>
+            </span>
+            <span class="notebook-btn-label">Copy Markdown</span>
+          </button>
+          <button id="notebook-clear" class="notebook-btn notebook-btn-ghost">
+            <span class="notebook-btn-icon" aria-hidden="true">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="3 6 5 6 21 6"></polyline>
+                <path d="M8 6v14a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2V6"></path>
+                <path d="M10 3h4a1 1 0 0 1 1 1v2H9V4a1 1 0 0 1 1-1z"></path>
+              </svg>
+            </span>
+            <span class="notebook-btn-label">Clear</span>
+          </button>
+        </div>
       </div>
     </div>
   </header>
 
   <main class="main notebook-main">
+    <aside class="mini-sidebar">
+      <nav class="mini-sidebar-nav">
+        <a href="index.html" class="mini-sidebar-item" aria-label="Home" title="Home">
+          <span class="mini-sidebar-icon" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+            </svg>
+          </span>
+        </a>
+        <a href="results.html" class="mini-sidebar-item" aria-label="Results" title="Results">
+          <span class="mini-sidebar-icon" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+            </svg>
+          </span>
+        </a>
+        <a href="notebook.html" class="mini-sidebar-item active" aria-label="Notebook" title="Notebook">
+          <span class="mini-sidebar-icon" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 19.5C4 18.837 4.263 18.201 4.732 17.732L12 10.464L19.268 17.732C19.737 18.201 20 18.837 20 19.5V20C20 20.552 19.552 21 19 21H5C4.448 21 4 20.552 4 20V19.5Z"/>
+              <path d="M12 4V10.464M4 19.5V20C4 20.552 4.448 21 5 21H12M12 10.464L19.268 17.732C19.737 18.201 20 18.837 20 19.5V20C20 20.552 19.552 21 19 21H12"/>
+            </svg>
+          </span>
+        </a>
+        <a href="#" class="mini-sidebar-item" aria-label="Info" title="About">
+          <span class="mini-sidebar-icon" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>
+            </svg>
+          </span>
+        </a>
+      </nav>
+    </aside>
     <section class="notebook-shell">
       <div class="notebook-layout">
         <aside class="notebook-sidebar">
@@ -104,6 +147,26 @@
       var previewEl = document.getElementById('notebook-preview');
       var tabs = document.querySelectorAll('.notebook-tab');
       var currentMode = 'edit';
+      var currentSections = [];
+
+      function setActiveSectionByPos(pos) {
+        var items = sectionsEl.querySelectorAll('.notebook-section-item');
+        if (!items.length || !currentSections.length) return;
+        var activeIndex = -1;
+        for (var j = 0; j < currentSections.length; j++) {
+          if (currentSections[j].pos <= pos) {
+            activeIndex = j;
+          } else {
+            break;
+          }
+        }
+        items.forEach(function (el) {
+          el.classList.remove('notebook-section-item--active');
+        });
+        if (activeIndex >= 0 && items[activeIndex]) {
+          items[activeIndex].classList.add('notebook-section-item--active');
+        }
+      }
 
       function loadInitial() {
         var md = localStorage.getItem(STORAGE_KEY) || '';
@@ -128,35 +191,69 @@
       }
 
       function updateSections(md) {
-        var lines = (md || '').split(/\r?\n/);
+        var text = md || '';
+        var lines = text.split(/\r?\n/);
         var sections = [];
-        lines.forEach(function (line) {
-          var trimmed = line.trim();
-          if (/^#{1,2}\s+/.test(trimmed)) {
-            sections.push(trimmed.replace(/^#{1,2}\s+/, '').trim());
+        var scanIndex = 0;
+
+        for (var i = 0; i < lines.length; i++) {
+          var rawLine = lines[i];
+          var trimmed = rawLine.trim();
+          var match = /^(#{1,2})\s+(.+)$/.exec(trimmed);
+          if (!match) {
+            continue;
           }
-        });
+          var headingLine = rawLine;
+          var foundAt = text.indexOf(headingLine, scanIndex);
+          if (foundAt === -1) {
+            continue;
+          }
+          sections.push({
+            level: match[1].length,
+            title: (match[2] || '').trim(),
+            pos: foundAt
+          });
+          scanIndex = foundAt + headingLine.length;
+        }
 
         // Sidebar sections
         sectionsEl.innerHTML = '';
         if (!sections.length) {
-          sectionsEl.innerHTML = '<li class="notebook-section-empty">(No sections found)</li>';
-        } else {
-          sections.forEach(function (title) {
-            var li = document.createElement('li');
-            li.className = 'notebook-section-item';
-            li.textContent = title;
-            li.addEventListener('click', function () {
-              // simple jump: move caret to first occurrence
-              var idx = editor.value.indexOf(title);
-              if (idx >= 0) {
-                editor.focus();
-                editor.setSelectionRange(idx, idx + title.length);
-              }
-            });
-            sectionsEl.appendChild(li);
-          });
+          var empty = document.createElement('li');
+          empty.className = 'notebook-section-empty';
+          empty.textContent = '(No sections found)';
+          sectionsEl.appendChild(empty);
+          return;
         }
+
+        currentSections = sections;
+
+        currentSections.forEach(function (sec) {
+          var li = document.createElement('li');
+          li.className = 'notebook-section-item notebook-section-item--h' + sec.level;
+
+          var dot = document.createElement('span');
+          dot.className = 'notebook-section-dot';
+          dot.setAttribute('aria-hidden', 'true');
+
+          var label = document.createElement('span');
+          label.className = 'notebook-section-label';
+          label.textContent = sec.title;
+
+          li.appendChild(dot);
+          li.appendChild(label);
+
+          li.addEventListener('click', function () {
+            editor.focus();
+            editor.setSelectionRange(sec.pos, sec.pos);
+            setActiveSectionByPos(sec.pos);
+          });
+
+          sectionsEl.appendChild(li);
+        });
+
+        // Initialize active state based on current cursor
+        setActiveSectionByPos(editor.selectionStart || 0);
       }
 
       function escapeHtml(text) {
@@ -217,6 +314,14 @@
         if (currentMode === 'preview') {
           renderPreview(val);
         }
+      });
+
+      // Keep sidebar active state in sync with caret moves
+      editor.addEventListener('click', function () {
+        setActiveSectionByPos(editor.selectionStart || 0);
+      });
+      editor.addEventListener('keyup', function () {
+        setActiveSectionByPos(editor.selectionStart || 0);
       });
 
       if (tabs && tabs.length) {

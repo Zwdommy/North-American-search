@@ -9,17 +9,58 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
-<body class="page">
+<body class="page paper-page">
   <header class="site-header">
     <div class="wrap">
-      <a href="index.html" class="logo">Thread<span>.</span></a>
-      <nav class="nav">
-        <a href="index.html">Home</a>
-      </nav>
+      <a href="index.html" class="logo">
+        <span class="logo-icon" aria-hidden="true">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4 19.5C4 18.837 4.263 18.201 4.732 17.732L12 10.464L19.268 17.732C19.737 18.201 20 18.837 20 19.5V20C20 20.552 19.552 21 19 21H5C4.448 21 4 20.552 4 20V19.5Z" fill="currentColor" opacity="0.1"/>
+            <path d="M12 4V10.464M4 19.5C4 18.837 4.263 18.201 4.732 17.732L12 10.464M4 19.5V20C4 20.552 4.448 21 5 21H12M12 10.464L19.268 17.732C19.737 18.201 20 18.837 20 19.5V20C20 20.552 19.552 21 19 21H12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M4 4H12M20 4H12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </span>
+        Thread
+      </a>
     </div>
   </header>
 
   <main class="main">
+    <aside class="mini-sidebar">
+      <nav class="mini-sidebar-nav">
+        <a href="index.html" class="mini-sidebar-item" aria-label="Home" title="Home">
+          <span class="mini-sidebar-icon" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+            </svg>
+          </span>
+        </a>
+        <a href="results.html" class="mini-sidebar-item" aria-label="Results" title="Results">
+          <span class="mini-sidebar-icon" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+            </svg>
+          </span>
+        </a>
+        <a href="notebook.html" class="mini-sidebar-item" aria-label="Notebook" title="Notebook">
+          <span class="mini-sidebar-icon" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 19.5C4 18.837 4.263 18.201 4.732 17.732L12 10.464L19.268 17.732C19.737 18.201 20 18.837 20 19.5V20C20 20.552 19.552 21 19 21H5C4.448 21 4 20.552 4 20V19.5Z"/>
+              <path d="M12 4V10.464M4 19.5V20C4 20.552 4.448 21 5 21H12M12 10.464L19.268 17.732C19.737 18.201 20 18.837 20 19.5V20C20 20.552 19.552 21 19 21H12"/>
+            </svg>
+          </span>
+        </a>
+        <a href="#" class="mini-sidebar-item" aria-label="Info" title="About">
+          <span class="mini-sidebar-icon" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>
+            </svg>
+          </span>
+        </a>
+      </nav>
+    </aside>
+
+    <section class="paper-shell">
     <section class="paper-hero">
       <div class="wrap">
         <a href="results.html" class="back" id="back-link">← Back to results</a>
@@ -72,6 +113,7 @@
         <pre class="cite-box" id="cite-box">Loading...</pre>
       </div>
     </section>
+    </section>
   </main>
 
   <footer class="site-footer">
@@ -85,17 +127,16 @@
       var params = new URLSearchParams(location.search);
       var id = params.get('id');
       var q = params.get('q') || '';
-      var mode = params.get('mode') || 'student';
       var pageParam = params.get('page');
       var highlightPage = (pageParam !== null && pageParam !== '') ? parseInt(pageParam, 10) : null;
       if (isNaN(highlightPage)) highlightPage = null;
       
       // Debug: log URL params
-      console.log('[Paper Page] URL params - id:', id, 'q:', q, 'mode:', mode, 'page:', pageParam, 'parsed highlightPage:', highlightPage);
+      console.log('[Paper Page] URL params - id:', id, 'q:', q, 'page:', pageParam, 'parsed highlightPage:', highlightPage);
       var back = document.getElementById('back-link');
       
       if (q) {
-        back.href = 'results.html?q=' + encodeURIComponent(q) + '&mode=' + mode;
+        back.href = 'results.html?q=' + encodeURIComponent(q);
       }
 
       if (!id) {
