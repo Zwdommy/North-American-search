@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 // Moonshot (Kimi) API Configuration
 // 说明：Moonshot API 与 OpenAI Chat Completions 协议基本兼容，只是 base_url 和 model 不同。
-const OPENAI_API_KEY = 'sk-BPCnzrTWbnWMxpPwRFqpFJcSZpniaCuyGSrMg1r5nwTOnxqF';
+const OPENAI_API_KEY = 'sk-TgNhX6rZAu9e8oMSr04VqyHwY75NmwmMhOXkvX3pUy081bmk';
 // 如果你在中国大陆，推荐使用 .cn 域名；如需全球节点可改为 https://api.moonshot.ai/v1/chat/completions
 const OPENAI_API_URL = 'https://api.moonshot.cn/v1/chat/completions';
 

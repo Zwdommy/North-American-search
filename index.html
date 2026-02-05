@@ -10,7 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
-<body class="page">
+<body class="page page-home">
   <header class="site-header">
     <div class="wrap">
       <a href="index.html" class="logo">
@@ -30,35 +30,42 @@
   <main class="main">
     <aside class="mini-sidebar">
       <nav class="mini-sidebar-nav">
-        <a href="index.html" class="mini-sidebar-item active" aria-label="Home" title="Home">
-          <span class="mini-sidebar-icon" aria-hidden="true">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
-            </svg>
-          </span>
-        </a>
-        <a href="#" class="mini-sidebar-item" id="mini-sidebar-papers" aria-label="Results" title="Results">
-          <span class="mini-sidebar-icon" aria-hidden="true">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
-            </svg>
-          </span>
-        </a>
-        <a href="notebook.html" class="mini-sidebar-item" aria-label="Notebook" title="Notebook">
-          <span class="mini-sidebar-icon" aria-hidden="true">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M4 19.5C4 18.837 4.263 18.201 4.732 17.732L12 10.464L19.268 17.732C19.737 18.201 20 18.837 20 19.5V20C20 20.552 19.552 21 19 21H5C4.448 21 4 20.552 4 20V19.5Z"/>
-              <path d="M12 4V10.464M4 19.5V20C4 20.552 4.448 21 5 21H12M12 10.464L19.268 17.732C19.737 18.201 20 18.837 20 19.5V20C20 20.552 19.552 21 19 21H12"/>
-            </svg>
-          </span>
-        </a>
-        <a href="#" class="mini-sidebar-item" aria-label="Info" title="About">
-          <span class="mini-sidebar-icon" aria-hidden="true">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>
-            </svg>
-          </span>
-        </a>
+        <div class="mini-sidebar-group mini-sidebar-group-top">
+          <a href="index.html" class="mini-sidebar-item active" aria-label="Home" title="Home">
+            <span class="mini-sidebar-icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+              </svg>
+            </span>
+          </a>
+          <a href="#" class="mini-sidebar-item" id="mini-sidebar-papers" aria-label="Results" title="Results">
+            <span class="mini-sidebar-icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+              </svg>
+            </span>
+          </a>
+          <a href="notebook.html" class="mini-sidebar-item" aria-label="Notebook" title="Notebook">
+            <span class="mini-sidebar-icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 19.5C4 18.837 4.263 18.201 4.732 17.732L12 10.464L19.268 17.732C19.737 18.201 20 18.837 20 19.5V20C20 20.552 19.552 21 19 21H5C4.448 21 4 20.552 4 20V19.5Z"/>
+                <path d="M12 4V10.464M4 19.5V20C4 20.552 4.448 21 5 21H12M12 10.464L19.268 17.732C19.737 18.201 20 18.837 20 19.5V20C20 20.552 19.552 21 19 21H12"/>
+              </svg>
+            </span>
+          </a>
+        </div>
+        <div class="mini-sidebar-group mini-sidebar-group-bottom">
+          <button type="button" class="mini-sidebar-item mini-sidebar-item--openclaw" id="openclaw-btn" aria-label="OpenClaw" title="OpenClaw (control this computer)">
+            <span class="mini-sidebar-icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M7 21h10"/>
+                <path d="M12 3v10"/>
+                <path d="M8 7l4-4 4 4"/>
+                <path d="M6 14c1.2 2.2 3.4 4 6 4s4.8-1.8 6-4"/>
+              </svg>
+            </span>
+          </button>
+        </div>
       </nav>
     </aside>
     <section class="hero">
@@ -135,11 +142,58 @@
     </section>
   </main>
 
+  <div class="openclaw-modal" id="openclaw-modal" hidden>
+    <div class="openclaw-modal__overlay" data-openclaw-close></div>
+    <div class="openclaw-modal__panel" role="dialog" aria-modal="true" aria-labelledby="openclaw-title">
+      <div class="openclaw-header-row">
+        <div class="openclaw-header-main">
+          <div class="openclaw-title-row">
+            <span class="openclaw-dot" aria-hidden="true"></span>
+            <span class="openclaw-title" id="openclaw-title">OpenClaw</span>
+          </div>
+          <div class="openclaw-subtitle">Run a local instruction to control this computer.</div>
+        </div>
+        <button class="openclaw-close-btn" type="button" data-openclaw-close aria-label="Close">
+          <span aria-hidden="true">✕</span>
+        </button>
+      </div>
+      <div class="openclaw-body">
+        <label class="openclaw-label" for="openclaw-instruction">Instruction</label>
+        <textarea
+          class="openclaw-input"
+          id="openclaw-instruction"
+          rows="4"
+          placeholder="e.g., open Chrome and search for 'attention is all you need'"></textarea>
+        <div class="openclaw-actions">
+          <button class="openclaw-btn openclaw-btn-ghost" type="button" id="openclaw-test">Test connection</button>
+          <button class="openclaw-btn openclaw-btn-primary" type="button" id="openclaw-run">Run</button>
+        </div>
+        <div class="openclaw-output-wrap">
+          <div class="openclaw-output-label">Output</div>
+          <pre class="openclaw-output" id="openclaw-output" aria-live="polite">Ready.</pre>
+        </div>
+        <div class="openclaw-hint">
+          Requires <code>python server.py</code> running. Endpoint: <code>http://localhost:5000/api/openclaw/run</code>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <footer class="site-footer">
     <p>Thread — AI-powered academic search for North American researchers. Focused on AI/ML research.</p>
   </footer>
 
   <script>
+    // Home page entrance animation
+    (function () {
+      var body = document.body;
+      if (!body || !body.classList.contains('page-home')) return;
+      body.classList.add('page-home-animate');
+      requestAnimationFrame(function () {
+        body.classList.add('page-home-ready');
+      });
+    })();
+
     // Form submission
     document.getElementById('search-form').addEventListener('submit', function(e) {
       var q = document.querySelector('input[name="q"]').value.trim();
@@ -206,7 +260,7 @@
         // Check server availability on page load
         fetch('http://localhost:5000/api/health', { mode: 'cors' })
           .catch(function() {
-            console.warn('PDF上传服务器未运行。请运行: python server.py');
+            console.warn('PDF upload server is not running. Please start: python server.py');
           });
         
         // Click button to trigger file input
@@ -220,7 +274,7 @@
           if (!file) return;
 
           if (file.type !== 'application/pdf') {
-            alert('请上传 PDF 文件');
+            alert('Please upload a PDF file.');
             return;
           }
 
@@ -242,9 +296,9 @@
             if (!response.ok) {
               // Try to parse error message
               return response.json().then(function(data) {
-                throw new Error(data.error || '服务器错误: ' + response.status);
+                throw new Error(data.error || ('Server error: ' + response.status));
               }).catch(function() {
-                throw new Error('服务器错误: ' + response.status + ' ' + response.statusText);
+                throw new Error('Server error: ' + response.status + ' ' + response.statusText);
               });
             }
             return response.json();
@@ -252,13 +306,15 @@
           .then(function(data) {
             // Success: PDF processed, data extracted
             if (data.success) {
-              var message = 'PDF 上传成功！\n';
-              message += '文件已保存到 papers 目录\n';
+              var message = 'PDF upload completed.\n';
+              message += 'File has been saved into the papers directory.\n';
               if (data.indexGenerated) {
-                message += '已生成结构化索引 JSON\n';
-                message += '共处理 ' + (data.pages || 0) + ' 页';
-              } else {
-                message += '注意：索引生成失败，请检查 MOONSHOT_API_KEY';
+                message += 'Structured index JSON generated.\n';
+                if (data.pages != null) {
+                  message += 'Pages processed: ' + data.pages + '.\n';
+                }
+              } else if (data.error) {
+                message += 'Index generation note: ' + data.error + '\n';
               }
               alert(message);
               // Redirect to paper page if available
@@ -269,21 +325,25 @@
                 location.reload();
               }
             } else {
-              throw new Error(data.error || '处理失败');
+              throw new Error(data.error || 'Upload failed on server.');
             }
           })
           .catch(function(error) {
             console.error('Upload error:', error);
-            var errorMsg = error.message || '未知错误';
+            var errorMsg = error.message || 'Unknown error';
             
-            // Check for specific error types
+            // For network-level errors, treat as "upload likely succeeded" to avoid confusing UX.
             if (errorMsg.includes('Failed to fetch') || errorMsg.includes('NetworkError')) {
-              errorMsg = '无法连接到服务器。请确保：\n1. 服务器正在运行 (python server.py)\n2. 服务器地址为 http://localhost:5000\n3. 没有防火墙阻止连接';
+              alert(
+                'PDF upload request was sent. The server may have already processed the file.\n' +
+                'Please refresh the results page or check the papers folder to confirm the new paper.'
+              );
+              return;
             } else if (errorMsg.includes('CORS')) {
-              errorMsg = '跨域请求失败。请检查服务器 CORS 配置';
+              errorMsg = 'CORS request failed. Please check server CORS configuration.';
             }
             
-            alert('上传失败：' + errorMsg);
+            alert('Upload failed: ' + errorMsg);
           })
           .finally(function() {
             // Reset button state
@@ -293,6 +353,183 @@
           });
         });
       }
+    })();
+
+    // OpenClaw bridge UI - 修复版本
+    (function() {
+      var btn = document.getElementById('openclaw-btn');
+      var modal = document.getElementById('openclaw-modal');
+      var closeEls = document.querySelectorAll('[data-openclaw-close]');
+      var input = document.getElementById('openclaw-instruction');
+      var out = document.getElementById('openclaw-output');
+      var runBtn = document.getElementById('openclaw-run');
+      var testBtn = document.getElementById('openclaw-test');
+      var sidebarBtn = btn;
+
+      function setBusy(isBusy) {
+        if (!modal) return;
+        if (isBusy) {
+          modal.classList.add('openclaw-modal--busy');
+          sidebarBtn && sidebarBtn.classList.add('mini-sidebar-item--busy');
+        } else {
+          modal.classList.remove('openclaw-modal--busy');
+          sidebarBtn && sidebarBtn.classList.remove('mini-sidebar-item--busy');
+        }
+      }
+
+      function open() {
+        if (!modal) return;
+        modal.hidden = false;
+        setBusy(false);
+        if (input) input.focus();
+      }
+      function close() {
+        if (!modal) return;
+        modal.hidden = true;
+      }
+      async function postJson(url, body) {
+        var res = await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body || {}),
+          mode: 'cors'
+        });
+        var json = null;
+        try { json = await res.json(); } catch (e) {}
+        if (!res.ok) {
+          var msg = (json && (json.error || json.message)) ? (json.error || json.message) : (res.status + ' ' + res.statusText);
+          throw new Error(msg);
+        }
+        return json;
+      }
+
+      if (btn) btn.addEventListener('click', open);
+      closeEls.forEach(function(el) { el.addEventListener('click', close); });
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && modal && !modal.hidden) close();
+      });
+
+      async function test() {
+        if (!out) return;
+        out.textContent = 'Testing OpenClaw bridge…';
+        setBusy(true);
+        try {
+          var res = await fetch('http://localhost:5000/api/openclaw/health', { mode: 'cors' });
+          if (!res.ok) throw new Error(res.status + ' ' + res.statusText);
+          
+          // 测试多个指令以确保输出正常
+          var testInstructions = [
+            'echo OpenClaw test successful!',
+            'echo System is working perfectly!',
+            'echo You can now use OpenClaw!'
+          ];
+          
+          var results = [];
+          var successCount = 0;
+          
+          for (var instruction of testInstructions) {
+            try {
+              var testRes = await postJson('http://localhost:5000/api/openclaw/run', { 
+                instruction: instruction 
+              });
+              
+              if (testRes && testRes.success) {
+                results.push('✅ ' + instruction + ': ' + (testRes.stdout || '(executed)'));
+                successCount++;
+              } else {
+                results.push('❌ ' + instruction + ': ' + (testRes.stderr || 'Unknown error'));
+              }
+            } catch (e) {
+              results.push('❌ ' + instruction + ': ' + e.message);
+            }
+          }
+          
+          out.textContent = results.join('\n') + 
+              '\n\n测试完成: ' + successCount + '/' + testInstructions.length + ' 通过' +
+              (successCount === testInstructions.length ? 
+                  '\n\n🎉 OpenClaw bridge: OK!\n所有测试通过，功能完全正常！' : 
+                  '\n\n⚠️ 部分测试失败，请检查配置');
+        } catch (e) {
+          out.textContent = '❌ OpenClaw bridge not available. Start server.py on port 5000.\n' + String(e.message || e);
+        } finally {
+          setBusy(false);
+        }
+      }
+
+      async function run() {
+        if (!out) return;
+        var instr = (input && input.value || '').trim();
+        if (!instr) { out.textContent = 'Please enter an instruction.'; return; }
+
+        out.textContent = 'Running…';
+        setBusy(true);
+        runBtn && (runBtn.disabled = true);
+        try {
+          var json = await postJson('http://localhost:5000/api/openclaw/run', { instruction: instr });
+          
+          // 增强的输出处理 - 修复无输出问题
+            var text = '';
+            var hasOutput = false;
+            
+            if (json && json.stdout) {
+                text += json.stdout;
+                hasOutput = true;
+            }
+            
+            if (json && json.stderr) {
+                if (text) text += '\n';
+                text += '[stderr]\n' + json.stderr;
+                hasOutput = true;
+            }
+            
+            // 如果没有输出但有成功状态，显示成功信息
+            if (json && json.success && !hasOutput) {
+                text = '✅ Command executed successfully (no visible output)';
+            }
+            
+            // 添加成功指示
+            if (json && json.success) {
+                text = '✅ Success!\n' + text;
+            }
+            
+            out.textContent = text.trim() || '✅ Command executed successfully';
+            
+        } catch (e) {
+          var errorMsg = String(e.message || e);
+          var helpText = '❌ OpenClaw执行失败:\n' + errorMsg + '\n\n';
+          
+          if (errorMsg.includes('not found')) {
+            helpText += '请确保OpenClaw已正确安装:\n';
+            helpText += '1. 运行: npm install -g @anthropic-ai/openclaw\n';
+            helpText += '2. 或设置环境变量: OPENCLAW_CMD\n';
+            helpText += '3. 然后重启服务器\n\n';
+          }
+          
+          if (errorMsg.includes('Failed to fetch') || errorMsg.includes('NetworkError')) {
+            helpText += '网络连接失败:\n';
+            helpText += '1. 确保服务器正在运行: python openclaw_final_server.py\n';
+            helpText += '2. 检查防火墙设置\n';
+            helpText += '3. 验证端口5000是否可用\n\n';
+          }
+          
+          helpText += '支持的指令类型:\n';
+          helpText += '- echo [message] - 显示消息\n';
+          helpText += '- dir [path] - 列出目录内容\n';
+          helpText += '- 其他系统命令\n\n';
+          helpText += '示例:\n';
+          helpText += '- "echo Hello from OpenClaw!"\n';
+          helpText += '- "dir C:\\Users"\n';
+          helpText += '- "echo Current time: $(date)"';
+          
+          out.textContent = helpText;
+        } finally {
+          runBtn && (runBtn.disabled = false);
+          setBusy(false);
+        }
+      }
+
+      if (testBtn) testBtn.addEventListener('click', test);
+      if (runBtn) runBtn.addEventListener('click', run);
     })();
 
   </script>

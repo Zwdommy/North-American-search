@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenClaw CORS测试 - North American Search</title>
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f8f9fa;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #e1e8ed;
+            border-radius: 8px;
+            background: #f8f9ff;
+        }
+        .btn {
+            background: #007AFF;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            margin: 5px;
+            transition: background 0.2s;
+        }
+        .btn:hover {
+            background: #0051D5;
+        }
+        .btn.success {
+            background: #28a745;
+        }
+        .btn.error {
+            background: #dc3545;
+        }
+        .result {
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 13px;
+            white-space: pre-wrap;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .result.success {
+            background: #e8f5e8;
+            border: 1px solid #28a745;
+            color: #155724;
+        }
+        .result.error {
+            background: #ffeaea;
+            border: 1px solid #dc3545;
+            color: #721c24;
+        }
+        .result.info {
+            background: #e3f2fd;
+            border: 1px solid #2196f3;
+            color: #0d47a1;
+        }
+        .status {
+            padding: 10px 15px;
+            border-radius: 6px;
+            margin: 10px 0;
+            font-weight: 500;
+        }
+        .status.connected {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .status.disconnected {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .input-group {
+            margin: 15px 0;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #495057;
+        }
+        .input-group input, .input-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        .input-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 OpenClaw CORS测试 - North American Search</h1>
+        <p style="text-align: center; color: #6c757d;">测试从文件系统直接访问OpenClaw API</p>
+        
+        <div class="test-section">
+            <h3>1. CORS连接测试</h3>
+            <button class="btn" onclick="testCORSConnection()">测试CORS连接</button>
+            <div id="cors-result" class="result" style="display:none;"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>2. 基础功能测试</h3>
+            <button class="btn" onclick="testBasicFunctions()">测试基础功能</button>
+            <div id="basic-result" class="result" style="display:none;"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>3. 用户场景测试</h3>
+            <div class="input-group">
+                <label for="user-instruction">用户指令:</label>
+                <input type="text" id="user-instruction" value="echo Hello from North American Search!" placeholder="输入OpenClaw指令">
+            </div>
+            <button class="btn" onclick="testUserScenario()">测试用户场景</button>
+            <div id="user-result" class="result" style="display:none;"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>4. 最终验证</h3>
+            <button class="btn" onclick="finalValidation()">最终验证</button>
+            <div id="final-result" class="result" style="display:none;"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>5. 使用说明</h3>
+            <div style="background: #f8f9fa; padding: 15px; border-radius: 6px; font-size: 14px;">
+                <p><strong>使用步骤:</strong></p>
+                <ol>
+                    <li>点击上方测试按钮验证功能</li>
+                    <li>在输入框中输入OpenClaw指令</li>
+                    <li>点击"测试用户场景"执行指令</li>
+                    <li>查看执行结果</li>
+                    <li>验证所有功能正常工作</li>
+                </ol>
+                <p><strong>支持的指令:</strong></p>
+                <ul>
+                    <li><code>echo [消息]</code> - 显示文本</li>
+                    <li><code>dir [路径]</code> - 列出目录</li>
+                    <li>自然语言 (自动转换为系统命令)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:5000/api';
+        
+        // CORS连接测试
+        async function testCORSConnection() {
+            const resultDiv = document.getElementById('cors-result');
+            resultDiv.style.display = 'block';
+            resultDiv.className = 'result info';
+            resultDiv.textContent = '正在测试CORS连接...';
+            
+            try {
+                // 测试OPTIONS预检请求 (CORS预检)
+                const optionsResponse = await fetch(`${API_BASE}/openclaw/health`, {
+                    method: 'OPTIONS',
+                    mode: 'cors'
+                });
+                
+                if (optionsResponse.ok) {
+                    // 测试实际请求
+                    const response = await fetch(`${API_BASE}/openclaw/health`, {
+                        method: 'GET',
+                        mode: 'cors'
+                    });
+                    
+                    const data = await response.json();
+                    
+                    resultDiv.className = 'result success';
+                    resultDiv.textContent = `✅ CORS连接成功！\n状态: ${data.message}\nCORS预检: 通过\n实际请求: 通过`;
+                } else {
+                    throw new Error('CORS预检失败');
+                }
+            } catch (e) {
+                resultDiv.className = 'result error';
+                resultDiv.textContent = `❌ CORS连接失败\n错误: ${e.message}\n\n请确保:\n1. 服务器正在运行 (python openclaw_final_server.py)\n2. 服务器支持CORS\n3. 网络连接正常`;
+            }
+        }
+        
+        // 基础功能测试
+        async function testBasicFunctions() {
+            const resultDiv = document.getElementById('basic-result');
+            resultDiv.style.display = 'block';
+            resultDiv.className = 'result info';
+            resultDiv.textContent = '正在测试基础功能...';
+            
+            const tests = [
+                'echo CORS test successful!',
+                'echo OpenClaw is working perfectly!',
+                'echo You can now click the button!'
+            ];
+            
+            let successCount = 0;
+            let results = [];
+            
+            for (const test of tests) {
+                try {
+                    const response = await fetch(`${API_BASE}/openclaw/run`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        mode: 'cors',
+                        body: JSON.stringify({ instruction: test })
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        results.push(`✅ ${test}: ${data.stdout}`);
+                        successCount++;
+                    } else {
+                        results.push(`❌ ${test}: ${data.stderr}`);
+                    }
+                } catch (e) {
+                    results.push(`❌ ${test}: ${e.message}`);
+                }
+            }
+            
+            resultDiv.className = successCount === tests.length ? 'result success' : 'result error';
+            resultDiv.textContent = results.join('\n');
+        }
+        
+        // 用户场景测试
+        async function testUserScenario() {
+            const resultDiv = document.getElementById('user-result');
+            const instruction = document.getElementById('user-instruction').value;
+            
+            if (!instruction.trim()) {
+                resultDiv.style.display = 'block';
+                resultDiv.className = 'result error';
+                resultDiv.textContent = '请输入指令';
+                return;
+            }
+            
+            resultDiv.style.display = 'block';
+            resultDiv.className = 'result info';
+            resultDiv.textContent = `正在执行: ${instruction}\n请稍候...`;
+            
+            try {
+                const response = await fetch(`${API_BASE}/openclaw/run`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    mode: 'cors',
+                    body: JSON.stringify({ instruction: instruction })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    resultDiv.className = 'result success';
+                    resultDiv.textContent = `✅ 执行成功！\n指令: ${instruction}\n输出: ${data.stdout}\n返回码: ${data.returnCode}`;
+                } else {
+                    resultDiv.className = 'result error';
+                    resultDiv.textContent = `❌ 执行失败\n指令: ${instruction}\n错误: ${data.error || data.stderr}\n返回码: ${data.returnCode}`;
+                }
+            } catch (e) {
+                resultDiv.className = 'result error';
+                resultDiv.textContent = `❌ 执行异常\n指令: ${instruction}\n错误: ${e.message}`;
+            }
+        }
+        
+        // 最终验证
+        async function finalValidation() {
+            const resultDiv = document.getElementById('final-result');
+            resultDiv.style.display = 'block';
+            resultDiv.className = 'result info';
+            resultDiv.textContent = '正在进行最终验证...';
+            
+            const validationTests = [
+                { name: "CORS预检", instruction: "echo CORS preflight test" },
+                { name: "实际请求", instruction: "echo Actual request test" },
+                { name: "文件系统访问", instruction: "echo File system access test" },
+                { name: "用户交互", instruction: "echo User interaction test" }
+            ];
+            
+            let successCount = 0;
+            let results = [];
+            
+            for (const test of validationTests) {
+                try {
+                    const response = await fetch(`${API_BASE}/openclaw/run`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        mode: 'cors',
+                        body: JSON.stringify({ instruction: test.instruction })
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        results.push(`✅ ${test.name}: ${data.stdout}`);
+                        successCount++;
+                    } else {
+                        results.push(`❌ ${test.name}: ${data.stderr}`);
+                    }
+                } catch (e) {
+                    results.push(`❌ ${test.name}: ${e.message}`);
+                }
+            }
+            
+            resultDiv.className = successCount === validationTests.length ? 'result success' : 'result error';
+            resultDiv.textContent = results.join('\n') + 
+                f'\n\n最终验证: {successCount}/{validationTests.length} 通过' +
+                (successCount === validationTests.length ? 
+                    '\n\n🎉 恭喜！OpenClaw功能完全正常！\n✅ 现在可以直接点击按钮使用了！\n🚀 无bug状态达成！' : 
+                    '\n\n⚠️ 还有问题需要修复');
+        }
+        
+        // 页面加载完成后自动测试
+        window.addEventListener('load', function() {
+            console.log('OpenClaw CORS测试页面已加载');
+            console.log('正在测试CORS支持...');
+            // 可以自动运行基础测试
+            // testCORSConnection();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+{
+  "paperId": "__based_on_density_binning_algorithm___achieve_dual_feedback_effect___adapt_to_40_000_particle_scenes__1___1_",
+  "title": "• Based on density binning algorithm • Achieve dual feedback effect • Adapt to 40,000-particle scenes (1) (1)",
+  "builtAt": "2026-02-05T13:24:14Z",
+  "tree": {
+    "id": "root",
+    "label": "UNITY 3D POINT CLOUD HAPTIC SIMULATION",
+    "content": null,
+    "position": null,
+    "children": [
+      {
+        "id": "sec1",
+        "label": "Key Features",
+        "content": "Based on density binning algorithm; achieve dual feedback effect; adapt to 40,000-particle scenes",
+        "position": {
+          "page": 1
+        },
+        "children": []
+      },
+      {
+        "id": "sec2",
+        "label": "Future Work",
+        "content": "Plan to adopt advanced density binning and structure-aware algorithms to enhance large-scale point-cloud haptic simulation",
+        "position": {
+          "page": 1
+        },
+        "children": [
+          {
+            "id": "sec2-1",
+            "label": "Hierarchical Density Detection",
+            "content": "Replace simplified depth binning with hierarchical point-cloud density detection for improved surface-touch accuracy and efficiency on >100k particles",
+            "position": {
+              "page": 1,
+              "quote": "introduce the hierarchical point cloud density detection logic... replace the current simplified depth binning scheme"
+            },
+            "children": []
+          },
+          {
+            "id": "sec2-2",
+            "label": "Multi-dimensional Interaction Expansion",
+            "content": "Add multi-touch, custom touch shapes (e.g., irregular Lasso), and hardware haptic feedback to create a closed-loop visual-to-physical feedback system",
+            "position": {
+              "page": 1,
+              "quote": "expand the system’s scalability... adding support for multi-touch and custom touch shapes... interface with haptic feedback hardware"
+            },
+            "children": []
+          }
+        ]
+      }
+    ]
+  }
+}

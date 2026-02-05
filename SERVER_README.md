@@ -89,3 +89,47 @@ pip install -r scripts/requirements.txt
 - 如果文件名已存在，会自动添加随机后缀
 - 索引JSON保存在 `papers/{paper_id}_index.json`
 - 如果未设置 `MOONSHOT_API_KEY`，PDF仍会保存，但不会生成索引
+
+## OpenClaw（本机操控桥接）
+
+浏览器页面无法直接操控你的电脑（安全限制）。因此项目通过本地 `server.py` 提供一个桥接 API，让前端把“指令”发送给 OpenClaw，由 OpenClaw 在本机执行。
+
+### GET /api/openclaw/health
+
+用于前端检测 OpenClaw bridge 是否可用。
+
+### POST /api/openclaw/run
+
+执行一条 OpenClaw 指令。
+
+**请求：**
+
+```json
+{
+  "instruction": "open file explorer and open Downloads"
+}
+```
+
+**响应：**
+
+```json
+{
+  "success": true,
+  "returnCode": 0,
+  "stdout": "...",
+  "stderr": ""
+}
+```
+
+### OpenClaw 命令配置
+
+不同 OpenClaw 安装方式的 CLI 参数可能不同。你可以通过环境变量指定命令：
+
+```bash
+# Windows 示例
+set OPENCLAW_CMD=%APPDATA%\npm\openclaw.cmd
+set OPENCLAW_ARGS=--json
+python server.py
+```
+
+如果你的 OpenClaw 不是通过 CLI 调用，需要把 `server.py` 的 `/api/openclaw/run` 逻辑改成适配你本机的 OpenClaw 调用方式（例如 Python 包调用或本地 RPC）。

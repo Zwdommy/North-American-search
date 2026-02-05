@@ -28,35 +28,42 @@
   <main class="main">
     <aside class="mini-sidebar">
       <nav class="mini-sidebar-nav">
-        <a href="index.html" class="mini-sidebar-item" aria-label="Home" title="Home">
-          <span class="mini-sidebar-icon" aria-hidden="true">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
-            </svg>
-          </span>
-        </a>
-        <a href="results.html" class="mini-sidebar-item active" aria-label="Results" title="Results">
-          <span class="mini-sidebar-icon" aria-hidden="true">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
-            </svg>
-          </span>
-        </a>
-        <a href="notebook.html" class="mini-sidebar-item" aria-label="Notebook" title="Notebook">
-          <span class="mini-sidebar-icon" aria-hidden="true">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M4 19.5C4 18.837 4.263 18.201 4.732 17.732L12 10.464L19.268 17.732C19.737 18.201 20 18.837 20 19.5V20C20 20.552 19.552 21 19 21H5C4.448 21 4 20.552 4 20V19.5Z"/>
-              <path d="M12 4V10.464M4 19.5V20C4 20.552 4.448 21 5 21H12M12 10.464L19.268 17.732C19.737 18.201 20 18.837 20 19.5V20C20 20.552 19.552 21 19 21H12"/>
-            </svg>
-          </span>
-        </a>
-        <a href="#" class="mini-sidebar-item" aria-label="Info" title="About">
-          <span class="mini-sidebar-icon" aria-hidden="true">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>
-            </svg>
-          </span>
-        </a>
+        <div class="mini-sidebar-group mini-sidebar-group-top">
+          <a href="index.html" class="mini-sidebar-item" aria-label="Home" title="Home">
+            <span class="mini-sidebar-icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+              </svg>
+            </span>
+          </a>
+          <a href="results.html" class="mini-sidebar-item active" aria-label="Results" title="Results">
+            <span class="mini-sidebar-icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+              </svg>
+            </span>
+          </a>
+          <a href="notebook.html" class="mini-sidebar-item" aria-label="Notebook" title="Notebook">
+            <span class="mini-sidebar-icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 19.5C4 18.837 4.263 18.201 4.732 17.732L12 10.464L19.268 17.732C19.737 18.201 20 18.837 20 19.5V20C20 20.552 19.552 21 19 21H5C4.448 21 4 20.552 4 20V19.5Z"/>
+                <path d="M12 4V10.464M4 19.5V20C4 20.552 4.448 21 5 21H12M12 10.464L19.268 17.732C19.737 18.201 20 18.837 20 19.5V20C20 20.552 19.552 21 19 21H12"/>
+              </svg>
+            </span>
+          </a>
+        </div>
+        <div class="mini-sidebar-group mini-sidebar-group-bottom">
+          <button type="button" class="mini-sidebar-item mini-sidebar-item--openclaw" id="openclaw-btn" aria-label="OpenClaw" title="OpenClaw (control this computer)">
+            <span class="mini-sidebar-icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M7 21h10"/>
+                <path d="M12 3v10"/>
+                <path d="M8 7l4-4 4 4"/>
+                <path d="M6 14c1.2 2.2 3.4 4 6 4s4.8-1.8 6-4"/>
+              </svg>
+            </span>
+          </button>
+        </div>
       </nav>
     </aside>
 
@@ -196,6 +203,28 @@
     <p>Thread — AI-powered academic search for AI/ML research.</p>
   </footer>
 
+  <div class="openclaw-modal" id="openclaw-modal" hidden>
+    <div class="openclaw-modal__overlay" data-openclaw-close></div>
+    <div class="openclaw-modal__panel" role="dialog" aria-modal="true" aria-labelledby="openclaw-title">
+      <div class="openclaw-modal__head">
+        <div>
+          <div class="openclaw-modal__title" id="openclaw-title">OpenClaw</div>
+          <div class="openclaw-modal__subtitle">Run a local instruction to control this computer.</div>
+        </div>
+        <button class="openclaw-modal__close" type="button" data-openclaw-close aria-label="Close">×</button>
+      </div>
+      <textarea class="openclaw-modal__input" id="openclaw-instruction" rows="3" placeholder="e.g., open Chrome and search for 'attention is all you need'"></textarea>
+      <div class="openclaw-modal__actions">
+        <button class="skill-back-btn openclaw-secondary" type="button" id="openclaw-test">Test</button>
+        <button class="skills-toggle openclaw-primary" type="button" id="openclaw-run">Run</button>
+      </div>
+      <pre class="openclaw-modal__output" id="openclaw-output" aria-live="polite">Ready.</pre>
+      <div class="openclaw-modal__hint">
+        Requires `python server.py` running. Endpoint: <code>http://localhost:5000/api/openclaw/run</code>
+      </div>
+    </div>
+  </div>
+
   <script src="assets/js/ai.js"></script>
   <script src="https://unpkg.com/d3@7.8.5/dist/d3.min.js"></script>
   <script src="assets/js/retrieval-graph.js"></script>
@@ -234,8 +263,8 @@
       queryBold.textContent = q;
       document.title = (q.length > 50 ? q.slice(0, 47) + '…' : q) + ' — Thread';
 
-      // Load papers metadata
-      fetch('papers/metadata.json')
+      // Load papers metadata（加随机参数避免浏览器缓存）
+      fetch('papers/metadata.json?v=' + Date.now())
         .then(res => {
           if (!res.ok) {
             throw new Error('Failed to load metadata.json: ' + res.status);
@@ -1351,6 +1380,7 @@
         if (!newQ) return;
         location.href = 'results.html?q=' + encodeURIComponent(newQ);
       });
+
     })();
   </script>
 </body>

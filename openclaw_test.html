@@ -1,0 +1,347 @@
+# openclaw_test.html - OpenClaw功能测试页面
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenClaw功能测试 - North American Search</title>
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f8f9fa;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 30px;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #e1e8ed;
+            border-radius: 8px;
+            background: #f8f9ff;
+        }
+        .btn {
+            background: #007AFF;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            margin: 5px;
+            transition: background 0.2s;
+        }
+        .btn:hover {
+            background: #0051D5;
+        }
+        .btn.success {
+            background: #28a745;
+        }
+        .btn.error {
+            background: #dc3545;
+        }
+        .result {
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 13px;
+            white-space: pre-wrap;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .result.success {
+            background: #e8f5e8;
+            border: 1px solid #28a745;
+            color: #155724;
+        }
+        .result.error {
+            background: #ffeaea;
+            border: 1px solid #dc3545;
+            color: #721c24;
+        }
+        .result.info {
+            background: #e3f2fd;
+            border: 1px solid #2196f3;
+            color: #0d47a1;
+        }
+        .status {
+            padding: 10px 15px;
+            border-radius: 6px;
+            margin: 10px 0;
+            font-weight: 500;
+        }
+        .status.connected {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .status.disconnected {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .input-group {
+            margin: 15px 0;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #495057;
+        }
+        .input-group input, .input-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        .input-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 OpenClaw功能测试 - North American Search</h1>
+        
+        <div class="test-section">
+            <h3>1. 连接状态测试</h3>
+            <button class="btn" onclick="testConnection()">测试OpenClaw连接</button>
+            <div id="connection-result" class="result" style="display:none;"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>2. 健康检查测试</h3>
+            <button class="btn" onclick="testHealth()">测试健康检查</button>
+            <div id="health-result" class="result" style="display:none;"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>3. 指令执行测试</h3>
+            <div class="input-group">
+                <label for="instruction-input">OpenClaw指令:</label>
+                <textarea id="instruction-input" placeholder="例如: open Chrome and search for 'attention is all you need'">open notepad and type "Hello from OpenClaw!"</textarea>
+            </div>
+            <button class="btn" onclick="testRunInstruction()">执行指令</button>
+            <div id="run-result" class="result" style="display:none;"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>4. 集成测试 - 原始项目功能</h3>
+            <button class="btn" onclick="testOriginalIntegration()">测试原始项目集成</button>
+            <div id="integration-result" class="result" style="display:none;"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>5. 快速修复建议</h3>
+            <button class="btn" onclick="generateFixes()">生成修复建议</button>
+            <div id="fixes-result" class="result" style="display:none;"></div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:5000/api';
+        
+        // 测试连接
+        async function testConnection() {
+            const resultDiv = document.getElementById('connection-result');
+            resultDiv.style.display = 'block';
+            resultDiv.className = 'result info';
+            resultDiv.textContent = '正在测试连接...';
+            
+            try {
+                const response = await fetch(`${API_BASE}/health`, {
+                    method: 'GET',
+                    mode: 'cors'
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    resultDiv.className = 'result success';
+                    resultDiv.textContent = `✅ 连接成功\n状态: ${data.status}\n消息: ${data.message}`;
+                } else {
+                    resultDiv.className = 'result error';
+                    resultDiv.textContent = `❌ 连接失败\n状态: ${response.status}\n错误: ${data.error || '未知错误'}`;
+                }
+            } catch (error) {
+                resultDiv.className = 'result error';
+                resultDiv.textContent = `❌ 网络错误\n${error.message}\n\n请确保:\n1. 服务器正在运行 (python server.py)\n2. 服务器地址正确 (http://localhost:5000)\n3. 没有防火墙阻止连接`;
+            }
+        }
+        
+        // 测试健康检查
+        async function testHealth() {
+            const resultDiv = document.getElementById('health-result');
+            resultDiv.style.display = 'block';
+            resultDiv.className = 'result info';
+            resultDiv.textContent = '正在测试OpenClaw健康检查...';
+            
+            try {
+                const response = await fetch(`${API_BASE}/openclaw/health`, {
+                    method: 'GET',
+                    mode: 'cors'
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    resultDiv.className = 'result success';
+                    resultDiv.textContent = `✅ OpenClaw健康检查通过\n状态: ${data.status}\n消息: ${data.message}`;
+                } else {
+                    resultDiv.className = 'result error';
+                    resultDiv.textContent = `❌ OpenClaw健康检查失败\n状态: ${response.status}\n错误: ${data.error || '未知错误'}`;
+                }
+            } catch (error) {
+                resultDiv.className = 'result error';
+                resultDiv.textContent = `❌ OpenClaw服务不可用\n${error.message}\n\n可能的原因:\n1. OpenClaw未正确安装\n2. 环境变量未配置\n3. 服务器端口冲突`;
+            }
+        }
+        
+        // 测试执行指令
+        async function testRunInstruction() {
+            const resultDiv = document.getElementById('run-result');
+            const instruction = document.getElementById('instruction-input').value;
+            
+            if (!instruction.trim()) {
+                resultDiv.style.display = 'block';
+                resultDiv.className = 'result error';
+                resultDiv.textContent = '请输入要执行的指令';
+                return;
+            }
+            
+            resultDiv.style.display = 'block';
+            resultDiv.className = 'result info';
+            resultDiv.textContent = `正在执行指令: ${instruction}\n请稍候...`;
+            
+            try {
+                const response = await fetch(`${API_BASE}/openclaw/run`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    mode: 'cors',
+                    body: JSON.stringify({ instruction: instruction })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok && data.success) {
+                    resultDiv.className = 'result success';
+                    let output = `✅ 指令执行成功\n返回码: ${data.returnCode}\n`;
+                    if (data.stdout) output += `标准输出:\n${data.stdout}\n`;
+                    if (data.stderr) output += `标准错误:\n${data.stderr}\n`;
+                    resultDiv.textContent = output;
+                } else {
+                    resultDiv.className = 'result error';
+                    let errorMsg = `❌ 指令执行失败\n返回码: ${data.returnCode || '未知'}\n`;
+                    if (data.stdout) errorMsg += `标准输出:\n${data.stdout}\n`;
+                    if (data.stderr) errorMsg += `标准错误:\n${data.stderr}\n`;
+                    if (data.error) errorMsg += `错误信息: ${data.error}\n`;
+                    resultDiv.textContent = errorMsg;
+                }
+            } catch (error) {
+                resultDiv.className = 'result error';
+                resultDiv.textContent = `❌ 执行失败\n${error.message}\n\n可能的原因:\n1. OpenClaw未正确安装\n2. 环境变量配置错误\n3. 权限不足\n4. 指令格式错误`;
+            }
+        }
+        
+        // 测试原始项目集成
+        async function testOriginalIntegration() {
+            const resultDiv = document.getElementById('integration-result');
+            resultDiv.style.display = 'block';
+            resultDiv.className = 'result info';
+            resultDiv.textContent = '正在测试原始项目OpenClaw集成...';
+            
+            try {
+                // 模拟原始项目的OpenClaw调用
+                const testInstruction = "echo 'Testing OpenClaw integration from North American Search project'";
+                
+                const response = await fetch(`${API_BASE}/openclaw/run`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    mode: 'cors',
+                    body: JSON.stringify({ instruction: testInstruction })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    resultDiv.className = 'result success';
+                    resultDiv.textContent = `✅ 原始项目集成测试通过\n\n这意味着:\n1. 前端JavaScript可以正常调用OpenClaw API\n2. 后端服务器正确处理请求\n3. OpenClaw功能可用\n\n你现在可以在搜索页面使用OpenClaw按钮了！`;
+                } else {
+                    resultDiv.className = 'result error';
+                    resultDiv.textContent = `❌ 集成测试失败\n错误: ${data.error || '未知错误'}\n\n需要修复后端配置`;
+                }
+            } catch (error) {
+                resultDiv.className = 'result error';
+                resultDiv.textContent = `❌ 集成测试失败\n${error.message}\n\n请检查:\n1. 服务器是否运行\n2. CORS配置是否正确\n3. 网络连接是否正常`;
+            }
+        }
+        
+        // 生成修复建议
+        function generateFixes() {
+            const resultDiv = document.getElementById('fixes-result');
+            resultDiv.style.display = 'block';
+            resultDiv.className = 'result info';
+            
+            const fixes = `🔧 OpenClaw集成修复建议
+
+1. 检查服务器状态:
+   - 确保 server.py 正在运行
+   - 检查端口 5000 是否被占用
+   - 验证环境变量配置
+
+2. 验证OpenClaw安装:
+   - 运行: openclaw --version
+   - 检查: %APPDATA%\\npm\\openclaw.cmd
+   - 设置环境变量: OPENCLAW_CMD
+
+3. 测试API端点:
+   - GET: http://localhost:5000/api/health
+   - GET: http://localhost:5000/api/openclaw/health
+   - POST: http://localhost:5000/api/openclaw/run
+
+4. 前端JavaScript检查:
+   - 确认CORS配置正确
+   - 验证fetch请求格式
+   - 检查错误处理逻辑
+
+5. 集成测试:
+   - 使用此测试页面验证功能
+   - 检查浏览器控制台错误
+   - 确认网络请求成功
+
+6. 安全考虑:
+   - 限制OpenClaw指令范围
+   - 添加用户确认步骤
+   - 记录操作日志
+
+修复完成后，用户可以在搜索页面:
+1. 点击OpenClaw按钮
+2. 输入自然语言指令
+3. 控制本地计算机执行任务`;
+            
+            resultDiv.textContent = fixes;
+        }
+        
+        // 页面加载完成后自动运行基础测试
+        window.addEventListener('load', function() {
+            console.log('OpenClaw测试页面已加载');
+            // 可以自动运行基础测试
+            // testConnection();
+        });
+    </script>
+</body>
+</html>
